@@ -1,0 +1,742 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Student Portal – Auth + Feed</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+
+  <style>
+    :root{
+      --bg:#f7f9fc; 
+      --card:#fff; 
+      --muted:#6b7280; 
+      --accent:#2563eb; 
+      --accent-2:#60a5fa; 
+      --glass:rgba(255,255,255,0.6); 
+      --danger:#ef4444; 
+      --radius:12px; 
+      --maxw:980px;
+    }
+    *{box-sizing:border-box; margin:0; padding:0}
+    html,body{height:100%; font-family:Inter,system-ui,'Segoe UI',Roboto,Arial,sans-serif; background:linear-gradient(180deg,var(--bg),#eef2ff); color:#0f172a}
+
+    .wrap{min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px}
+    .frame{width:100%; max-width:1000px; background:var(--card); border-radius:16px; box-shadow:0 10px 30px rgba(2,6,23,0.07); overflow:hidden}
+
+    /* AUTH SCREEN */
+    .auth-area{display:grid; grid-template-columns:1fr 420px; min-height:560px}
+    .auth-left{padding:40px; display:flex; flex-direction:column; gap:24px}
+    .brand{font-weight:800; font-size:24px; line-height:1.2}
+    .lead{color:var(--muted); font-size:14px; margin-top:4px}
+    .switches{display:flex; gap:8px; margin-top:8px}
+    .switch{padding:10px 16px; border-radius:10px; cursor:pointer; font-weight:600; font-size:14px; transition:all 0.2s}
+    .switch.active{background:linear-gradient(90deg,var(--accent),var(--accent-2)); color:white}
+    .form{background:var(--glass); padding:20px; border-radius:12px; backdrop-filter:blur(10px)}
+    .field{display:flex; flex-direction:column; gap:6px; margin-bottom:14px}
+    label{font-size:13px; font-weight:500; color:var(--muted)}
+    input[type=text], input[type=email], input[type=password], input[type=tel], input[type=file], textarea{
+      padding:10px 14px; 
+      border-radius:10px; 
+      border:1px solid #e5e7eb; 
+      outline:none; 
+      font-size:14px;
+      font-family:inherit;
+      width:100%;
+      transition:all 0.2s
+    }
+    input:focus, textarea:focus{box-shadow:0 0 0 3px rgba(37,99,235,0.1); border-color:var(--accent)}
+    .row{display:flex; gap:10px}
+    .row .field{flex:1}
+    .btn{background:var(--accent); color:white; padding:11px 18px; border-radius:10px; border:none; cursor:pointer; font-weight:600; font-size:14px; transition:all 0.2s}
+    .btn:hover{background:#1d4ed8; transform:translateY(-1px)}
+    .btn.ghost{background:transparent; color:var(--accent); border:1px solid rgba(37,99,235,0.2)}
+    .btn.ghost:hover{background:rgba(37,99,235,0.05); transform:translateY(-1px)}
+    .muted{color:var(--muted); font-size:13px}
+
+    /* AUTH RIGHT PANEL */
+    .auth-right{
+      background:linear-gradient(180deg,#eef2ff,white); 
+      padding:40px; 
+      display:flex; 
+      flex-direction:column; 
+      align-items:center; 
+      justify-content:center;
+      border-left:1px solid #f0f2f7
+    }
+    .preview{
+      width:180px; 
+      height:180px; 
+      border-radius:16px; 
+      background:linear-gradient(135deg,#a78bfa,#60a5fa); 
+      display:flex; 
+      align-items:center; 
+      justify-content:center; 
+      color:white; 
+      font-weight:800; 
+      font-size:48px;
+      box-shadow:0 8px 20px rgba(96,165,250,0.3);
+      background-size:cover;
+      background-position:center
+    }
+
+    /* APP SCREEN */
+    .app{display:none; flex-direction:column; min-height:560px}
+    .top{
+      display:flex; 
+      justify-content:space-between; 
+      align-items:center; 
+      padding:16px 24px; 
+      border-bottom:1px solid #f0f2f7;
+      background:white
+    }
+    .title{font-weight:800; font-size:18px}
+    .content{display:flex; gap:20px; padding:20px; background:#fafbfc; flex:1; overflow-y:auto}
+    .main{flex:1; min-width:0}
+    .sidebar{width:320px; flex-shrink:0}
+    
+    /* CREATE POST */
+    .create{
+      background:var(--card); 
+      padding:16px; 
+      border-radius:12px; 
+      box-shadow:0 2px 8px rgba(0,0,0,0.04); 
+      margin-bottom:16px;
+      border:1px solid #f0f2f7
+    }
+    .create > div{display:flex; gap:14px; align-items:flex-start}
+    textarea{
+      width:100%; 
+      resize:none; 
+      min-height:80px; 
+      padding:12px; 
+      border-radius:10px; 
+      border:1px solid #e5e7eb;
+      font-family:inherit;
+      font-size:14px
+    }
+    .tools{display:flex; gap:10px; align-items:center; margin-top:10px; justify-content:space-between}
+    
+    /* POST CARDS */
+    .post-card{
+      background:var(--card); 
+      border-radius:12px; 
+      padding:16px; 
+      margin-bottom:14px; 
+      box-shadow:0 2px 8px rgba(0,0,0,0.04); 
+      border:1px solid #f0f2f7;
+      transition:box-shadow 0.2s
+    }
+    .post-card:hover{box-shadow:0 4px 12px rgba(0,0,0,0.08)}
+    .post-meta{display:flex; gap:12px; align-items:flex-start; margin-bottom:12px}
+    .avatar{
+      width:48px; 
+      height:48px; 
+      border-radius:12px; 
+      background:linear-gradient(135deg,#a78bfa,#60a5fa); 
+      display:flex; 
+      align-items:center; 
+      justify-content:center; 
+      color:white; 
+      font-weight:800;
+      font-size:18px;
+      flex-shrink:0;
+      background-size:cover;
+      background-position:center
+    }
+    .post-image{max-width:100%; border-radius:10px; margin-top:12px; display:block}
+
+    /* PROFILE CARD */
+    .profile-card{
+      background:var(--card); 
+      padding:18px; 
+      border-radius:12px;
+      box-shadow:0 2px 8px rgba(0,0,0,0.04);
+      border:1px solid #f0f2f7
+    }
+    .profile-card > div:first-child{display:flex; gap:14px; align-items:center; padding-bottom:16px; border-bottom:1px solid #f0f2f7}
+    .profile-row{
+      display:flex; 
+      justify-content:space-between; 
+      align-items:center; 
+      padding:12px 0;
+      border-bottom:1px solid #f9fafb
+    }
+    .profile-row:last-child{border-bottom:none}
+    .link{color:var(--accent); cursor:pointer; font-weight:600; font-size:14px; transition:color 0.2s}
+    .link:hover{color:#1d4ed8}
+    
+    /* MODAL */
+    .modal {
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      background:rgba(0,0,0,0.5);
+      display:none;
+      justify-content:center;
+      align-items:center;
+      z-index:1000;
+      backdrop-filter:blur(4px)
+    }
+    .box {
+      background:var(--card);
+      padding:24px;
+      border-radius:var(--radius);
+      max-width:420px;
+      width:90%;
+      box-shadow:0 20px 50px rgba(0,0,0,0.2);
+      animation:slideUp 0.2s ease-out
+    }
+    @keyframes slideUp{
+      from{opacity:0; transform:translateY(20px)}
+      to{opacity:1; transform:translateY(0)}
+    }
+    .box > div:first-child{font-weight:800; font-size:18px; margin-bottom:16px}
+
+    /* BOTTOM BAR */
+    .bottom-bar{
+      position:sticky;
+      bottom:0; 
+      left:0;
+      right:0;
+      background:white;
+      border-top:1px solid #e5e7eb;
+      display:flex;
+      justify-content:space-around;
+      padding:12px 0;
+      box-shadow:0 -2px 10px rgba(0,0,0,0.04)
+    }
+    .bottom-item{
+      text-align:center;
+      font-size:12px;
+      color:#6b7280;
+      cursor:pointer;
+      font-weight:600;
+      padding:4px 16px;
+      border-radius:8px;
+      transition:all 0.2s
+    }
+    .bottom-item i{
+      display:block;
+      font-size:20px;
+      margin-bottom:4px
+    }
+    .bottom-item.active{
+      color:var(--accent);
+      background:rgba(37,99,235,0.08)
+    }
+
+    /* RESPONSIVE */
+    @media(max-width:880px){
+      .auth-area{grid-template-columns:1fr}
+      .auth-right{display:none}
+      .sidebar{display:none}
+      .content{padding:16px}
+    }
+    
+    @media(max-width:520px){
+      .auth-left{padding:24px}
+      .wrap{padding:12px}
+      .avatar{width:42px; height:42px; font-size:16px}
+      .top{padding:12px 16px}
+      .content{padding:12px}
+      .create, .post-card, .profile-card{padding:14px}
+    }
+
+    .view-section{display:none}
+    .view-section.active{display:block}
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="frame">
+
+      <!-- AUTH SCREEN -->
+      <section id="authScreen" class="auth-area">
+        <div class="auth-left">
+          <div>
+            <div class="brand">Student Portal</div>
+            <div class="lead">Student-friendly, minimal, responsive.</div>
+          </div>
+
+          <div class="switches" role="tablist">
+            <div id="swSign" class="switch active">Sign Up</div>
+            <div id="swLogin" class="switch">Log In</div>
+          </div>
+
+          <!-- SIGN UP FORM -->
+          <form id="formSign" class="form" onsubmit="return false">
+            <div class="field">
+              <label>Profile picture</label>
+              <input id="signPic" type="file" accept="image/*" />
+            </div>
+            <div class="field">
+              <label>Full name / Username</label>
+              <input id="signName" type="text" />
+            </div>
+            <div class="row">
+              <div class="field">
+                <label>Phone number</label>
+                <input id="signPhone" type="tel" />
+              </div>
+              <div class="field">
+                <label>Email ID</label>
+                <input id="signEmail" type="email" />
+              </div>
+            </div>
+            <div class="field">
+              <label>Password</label>
+              <input id="signPass" type="password" />
+            </div>
+            <div style="display:flex; gap:10px; margin-top:8px">
+              <button id="btnCreate" class="btn">Create Account</button>
+              <button id="btnToLogin" class="btn ghost">Already have?</button>
+            </div>
+          </form>
+
+          <!-- LOGIN FORM -->
+          <form id="formLogin" class="form" style="display:none" onsubmit="return false">
+            <div class="field"><label>Email</label><input id="loginEmail" type="email"/></div>
+            <div class="field"><label>Password</label><input id="loginPass" type="password"/></div>
+            <div style="display:flex; gap:10px; margin-top:8px">
+              <button id="btnLoginNow" class="btn">Log In</button>
+              <button id="btnToSign" class="btn ghost">Create new</button>
+            </div>
+          </form>
+        </div>
+
+        <aside class="auth-right">
+          <div class="preview" id="previewBox">U</div>
+        </aside>
+      </section>
+
+      <!-- APP SCREEN -->
+      <section id="appScreen" class="app">
+        <header class="top">
+          <div class="title" id="appTitle">Feed</div>
+          <div style="display:flex; gap:12px; align-items:center">
+            <div id="topEmail" class="muted"></div>
+            <button id="btnLogoutTop" class="btn ghost">Logout</button>
+          </div>
+        </header>
+
+        <main class="content">
+          <div class="main" id="mainContentArea">
+            
+            <!-- FEED VIEW -->
+            <div id="feedView" class="view-section active">
+              <!-- CREATE POST -->
+              <div class="create">
+                <div>
+                  <div class="avatar" id="createAvatar">U</div>
+                  <div style="flex:1">
+                    <textarea id="postText" placeholder="Say something..."></textarea>
+                    <div class="tools">
+                      <input id="postImage" type="file" accept="image/*"/>
+                      <button id="btnPost" class="btn">Post</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- FEED -->
+              <div id="feedList"></div>
+            </div>
+
+            <!-- PROFILE VIEW -->
+            <div id="profileView" class="view-section">
+              <div class="profile-card" style="margin-bottom:16px">
+                <div>
+                  <div class="avatar" id="profileAvatarMain">U</div>
+                  <div style="flex:1">
+                    <div id="profileNameMain" style="font-weight:800; font-size:16px">Username</div>
+                    <div id="profileEmailMain" class="muted"></div>
+                    <div id="profilePhoneMain" class="muted"></div>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="profile-row">
+                    <div class="muted">Change Password</div>
+                    <div class="link" id="openChangeMain">Change</div>
+                  </div>
+                  <div class="profile-row">
+                    <div class="muted">Logout</div>
+                    <div class="link" id="logoutMain">Sign out</div>
+                  </div>
+                </div>
+              </div>
+
+              <div style="font-weight:700; font-size:16px; margin-bottom:12px; padding-left:4px">Your Posts</div>
+              <div id="myPostsList"></div>
+            </div>
+
+          </div>
+
+          <!-- DESKTOP SIDEBAR -->
+          <aside class="sidebar" id="desktopSidebar">
+            <div class="profile-card">
+              <div>
+                <div class="avatar" id="profileAvatarDesktop">U</div>
+                <div style="flex:1">
+                  <div id="profileNameDesktop" style="font-weight:800; font-size:16px">Username</div>
+                  <div id="profileEmailDesktop" class="muted"></div>
+                  <div id="profilePhoneDesktop" class="muted"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="profile-row">
+                  <div class="muted">Change Password</div>
+                  <div class="link" id="openChangeDesktop">Change</div>
+                </div>
+                <div class="profile-row">
+                  <div class="muted">Logout</div>
+                  <div class="link" id="logoutDesktop">Sign out</div>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </main>
+
+        <!-- BOTTOM BAR (Mobile + Desktop) -->
+        <div class="bottom-bar">
+          <div id="tabFeed" class="bottom-item active">
+            <i class="fa-solid fa-list"></i>
+            Feed
+          </div>
+          <div id="tabProfile" class="bottom-item">
+            <i class="fa-solid fa-user"></i>
+            Profile
+          </div>
+        </div>
+
+        <!-- CHANGE PASSWORD MODAL -->
+        <div id="modal" class="modal">
+          <div class="box">
+            <div>Change Password</div>
+            <div class="field"><label>Current Password</label><input id="curPass" type="password" /></div>
+            <div class="field"><label>New Password</label><input id="newPass" type="password" /></div>
+            <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:16px">
+              <button id="closeModal" class="btn ghost">Cancel</button>
+              <button id="savePass" class="btn">Save</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    const $ = id => document.getElementById(id);
+
+    // Elements
+    const swSign = $('swSign');
+    const swLogin = $('swLogin');
+    const formSign = $('formSign');
+    const formLogin = $('formLogin');
+    const signPic = $('signPic');
+    const previewBox = $('previewBox');
+    const signName = $('signName');
+    const signPhone = $('signPhone');
+    const signEmail = $('signEmail');
+    const signPass = $('signPass');
+    const btnCreate = $('btnCreate');
+    const btnToLogin = $('btnToLogin');
+    const loginEmail = $('loginEmail');
+    const loginPass = $('loginPass');
+    const btnLoginNow = $('btnLoginNow');
+    const btnToSign = $('btnToSign');
+
+    const authScreen = $('authScreen');
+    const appScreen = $('appScreen');
+    const topEmail = $('topEmail');
+    const btnLogoutTop = $('btnLogoutTop');
+    const createAvatar = $('createAvatar');
+
+    const profileAvatarDesktop = $('profileAvatarDesktop');
+    const profileNameDesktop = $('profileNameDesktop');
+    const profileEmailDesktop = $('profileEmailDesktop');
+    const profilePhoneDesktop = $('profilePhoneDesktop');
+    const openChangeDesktop = $('openChangeDesktop');
+    const logoutDesktop = $('logoutDesktop');
+
+    const profileAvatarMain = $('profileAvatarMain');
+    const profileNameMain = $('profileNameMain');
+    const profileEmailMain = $('profileEmailMain');
+    const profilePhoneMain = $('profilePhoneMain');
+    const openChangeMain = $('openChangeMain');
+    const logoutMain = $('logoutMain');
+
+    const mainContentArea = $('mainContentArea');
+    const appTitle = $('appTitle');
+    const postText = $('postText');
+    const postImage = $('postImage');
+    const btnPost = $('btnPost');
+    const feedList = $('feedList');
+    const myPostsList = $('myPostsList');
+
+    const feedView = $('feedView');
+    const profileView = $('profileView');
+
+    const tabFeed = $('tabFeed'); 
+    const tabProfile = $('tabProfile');
+
+    const modal = $('modal');
+    const curPass = $('curPass');
+    const newPass = $('newPass');
+    const closeModal = $('closeModal');
+    const savePass = $('savePass');
+
+    // STORAGE
+    const DB = {
+      getUsers(){ return JSON.parse(localStorage.getItem('sp2_users')||'[]') },
+      saveUsers(u){ localStorage.setItem('sp2_users', JSON.stringify(u)) },
+      getPosts(){ return JSON.parse(localStorage.getItem('sp2_posts')||'[]') },
+      savePosts(p){ localStorage.setItem('sp2_posts', JSON.stringify(p)) },
+      setSession(e){ localStorage.setItem('sp2_session', e) },
+      getSession(){ return localStorage.getItem('sp2_session') },
+      clearSession(){ localStorage.removeItem('sp2_session') }
+    };
+
+    function uid(n=8){ return Math.random().toString(36).slice(2,2+n) }
+
+    // Switch between Sign Up / Login
+    swSign.addEventListener('click', ()=>{
+      swSign.classList.add('active'); 
+      swLogin.classList.remove('active');
+      formSign.style.display='block';
+      formLogin.style.display='none';
+    });
+    swLogin.addEventListener('click', ()=>{
+      swLogin.classList.add('active');
+      swSign.classList.remove('active');
+      formSign.style.display='none';
+      formLogin.style.display='block';
+    });
+
+    btnToLogin.addEventListener('click', ()=>swLogin.click());
+    btnToSign.addEventListener('click', ()=>swSign.click());
+
+    // Profile picture preview
+    let signPicData = null;
+    signPic.addEventListener('change', async()=>{
+      const f = signPic.files[0];
+      if(!f) return;
+      signPicData = await readFile(f);
+      previewBox.style.backgroundImage=`url(${signPicData})`;
+      previewBox.textContent='';
+    });
+
+    function readFile(file){
+      return new Promise((res,rej)=>{
+        const r = new FileReader();
+        r.onload = ()=>res(r.result);
+        r.onerror=rej;
+        r.readAsDataURL(file);
+      });
+    }
+
+    // Create Account
+    btnCreate.addEventListener('click', ()=>{
+      const name = signName.value.trim();
+      const phone = signPhone.value.trim();
+      const email = (signEmail.value||'').trim().toLowerCase();
+      const pass = signPass.value;
+
+      if(!name||!email||!pass){ alert('Fill all fields.'); return }
+
+      const users = DB.getUsers();
+      if(users.find(u=>u.email===email)){ alert('Account exists.'); return }
+
+      users.push({id:uid(10), name, phone, email, password:pass, pic:signPicData});
+      DB.saveUsers(users);
+      DB.setSession(email);
+      enterApp();
+    });
+
+    // Login
+    btnLoginNow.addEventListener('click', ()=>{
+      const email = loginEmail.value.trim().toLowerCase();
+      const pass = loginPass.value;
+      const u = DB.getUsers().find(x=>x.email===email);
+
+      if(!u || u.password!==pass){ alert('Invalid credentials'); return }
+      DB.setSession(email);
+      enterApp();
+    });
+
+    function enterApp(){
+      authScreen.style.display='none';
+      appScreen.style.display='flex';
+      renderSession();
+      renderFeed();
+      renderMyPosts();
+      tabFeed.click();
+    }
+
+    function renderSession(){
+      const email = DB.getSession();
+      const users = DB.getUsers();
+      const u = users.find(x=>x.email===email);
+      if(!u) return;
+
+      const initial = (u.name || u.email || 'U')[0].toUpperCase();
+
+      topEmail.textContent = email;
+
+      profileEmailDesktop.textContent = email;
+      profileNameDesktop.textContent = u.name;
+      profilePhoneDesktop.textContent = u.phone;
+      
+      profileEmailMain.textContent = email;
+      profileNameMain.textContent = u.name;
+      profilePhoneMain.textContent = u.phone;
+
+      [createAvatar, previewBox, profileAvatarDesktop, profileAvatarMain].forEach(el=>{
+        if(u.pic){
+          el.style.backgroundImage = `url(${u.pic})`;
+          el.style.backgroundSize = 'cover';
+          el.textContent = '';
+        } else {
+          el.style.backgroundImage='';
+          el.textContent=initial;
+        }
+      });
+    }
+
+    // Create Post
+    btnPost.addEventListener('click', async()=>{
+      const text = postText.value.trim();
+      const file = postImage.files[0];
+      if(!text && !file){ alert('Nothing to post'); return }
+
+      const email = DB.getSession();
+      const users = DB.getUsers();
+      const u = users.find(x=>x.email===email);
+
+      let image = null;
+      if(file) image = await readFile(file);
+
+      const posts = DB.getPosts();
+      posts.unshift({id:uid(10), author:email, name:u.name, pic:u.pic, text, image, ts:Date.now()});
+      DB.savePosts(posts);
+
+      postText.value='';
+      postImage.value=null;
+      renderFeed();
+      renderMyPosts();
+    });
+
+    function renderFeed(){
+      const posts = DB.getPosts();
+      if(!posts.length){
+        feedList.innerHTML = `<div class="muted" style="padding:20px; text-align:center">No posts yet. Be the first to share!</div>`;
+        return;
+      }
+      feedList.innerHTML = posts.map(p=>postHTML(p)).join('');
+    }
+
+    function renderMyPosts(){
+      const email = DB.getSession();
+      const posts = DB.getPosts().filter(p => p.author === email);
+      
+      if(!posts.length){
+        myPostsList.innerHTML = `<div class="muted" style="padding:20px; text-align:center">You haven't posted anything yet.</div>`;
+        return;
+      }
+      myPostsList.innerHTML = posts.map(p=>postHTML(p)).join('');
+    }
+
+    function postHTML(p){
+      const ts = new Date(p.ts).toLocaleString();
+      const escapedText = escape(p.text);
+      return `
+        <article class="post-card">
+          <div class="post-meta">
+            <div class="avatar" style="${p.pic ? `background-image:url(${p.pic});background-size:cover` : ''}">
+              ${p.pic ? '' : (p.name||'U')[0].toUpperCase()}
+            </div>
+            <div style="flex:1; min-width:0">
+              <div style="font-weight:800">${escape(p.name)}</div>
+              <div class="muted" style="font-size:12px">${escape(p.author)} • ${ts}</div>
+            </div>
+          </div>
+          ${escapedText ? `<div style="line-height:1.5; margin-top:4px">${escapedText}</div>` : ''} 
+          ${p.image ? `<img class="post-image" src="${p.image}"/>` : ''}
+        </article>
+      `;
+    }
+
+    function escape(s){
+      return String(s||'')
+        .replaceAll('&','&amp;')
+        .replaceAll('<','&lt;')
+        .replaceAll('>','&gt;');
+    }
+
+    // Tab Switching
+    tabFeed.addEventListener('click', ()=>{
+      tabFeed.classList.add('active');
+      tabProfile.classList.remove('active');
+      feedView.classList.add('active');
+      profileView.classList.remove('active');
+      appTitle.textContent = 'Feed';
+    });
+
+    tabProfile.addEventListener('click', ()=>{
+      tabProfile.classList.add('active');
+      tabFeed.classList.remove('active');
+      feedView.classList.remove('active');
+      profileView.classList.add('active');
+      appTitle.textContent = 'Profile';
+      renderMyPosts();
+    });
+
+    // Logout
+    function logout(){
+      DB.clearSession();
+      appScreen.style.display='none';
+      authScreen.style.display='grid';
+    }
+    btnLogoutTop.addEventListener('click', logout);
+    logoutDesktop.addEventListener('click', logout);
+    logoutMain.addEventListener('click', logout);
+
+    // Change Password Modal
+    [openChangeDesktop, openChangeMain].forEach(el => 
+      el.addEventListener('click', ()=>modal.style.display='flex')
+    );
+    
+    closeModal.addEventListener('click', ()=>modal.style.display='none');
+    
+    savePass.addEventListener('click', ()=>{
+      const cur = curPass.value;
+      const nw = newPass.value;
+
+      const email = DB.getSession();
+      const users = DB.getUsers();
+      const u = users.find(x=>x.email===email);
+
+      if(!u || u.password!==cur) return alert('Wrong current password');
+      if(!nw || nw.length<4) return alert('New password must be 4+ chars');
+
+      u.password = nw;
+      DB.saveUsers(users);
+      
+      curPass.value = '';
+      newPass.value = '';
+      
+      modal.style.display='none';
+      alert('Password updated successfully!');
+    });
+
+    // Initialize
+    if(DB.getSession()) enterApp();
+    else authScreen.style.display='grid';
+  </script>
+</body>
+</html>
