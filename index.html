@@ -19,20 +19,22 @@
       --hover-bg: #fafafa;
       --danger: #ed4956;
       --success: #42b883;
-      --gradient: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+      --warning: #ffc107;
+      --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     }
 
     [data-theme="dark"] {
-      --bg: #000000;
-      --card: #121212;
-      --border: #363636;
+      --bg: #121212;
+      --card: #1e1e1e;
+      --border: #333333;
       --text: #ffffff;
       --text-secondary: #a8a8a8;
-      --accent: #0095f6;
-      --accent-hover: #1877f2;
-      --hover-bg: #1a1a1a;
-      --danger: #ed4956;
-      --success: #42b883;
+      --accent: #4a90e2;
+      --accent-hover: #357abd;
+      --hover-bg: #2a2a2a;
+      --danger: #e74c3c;
+      --success: #2ecc71;
+      --warning: #f39c12;
     }
 
     * {
@@ -442,6 +444,28 @@
       text-decoration: underline;
     }
 
+    .profile-settings {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .btn-settings {
+      padding: 7px 16px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      color: var(--text);
+      transition: background 0.2s;
+    }
+
+    .btn-settings:hover {
+      background: var(--hover-bg);
+    }
+
     .tabs {
       display: flex;
       justify-content: center;
@@ -479,15 +503,15 @@
       font-size: 14px;
     }
 
-    /* POSTS GRID */
-    .posts-grid {
+    /* CONTENT GRID */
+    .content-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 28px;
       margin-top: 28px;
     }
 
-    .post-item {
+    .content-item {
       aspect-ratio: 1;
       background: var(--hover-bg);
       border-radius: 8px;
@@ -497,17 +521,17 @@
       transition: transform 0.2s;
     }
 
-    .post-item:hover {
+    .content-item:hover {
       transform: scale(1.02);
     }
 
-    .post-item img {
+    .content-item img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
 
-    .post-item-text {
+    .content-item-text {
       width: 100%;
       height: 100%;
       display: flex;
@@ -522,7 +546,23 @@
       color: var(--text);
     }
 
-    .post-overlay {
+    .content-item-certificate {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      text-align: center;
+      background: var(--card);
+      border: 1px solid var(--border);
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--text);
+      background-color: #fff8e1;
+    }
+
+    .content-overlay {
       position: absolute;
       top: 0;
       left: 0;
@@ -539,14 +579,77 @@
       font-weight: 600;
     }
 
-    .post-item:hover .post-overlay {
+    .content-item:hover .content-overlay {
       opacity: 1;
     }
 
-    .post-stat {
+    .content-stat {
       display: flex;
       align-items: center;
       gap: 5px;
+    }
+
+    /* NOTES GRID */
+    .notes-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    .note-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s;
+    }
+
+    .note-item:hover {
+      transform: translateY(-2px);
+    }
+
+    .note-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .note-username {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    .note-content {
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+
+    .note-actions {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 8px;
+    }
+
+    .note-action {
+      font-size: 16px;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: color 0.2s;
+    }
+
+    .note-action:hover {
+      color: var(--accent);
+    }
+
+    .note-likes {
+      font-size: 12px;
+      color: var(--text-secondary);
     }
 
     .empty-state {
@@ -625,6 +728,33 @@
       margin-top: 12px;
     }
 
+    .post-options {
+      display: flex;
+      gap: 12px;
+    }
+
+    .post-option {
+      padding: 8px 16px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      color: var(--text);
+      transition: background 0.2s;
+    }
+
+    .post-option.active {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    .post-option:hover {
+      background: var(--hover-bg);
+    }
+
     .post-card {
       background: var(--card);
       border: 1px solid var(--border);
@@ -645,11 +775,6 @@
       font-weight: 600;
       font-size: 14px;
       color: var(--text);
-      cursor: pointer;
-    }
-
-    .post-username:hover {
-      text-decoration: underline;
     }
 
     .post-image-wrapper {
@@ -679,12 +804,11 @@
       font-size: 24px;
       cursor: pointer;
       color: var(--text);
-      transition: color 0.2s, transform 0.1s;
+      transition: color 0.2s;
     }
 
     .post-action:hover {
       color: var(--accent);
-      transform: scale(1.1);
     }
 
     .post-likes {
@@ -894,6 +1018,19 @@
       transform: rotate(15deg);
     }
 
+    /* PREVIEW IMAGE */
+    .preview-container {
+      margin-top: 12px;
+      text-align: center;
+    }
+
+    .preview-image {
+      max-width: 100%;
+      max-height: 200px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
     /* FOLLOWERS/FOLLOWING MODAL */
     .user-list {
       max-height: 400px;
@@ -1059,7 +1196,7 @@
         font-size: 14px;
       }
 
-      .posts-grid {
+      .content-grid {
         grid-template-columns: repeat(3, 1fr);
         gap: 4px;
       }
@@ -1166,8 +1303,7 @@
     <header class="app-header">
       <div class="header-logo">LN Portal</div>
       <div class="header-icons">
-        <i id="themeToggle" class="fa-solid fa-moon theme-toggle"></i>
-        <i id="btnLogout" class="fa-solid fa-right-from-bracket header-icon"></i>
+        <!-- Theme toggle removed from header - now only in profile -->
       </div>
     </header>
 
@@ -1180,11 +1316,17 @@
             <div id="feedAvatar" class="avatar-small">U</div>
             <textarea id="postText" class="post-textarea" placeholder="What's on your mind?"></textarea>
           </div>
+          <div class="post-options">
+            <button id="postTypeImage" class="post-option active" data-type="image">Image</button>
+            <button id="postTypeNote" class="post-option" data-type="note">Note</button>
+            <button id="postTypeCertificate" class="post-option" data-type="certificate">Certificate</button>
+          </div>
           <div class="create-post-actions">
-            <input id="postImage" type="file" accept="image/*" style="display:none" />
-            <label for="postImage" style="cursor:pointer; color: var(--accent); font-size: 20px;">
-              <i class="fa-solid fa-image"></i>
+            <input id="postFile" type="file" accept="image/*,.pdf,.doc,.docx" style="display:none" />
+            <label for="postFile" style="cursor:pointer; color: var(--accent); font-size: 20px;">
+              <i class="fa-solid fa-paperclip"></i>
             </label>
+            <div id="filePreview" class="preview-container"></div>
             <button id="btnPost" class="btn-primary" style="width: auto; margin: 0; padding: 7px 24px;">Post</button>
           </div>
         </div>
@@ -1214,17 +1356,32 @@
               <div id="profileBio">No bio yet</div>
               <a id="profileWebsite" href="#" class="profile-website" target="_blank"></a>
             </div>
+            <div class="profile-settings">
+              <i id="themeToggleProfile" class="fa-solid fa-moon theme-toggle" style="font-size: 20px; cursor: pointer;"></i>
+              <button id="btnChangePassword" class="btn-settings">Change Password</button>
+              <button id="btnLogoutProfile" class="btn-settings">Log Out</button>
+            </div>
           </div>
         </div>
 
         <div class="tabs">
           <div class="tab active" data-tab="posts">
-            <i class="fa-solid fa-table-cells"></i>
+            <i class="fa-solid fa-image"></i>
             POSTS
+          </div>
+          <div class="tab" data-tab="notes">
+            <i class="fa-solid fa-note-sticky"></i>
+            NOTES
+          </div>
+          <div class="tab" data-tab="certificates">
+            <i class="fa-solid fa-certificate"></i>
+            CERTIFICATES
           </div>
         </div>
 
-        <div id="profilePosts" class="posts-grid"></div>
+        <div id="profileContent">
+          <!-- Content will be loaded here based on active tab -->
+        </div>
       </div>
 
       <!-- GROUPS VIEW -->
@@ -1284,10 +1441,39 @@
           <div class="modal-field">
             <label>Profile Picture</label>
             <input id="editPic" type="file" accept="image/*" class="input-field" />
+            <div id="editPicPreview" class="preview-container"></div>
           </div>
           <div class="modal-actions">
             <button id="cancelEdit" class="btn-secondary">Cancel</button>
             <button id="saveEdit" class="btn-primary">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHANGE PASSWORD MODAL -->
+    <div id="changePasswordModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          Change Password
+          <span id="closeChangePasswordModal" class="modal-close">&times;</span>
+        </div>
+        <div class="modal-body">
+          <div class="modal-field">
+            <label>Current Password</label>
+            <input id="currentPassword" type="password" class="input-field" />
+          </div>
+          <div class="modal-field">
+            <label>New Password</label>
+            <input id="newPassword" type="password" class="input-field" />
+          </div>
+          <div class="modal-field">
+            <label>Confirm New Password</label>
+            <input id="confirmPassword" type="password" class="input-field" />
+          </div>
+          <div class="modal-actions">
+            <button id="cancelChangePassword" class="btn-secondary">Cancel</button>
+            <button id="savePassword" class="btn-primary">Change Password</button>
           </div>
         </div>
       </div>
@@ -1408,15 +1594,15 @@
       }, duration);
     }
 
-    // Theme Toggle
-    const themeToggle = $('themeToggle');
+    // Theme Toggle (now only in profile)
+    const themeToggleProfile = $('themeToggleProfile');
     function applyTheme(theme) {
       document.documentElement.setAttribute('data-theme', theme);
-      themeToggle.className = theme === 'dark' ? 'fa-solid fa-sun theme-toggle' : 'fa-solid fa-moon theme-toggle';
+      themeToggleProfile.className = theme === 'dark' ? 'fa-solid fa-sun theme-toggle' : 'fa-solid fa-moon theme-toggle';
     }
     applyTheme(DB.getTheme());
 
-    themeToggle.addEventListener('click', () => {
+    themeToggleProfile.addEventListener('click', () => {
       const current = DB.getTheme();
       const newTheme = current === 'light' ? 'dark' : 'light';
       DB.setTheme(newTheme);
@@ -1561,7 +1747,7 @@
     });
 
     // Logout
-    $('btnLogout').addEventListener('click', () => {
+    $('btnLogoutProfile').addEventListener('click', () => {
       DB.clearSession();
       authScreen.style.display = 'flex';
       appScreen.style.display = 'none';
@@ -1612,6 +1798,58 @@
       setActiveNav('navFeed');
     }
 
+    // Post Type Selection
+    let currentPostType = 'image';
+    const postTypeButtons = document.querySelectorAll('.post-option');
+    
+    postTypeButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        postTypeButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        currentPostType = button.getAttribute('data-type');
+        
+        // Update file input accept attribute based on post type
+        const fileInput = $('postFile');
+        if (currentPostType === 'image') {
+          fileInput.accept = 'image/*';
+        } else if (currentPostType === 'certificate') {
+          fileInput.accept = 'image/*,.pdf,.doc,.docx';
+        } else {
+          fileInput.accept = '*';
+        }
+        
+        // Clear file preview when switching types
+        $('filePreview').innerHTML = '';
+      });
+    });
+
+    // File Preview
+    $('postFile').addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      
+      const preview = $('filePreview');
+      preview.innerHTML = '';
+      
+      if (file.type.startsWith('image/')) {
+        try {
+          const dataUrl = await readFile(file);
+          const img = document.createElement('img');
+          img.src = dataUrl;
+          img.className = 'preview-image';
+          preview.appendChild(img);
+        } catch (error) {
+          console.error('Error reading file:', error);
+        }
+      } else {
+        const fileInfo = document.createElement('div');
+        fileInfo.textContent = `File: ${file.name} (${(file.size / 1024).toFixed(2)} KB)`;
+        fileInfo.style.fontSize = '14px';
+        fileInfo.style.color = 'var(--text-secondary)';
+        preview.appendChild(fileInfo);
+      }
+    });
+
     // Load Feed
     function loadFeed() {
       const session = DB.getSession();
@@ -1646,29 +1884,91 @@
 
         const postElement = document.createElement('div');
         postElement.className = 'post-card';
-        postElement.innerHTML = `
-          <div class="post-header">
-            <div class="avatar-small" style="${user.pic ? `background-image: url(${user.pic})` : ''}">${user.pic ? '' : user.username.charAt(0).toUpperCase()}</div>
-            <div class="post-username">${escape(user.username)}</div>
-          </div>
-          ${post.image ? `
+        
+        // Handle certificate posts with images
+        if (post.type === 'certificate' && post.file && post.fileType && post.fileType.startsWith('image/')) {
+          postElement.innerHTML = `
+            <div class="post-header">
+              <div class="avatar-small" style="${user.pic ? `background-image: url(${user.pic})` : ''}">${user.pic ? '' : user.username.charAt(0).toUpperCase()}</div>
+              <div class="post-username">${escape(user.username)}</div>
+            </div>
             <div class="post-image-wrapper">
-              <img src="${post.image}" alt="Post image" />
+              <img src="${post.file}" alt="Certificate image" />
             </div>
-          ` : ''}
-          <div class="post-content">
-            <div class="post-actions">
-              <i class="fa-regular fa-heart post-action"></i>
-              <i class="fa-regular fa-comment post-action"></i>
-              <i class="fa-regular fa-paper-plane post-action"></i>
+            <div class="post-content">
+              ${post.text ? `<div class="post-text">${escape(post.text)}</div>` : ''}
+              <div class="post-actions">
+                <i class="fa-regular fa-heart post-action"></i>
+                <i class="fa-regular fa-comment post-action"></i>
+                <i class="fa-regular fa-paper-plane post-action"></i>
+              </div>
+              <div class="post-likes">${post.likes || 0} likes</div>
+              <div class="post-timestamp">${formatDate(post.createdAt)}</div>
             </div>
-            <div class="post-likes">${post.likes || 0} likes</div>
-            <div class="post-text">
-              <span class="post-username">${escape(user.username)}</span> ${escape(post.text)}
+          `;
+        } else if (post.type === 'certificate') {
+          // Certificate without image
+          postElement.innerHTML = `
+            <div class="post-header">
+              <div class="avatar-small" style="${user.pic ? `background-image: url(${user.pic})` : ''}">${user.pic ? '' : user.username.charAt(0).toUpperCase()}</div>
+              <div class="post-username">${escape(user.username)}</div>
             </div>
-            <div class="post-timestamp">${formatDate(post.createdAt)}</div>
-          </div>
-        `;
+            <div class="post-content" style="padding-top: 16px;">
+              <div style="text-align: center; padding: 20px; background: #fff8e1; border-radius: 8px; margin-bottom: 16px;">
+                <i class="fa-solid fa-certificate" style="font-size: 48px; color: var(--warning); margin-bottom: 12px;"></i>
+                <p style="font-weight: 600; margin-bottom: 8px;">${escape(post.text || 'Certificate')}</p>
+                ${post.fileName ? `<p style="font-size: 12px; color: var(--text-secondary);">${escape(post.fileName)}</p>` : ''}
+              </div>
+              <div class="post-actions">
+                <i class="fa-regular fa-heart post-action"></i>
+                <i class="fa-regular fa-comment post-action"></i>
+                <i class="fa-regular fa-paper-plane post-action"></i>
+              </div>
+              <div class="post-likes">${post.likes || 0} likes</div>
+              <div class="post-timestamp">${formatDate(post.createdAt)}</div>
+            </div>
+          `;
+        } else if (post.file && post.type === 'image') {
+          // Regular image post
+          postElement.innerHTML = `
+            <div class="post-header">
+              <div class="avatar-small" style="${user.pic ? `background-image: url(${user.pic})` : ''}">${user.pic ? '' : user.username.charAt(0).toUpperCase()}</div>
+              <div class="post-username">${escape(user.username)}</div>
+            </div>
+            <div class="post-image-wrapper">
+              <img src="${post.file}" alt="Post image" />
+            </div>
+            <div class="post-content">
+              ${post.text ? `<div class="post-text">${escape(post.text)}</div>` : ''}
+              <div class="post-actions">
+                <i class="fa-regular fa-heart post-action"></i>
+                <i class="fa-regular fa-comment post-action"></i>
+                <i class="fa-regular fa-paper-plane post-action"></i>
+              </div>
+              <div class="post-likes">${post.likes || 0} likes</div>
+              <div class="post-timestamp">${formatDate(post.createdAt)}</div>
+            </div>
+          `;
+        } else {
+          // Note post
+          postElement.innerHTML = `
+            <div class="post-header">
+              <div class="avatar-small" style="${user.pic ? `background-image: url(${user.pic})` : ''}">${user.pic ? '' : user.username.charAt(0).toUpperCase()}</div>
+              <div class="post-username">${escape(user.username)}</div>
+            </div>
+            <div class="post-content">
+              <div class="post-text">${escape(post.text)}</div>
+              <div class="post-actions">
+                <i class="fa-regular fa-heart post-action"></i>
+                <i class="fa-regular fa-comment post-action"></i>
+                <i class="fa-regular fa-paper-plane post-action"></i>
+              </div>
+              <div class="post-likes">${post.likes || 0} likes</div>
+              <div class="post-timestamp">${formatDate(post.createdAt)}</div>
+            </div>
+          `;
+        }
+        
         feedList.appendChild(postElement);
       });
     }
@@ -1716,10 +2016,14 @@
         $('btnEditProfile').style.display = 'block';
         $('btnMessage').style.display = 'none';
         $('btnFollow').style.display = 'none';
+        $('btnChangePassword').style.display = 'block';
+        $('btnLogoutProfile').style.display = 'block';
       } else {
         $('btnEditProfile').style.display = 'none';
         $('btnMessage').style.display = 'block';
         $('btnFollow').style.display = 'block';
+        $('btnChangePassword').style.display = 'none';
+        $('btnLogoutProfile').style.display = 'none';
         
         const currentUser = users.find(u => u.id === session);
         const isFollowing = currentUser.following && currentUser.following.includes(profileUser.id);
@@ -1727,40 +2031,133 @@
         $('btnFollow').className = isFollowing ? 'btn-edit' : 'btn-follow';
       }
 
-      // Load profile posts
-      const profilePosts = $('profilePosts');
-      profilePosts.innerHTML = '';
+      // Load profile content based on active tab
+      loadProfileContent(profileUser.id);
+    }
 
-      if (userPosts.length === 0) {
-        profilePosts.innerHTML = `
-          <div class="empty-state" style="grid-column: 1 / -1;">
-            <i class="fa-solid fa-camera"></i>
-            <p>No posts yet</p>
+    // Profile Tabs
+    let activeProfileTab = 'posts';
+    const profileTabs = document.querySelectorAll('.tab');
+    
+    profileTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        profileTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        activeProfileTab = tab.getAttribute('data-tab');
+        
+        const session = DB.getSession();
+        const profileUsername = $('profileUsername').textContent;
+        const users = DB.getUsers();
+        const profileUser = users.find(u => u.username === profileUsername);
+        
+        if (profileUser) {
+          loadProfileContent(profileUser.id);
+        }
+      });
+    });
+
+    function loadProfileContent(userId) {
+      const session = DB.getSession();
+      const users = DB.getUsers();
+      const posts = DB.getPosts();
+      const profileUser = users.find(u => u.id === userId);
+      
+      if (!profileUser) return;
+      
+      const profileContent = $('profileContent');
+      profileContent.innerHTML = '';
+      
+      let userContent = [];
+      
+      if (activeProfileTab === 'posts') {
+        userContent = posts.filter(p => p.userId === userId && p.type === 'image');
+      } else if (activeProfileTab === 'notes') {
+        userContent = posts.filter(p => p.userId === userId && p.type === 'note');
+      } else if (activeProfileTab === 'certificates') {
+        userContent = posts.filter(p => p.userId === userId && p.type === 'certificate');
+      }
+      
+      if (userContent.length === 0) {
+        let emptyMessage = '';
+        if (activeProfileTab === 'posts') {
+          emptyMessage = 'No posts yet';
+        } else if (activeProfileTab === 'notes') {
+          emptyMessage = 'No notes yet';
+        } else if (activeProfileTab === 'certificates') {
+          emptyMessage = 'No certificates yet';
+        }
+        
+        profileContent.innerHTML = `
+          <div class="empty-state">
+            <i class="fa-solid fa-${activeProfileTab === 'posts' ? 'image' : activeProfileTab === 'notes' ? 'note-sticky' : 'certificate'}"></i>
+            <p>${emptyMessage}</p>
           </div>
         `;
         return;
       }
-
-      userPosts.forEach(post => {
-        const postElement = document.createElement('div');
-        postElement.className = 'post-item';
+      
+      if (activeProfileTab === 'notes') {
+        // Display notes in a vertical list (like tweets)
+        const notesGrid = document.createElement('div');
+        notesGrid.className = 'notes-grid';
         
-        if (post.image) {
-          postElement.innerHTML = `
-            <img src="${post.image}" alt="Post image" />
-            <div class="post-overlay">
-              <div class="post-stat"><i class="fa-solid fa-heart"></i> ${post.likes || 0}</div>
-              <div class="post-stat"><i class="fa-solid fa-comment"></i> ${post.comments ? post.comments.length : 0}</div>
+        userContent.forEach(note => {
+          const noteElement = document.createElement('div');
+          noteElement.className = 'note-item';
+          noteElement.innerHTML = `
+            <div class="note-header">
+              <div class="avatar-small" style="${profileUser.pic ? `background-image: url(${profileUser.pic})` : ''}">${profileUser.pic ? '' : profileUser.username.charAt(0).toUpperCase()}</div>
+              <div class="note-username">${escape(profileUser.username)}</div>
             </div>
+            <div class="note-content">${escape(note.text)}</div>
+            <div class="note-actions">
+              <i class="fa-regular fa-heart note-action"></i>
+              <i class="fa-regular fa-comment note-action"></i>
+              <i class="fa-regular fa-paper-plane note-action"></i>
+            </div>
+            <div class="note-likes">${note.likes || 0} likes</div>
           `;
-        } else {
-          postElement.innerHTML = `
-            <div class="post-item-text">${escape(post.text)}</div>
-          `;
-        }
+          notesGrid.appendChild(noteElement);
+        });
         
-        profilePosts.appendChild(postElement);
-      });
+        profileContent.appendChild(notesGrid);
+      } else {
+        // Display posts and certificates in a grid
+        const contentGrid = document.createElement('div');
+        contentGrid.className = 'content-grid';
+        
+        userContent.forEach(content => {
+          const contentElement = document.createElement('div');
+          contentElement.className = 'content-item';
+          
+          if (content.file && content.fileType && content.fileType.startsWith('image/')) {
+            contentElement.innerHTML = `
+              <img src="${content.file}" alt="Content image" />
+              <div class="content-overlay">
+                <div class="content-stat"><i class="fa-solid fa-heart"></i> ${content.likes || 0}</div>
+                <div class="content-stat"><i class="fa-solid fa-comment"></i> ${content.comments ? content.comments.length : 0}</div>
+              </div>
+            `;
+          } else if (content.type === 'certificate') {
+            contentElement.innerHTML = `
+              <div class="content-item-certificate">
+                <div>
+                  <i class="fa-solid fa-certificate" style="font-size: 32px; margin-bottom: 12px; color: var(--warning);"></i>
+                  <p>${escape(content.text || 'Certificate')}</p>
+                </div>
+              </div>
+            `;
+          } else {
+            contentElement.innerHTML = `
+              <div class="content-item-text">${escape(content.text)}</div>
+            `;
+          }
+          
+          contentGrid.appendChild(contentElement);
+        });
+        
+        profileContent.appendChild(contentGrid);
+      }
     }
 
     // Format date for display
@@ -1786,20 +2183,26 @@
       if (!session) return;
 
       const text = $('postText').value.trim();
-      const imageFile = $('postImage').files[0];
+      const fileInput = $('postFile');
+      const file = fileInput.files[0];
 
-      if (!text && !imageFile) {
-        showNotification('Please add text or an image to your post', 3000, true);
+      if (!text && !file) {
+        showNotification('Please add text or a file to your post', 3000, true);
         return;
       }
 
-      let image = null;
-      if (imageFile) {
+      let fileData = null;
+      let fileType = null;
+      let fileName = null;
+      
+      if (file) {
         try {
-          image = await readFile(imageFile);
+          fileData = await readFile(file);
+          fileType = file.type;
+          fileName = file.name;
         } catch (error) {
           console.error('Error reading file:', error);
-          showNotification('Error uploading image', 3000, true);
+          showNotification('Error uploading file', 3000, true);
           return;
         }
       }
@@ -1809,7 +2212,10 @@
         id: uid(),
         userId: session,
         text,
-        image,
+        file: fileData,
+        fileType,
+        fileName,
+        type: currentPostType,
         likes: 0,
         comments: [],
         createdAt: new Date().toISOString()
@@ -1819,7 +2225,8 @@
       DB.savePosts(posts);
 
       $('postText').value = '';
-      $('postImage').value = '';
+      fileInput.value = '';
+      $('filePreview').innerHTML = '';
 
       loadFeed();
       if (!$('profileView').classList.contains('hide')) {
@@ -1840,6 +2247,27 @@
         $('editBio').value = user.bio || '';
         $('editWebsite').value = user.website || '';
         $('editModal').style.display = 'flex';
+      }
+    });
+
+    // Profile picture preview in edit modal
+    $('editPic').addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      
+      const preview = $('editPicPreview');
+      preview.innerHTML = '';
+      
+      if (file.type.startsWith('image/')) {
+        try {
+          const dataUrl = await readFile(file);
+          const img = document.createElement('img');
+          img.src = dataUrl;
+          img.className = 'preview-image';
+          preview.appendChild(img);
+        } catch (error) {
+          console.error('Error reading file:', error);
+        }
       }
     });
 
@@ -1888,6 +2316,56 @@
       loadFeed();
 
       showNotification('Profile updated!');
+    });
+
+    // Change Password Modal
+    $('btnChangePassword').addEventListener('click', () => {
+      $('changePasswordModal').style.display = 'flex';
+    });
+
+    $('closeChangePasswordModal').addEventListener('click', () => {
+      $('changePasswordModal').style.display = 'none';
+    });
+
+    $('cancelChangePassword').addEventListener('click', () => {
+      $('changePasswordModal').style.display = 'none';
+    });
+
+    $('savePassword').addEventListener('click', () => {
+      const session = DB.getSession();
+      const users = DB.getUsers();
+      const userIndex = users.findIndex(u => u.id === session);
+
+      if (userIndex === -1) return;
+
+      const currentPassword = $('currentPassword').value;
+      const newPassword = $('newPassword').value;
+      const confirmPassword = $('confirmPassword').value;
+
+      if (!currentPassword || !newPassword || !confirmPassword) {
+        showNotification('Please fill all fields', 3000, true);
+        return;
+      }
+
+      if (users[userIndex].password !== currentPassword) {
+        showNotification('Current password is incorrect', 3000, true);
+        return;
+      }
+
+      if (newPassword !== confirmPassword) {
+        showNotification('New passwords do not match', 3000, true);
+        return;
+      }
+
+      users[userIndex].password = newPassword;
+      DB.saveUsers(users);
+
+      $('currentPassword').value = '';
+      $('newPassword').value = '';
+      $('confirmPassword').value = '';
+      $('changePasswordModal').style.display = 'none';
+
+      showNotification('Password changed successfully!');
     });
 
     // Follow/Unfollow functionality
