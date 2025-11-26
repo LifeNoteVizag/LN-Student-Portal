@@ -1373,9 +1373,9 @@
             <i class="fa-solid fa-note-sticky"></i>
             NOTES
           </div>
-          <div class="tab" data-tab="certificates">
+          <div class="tab" data-tab="MILESTONES">
             <i class="fa-solid fa-certificate"></i>
-            CERTIFICATES
+            MILESTONES
           </div>
         </div>
 
@@ -2079,7 +2079,7 @@
         userContent = posts.filter(p => p.userId === userId && p.type === 'image');
       } else if (activeProfileTab === 'notes') {
         userContent = posts.filter(p => p.userId === userId && p.type === 'note');
-      } else if (activeProfileTab === 'certificates') {
+      } else if (activeProfileTab === 'MILESTONES') {
         userContent = posts.filter(p => p.userId === userId && p.type === 'certificate');
       }
       
@@ -2089,8 +2089,8 @@
           emptyMessage = 'No posts yet';
         } else if (activeProfileTab === 'notes') {
           emptyMessage = 'No notes yet';
-        } else if (activeProfileTab === 'certificates') {
-          emptyMessage = 'No certificates yet';
+        } else if (activeProfileTab === 'MILESTONES') {
+          emptyMessage = 'No MILESTONES yet';
         }
         
         profileContent.innerHTML = `
@@ -2128,7 +2128,7 @@
         
         profileContent.appendChild(notesGrid);
       } else {
-        // Display posts and certificates in a grid
+        // Display posts and MILESTONES in a grid
         const contentGrid = document.createElement('div');
         contentGrid.className = 'content-grid';
         
@@ -2842,3 +2842,4 @@
   </script>
 </body>
 </html>
+
