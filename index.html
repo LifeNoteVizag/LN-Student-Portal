@@ -1979,8 +1979,19 @@
       const users = DB.getUsers();
       const posts = DB.getPosts();
       
-      const profileUser = userId ? users.find(u => u.id === userId) : users.find(u => u.id === session);
+      // Store current profile user ID in a global variable
+      if (!window.currentProfileUserId) {
+        window.currentProfileUserId = session;
+      }
+      
+      // If a specific user ID is provided, use it; otherwise use the stored one
+      const profileUserId = userId || window.currentProfileUserId;
+      const profileUser = users.find(u => u.id === profileUserId);
+      
       if (!profileUser) return;
+      
+      // Update the stored profile user ID
+      window.currentProfileUserId = profileUser.id;
 
       const isOwnProfile = profileUser.id === session;
 
@@ -2045,19 +2056,14 @@
         tab.classList.add('active');
         activeProfileTab = tab.getAttribute('data-tab');
         
-        const session = DB.getSession();
-        const profileUsername = $('profileUsername').textContent;
-        const users = DB.getUsers();
-        const profileUser = users.find(u => u.username === profileUsername);
-        
-        if (profileUser) {
-          loadProfileContent(profileUser.id);
+        // Use the stored profile user ID
+        if (window.currentProfileUserId) {
+          loadProfileContent(window.currentProfileUserId);
         }
       });
     });
 
     function loadProfileContent(userId) {
-      const session = DB.getSession();
       const users = DB.getUsers();
       const posts = DB.getPosts();
       const profileUser = users.find(u => u.id === userId);
