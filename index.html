@@ -5,14 +5,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>LN Student Portal</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
-  
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
-
   <style>
     :root {
       --bg: #fafafa;
@@ -159,33 +151,6 @@
 
     .btn-primary:active {
       transform: scale(0.98);
-    }
-
-    .btn-google {
-      width: 100%;
-      padding: 12px;
-      background: white;
-      color: #757575;
-      border: 1px solid #dadce0;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 14px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      transition: background 0.2s, box-shadow 0.2s;
-    }
-
-    .btn-google:hover {
-      background: #f8f9fa;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    }
-
-    .btn-google img {
-      width: 18px;
-      height: 18px;
     }
 
     .divider {
@@ -410,7 +375,7 @@
       display: flex;
       align-items: center;
       gap: 20px;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }
 
     .profile-username {
@@ -422,6 +387,14 @@
     .profile-actions {
       display: flex;
       gap: 8px;
+      margin-bottom: 15px;
+    }
+
+    .profile-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 15px;
     }
 
     .btn-edit {
@@ -497,6 +470,7 @@
       font-size: 14px;
       line-height: 1.5;
       color: var(--text);
+      margin-bottom: 10px;
     }
 
     .profile-name {
@@ -513,28 +487,6 @@
 
     .profile-website:hover {
       text-decoration: underline;
-    }
-
-    .profile-settings {
-      display: flex;
-      gap: 12px;
-      margin-top: 16px;
-    }
-
-    .btn-settings {
-      padding: 7px 16px;
-      background: transparent;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 14px;
-      cursor: pointer;
-      color: var(--text);
-      transition: background 0.2s;
-    }
-
-    .btn-settings:hover {
-      background: var(--hover-bg);
     }
 
     .tabs {
@@ -845,13 +797,21 @@
       margin-bottom: 24px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
       overflow: hidden;
+      position: relative;
     }
 
     .post-header {
       display: flex;
       align-items: center;
+      justify-content: space-between;
       gap: 12px;
       padding: 14px 16px;
+    }
+
+    .post-user-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
     .post-username {
@@ -962,6 +922,28 @@
       cursor: pointer;
       font-weight: 600;
       font-size: 14px;
+    }
+
+    .post-delete {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .post-card:hover .post-delete {
+      opacity: 1;
     }
 
     /* ORGANIZATIONS VIEW */
@@ -1568,8 +1550,8 @@
         
         <div class="divider">OR</div>
         
-        <button type="button" id="googleSignUp" class="btn-google">
-          <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google logo">
+        <button type="button" id="googleSignUp" class="btn-primary">
+          <i class="fab fa-google" style="margin-right: 8px;"></i>
           Sign up with Google
         </button>
         
@@ -1586,8 +1568,8 @@
         
         <div class="divider">OR</div>
         
-        <button type="button" id="googleLogin" class="btn-google">
-          <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google logo">
+        <button type="button" id="googleLogin" class="btn-primary">
+          <i class="fab fa-google" style="margin-right: 8px;"></i>
           Log in with Google
         </button>
         
@@ -1647,11 +1629,9 @@
           <div class="profile-info">
             <div class="profile-username-row">
               <h2 id="profileUsername" class="profile-username">username</h2>
-              <div class="profile-actions">
-                <button id="btnEditProfile" class="btn-edit">Edit Profile</button>
-                <button id="btnShareProfile" class="btn-message">Share Profile</button>
-                <button id="btnFollow" class="btn-follow">Follow</button>
-              </div>
+            </div>
+            <div class="profile-buttons" id="profileButtons">
+              <!-- Buttons will be added here dynamically -->
             </div>
             <div class="profile-stats">
               <div class="stat-item" id="postsStat"><strong id="postCount">0</strong> posts</div>
@@ -1766,42 +1746,10 @@
               <i class="fa-solid fa-moon" style="margin-right: 12px;"></i>
               <span>Switch Theme</span>
             </div>
-            <div class="settings-item" id="settingsChangePassword">
-              <i class="fa-solid fa-key" style="margin-right: 12px;"></i>
-              <span>Change Password</span>
-            </div>
             <div class="settings-item" id="settingsLogout">
               <i class="fa-solid fa-right-from-bracket" style="margin-right: 12px;"></i>
               <span>Log Out</span>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- CHANGE PASSWORD MODAL -->
-    <div id="changePasswordModal" class="modal">
-      <div class="modal-content">
-        <div class="modal-header">
-          Change Password
-          <span id="closeChangePasswordModal" class="modal-close">&times;</span>
-        </div>
-        <div class="modal-body">
-          <div class="modal-field">
-            <label>Current Password</label>
-            <input id="currentPassword" type="password" class="input-field" />
-          </div>
-          <div class="modal-field">
-            <label>New Password</label>
-            <input id="newPassword" type="password" class="input-field" />
-          </div>
-          <div class="modal-field">
-            <label>Confirm New Password</label>
-            <input id="confirmPassword" type="password" class="input-field" />
-          </div>
-          <div class="modal-actions">
-            <button id="cancelChangePassword" class="btn-secondary">Cancel</button>
-            <button id="savePassword" class="btn-primary">Change Password</button>
           </div>
         </div>
       </div>
@@ -1923,47 +1871,23 @@
   <div id="notification" class="notification"></div>
 
   <script>
-    // Firebase Configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyA3UpwRNNzqstvCYUo6eiYyKssBMZnhg6w",
-      authDomain: "ln-project-ikshvakh.firebaseapp.com",
-      projectId: "ln-project-ikshvakh",
-      storageBucket: "ln-project-ikshvakh.firebasestorage.app",
-      messagingSenderId: "231879409444",
-     appId: "1:231879409444:web:ed7d43f9dd4d316e70bdb1"
-    };
-
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
-    const storage = firebase.storage();
+    // Data storage
+    let users = JSON.parse(localStorage.getItem('ln_users')) || [];
+    let posts = JSON.parse(localStorage.getItem('ln_posts')) || [];
+    let organizations = JSON.parse(localStorage.getItem('ln_organizations')) || [];
+    let gigs = JSON.parse(localStorage.getItem('ln_gigs')) || [];
+    let chats = JSON.parse(localStorage.getItem('ln_chats')) || [];
+    let comments = JSON.parse(localStorage.getItem('ln_comments')) || [];
+    let likes = JSON.parse(localStorage.getItem('ln_likes')) || [];
+    let gigApplications = JSON.parse(localStorage.getItem('ln_gigApplications')) || [];
+    
+    // Current user
+    let currentUser = JSON.parse(localStorage.getItem('ln_currentUser')) || null;
+    let currentProfileUser = null;
+    let currentChatId = null;
+    let currentChatUser = null;
 
     const $ = id => document.getElementById(id);
-
-    // Firebase Storage Helper
-    async function uploadFile(file, path) {
-      try {
-        const storageRef = storage.ref();
-        const fileRef = storageRef.child(`${path}/${Date.now()}_${file.name}`);
-        const snapshot = await fileRef.put(file);
-        const downloadURL = await snapshot.ref.getDownloadURL();
-        return downloadURL;
-      } catch (error) {
-        console.error('Error uploading file:', error);
-        throw error;
-      }
-    }
-
-    // Firebase Firestore Collections
-    const usersCollection = db.collection('users');
-    const postsCollection = db.collection('posts');
-    const organizationsCollection = db.collection('organizations');
-    const gigsCollection = db.collection('gigs');
-    const chatsCollection = db.collection('chats');
-    const commentsCollection = db.collection('comments');
-    const likesCollection = db.collection('likes');
-    const gigApplicationsCollection = db.collection('gigApplications');
 
     // Helper Functions
     function uid(n = 8) { return Math.random().toString(36).slice(2, 2 + n) }
@@ -1984,6 +1908,19 @@
       setTimeout(() => {
         notification.classList.remove('show');
       }, duration);
+    }
+
+    // Save data to localStorage
+    function saveData() {
+      localStorage.setItem('ln_users', JSON.stringify(users));
+      localStorage.setItem('ln_posts', JSON.stringify(posts));
+      localStorage.setItem('ln_organizations', JSON.stringify(organizations));
+      localStorage.setItem('ln_gigs', JSON.stringify(gigs));
+      localStorage.setItem('ln_chats', JSON.stringify(chats));
+      localStorage.setItem('ln_comments', JSON.stringify(comments));
+      localStorage.setItem('ln_likes', JSON.stringify(likes));
+      localStorage.setItem('ln_gigApplications', JSON.stringify(gigApplications));
+      localStorage.setItem('ln_currentUser', JSON.stringify(currentUser));
     }
 
     // Theme Toggle
@@ -2009,17 +1946,12 @@
       showNotification(`Theme changed to ${newTheme}`);
     });
 
-    $('settingsChangePassword').addEventListener('click', () => {
-      $('settingsModal').style.display = 'none';
-      $('changePasswordModal').style.display = 'flex';
-    });
-
     $('settingsLogout').addEventListener('click', () => {
-      auth.signOut().then(() => {
-        authScreen.style.display = 'flex';
-        appScreen.style.display = 'none';
-        showNotification('Logged out successfully!');
-      });
+      currentUser = null;
+      localStorage.removeItem('ln_currentUser');
+      authScreen.style.display = 'flex';
+      appScreen.style.display = 'none';
+      showNotification('Logged out successfully!');
     });
 
     // Auth Forms
@@ -2044,42 +1976,9 @@
       $('fileLabel').textContent = fileName;
     });
 
-    // Google Sign-In
+    // Google Sign-In (simulated)
     function handleGoogleAuth() {
-      const provider = new firebase.auth.GoogleAuthProvider();
-      auth.signInWithPopup(provider)
-        .then(async (result) => {
-          const user = result.user;
-          
-          // Check if user exists in Firestore
-          const userDoc = await usersCollection.doc(user.uid).get();
-          
-          if (!userDoc.exists) {
-            // Create new user in Firestore
-            await usersCollection.doc(user.uid).set({
-              uid: user.uid,
-              username: user.displayName || `user_${uid(6)}`,
-              email: user.email,
-              name: user.displayName || `Google User ${uid(4)}`,
-              pic: user.photoURL || null,
-              bio: '',
-              website: '',
-              followers: [],
-              following: [],
-              createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-              isGoogleUser: true
-            });
-            showNotification('Account created with Google!');
-          } else {
-            showNotification('Logged in with Google!');
-          }
-          
-          loadApp();
-        })
-        .catch((error) => {
-          console.error('Google auth error:', error);
-          showNotification('Error with Google authentication', 4000, true);
-        });
+      showNotification('Google authentication would be implemented with Firebase in a real app');
     }
 
     $('googleSignUp').addEventListener('click', handleGoogleAuth);
@@ -2098,36 +1997,41 @@
         return;
       }
 
-      try {
-        // Create user in Firebase Auth
-        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-        const user = userCredential.user;
-
-        let picURL = null;
-        if (picFile) {
-          picURL = await uploadFile(picFile, `profile_pictures/${user.uid}`);
-        }
-
-        // Create user document in Firestore
-        await usersCollection.doc(user.uid).set({
-          uid: user.uid,
-          username,
-          email,
-          pic: picURL,
-          name: username,
-          bio: '',
-          website: '',
-          followers: [],
-          following: [],
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-
-        showNotification('Account created successfully!');
-        loadApp();
-      } catch (error) {
-        console.error('Sign up error:', error);
-        showNotification(error.message, 4000, true);
+      // Check if username or email already exists
+      if (users.find(u => u.username === username)) {
+        showNotification('Username already exists', 3000, true);
+        return;
       }
+
+      if (users.find(u => u.email === email)) {
+        showNotification('Email already exists', 3000, true);
+        return;
+      }
+
+      // Create user
+      const newUser = {
+        id: uid(),
+        username,
+        email,
+        password, // In a real app, this would be hashed
+        pic: null,
+        name: username,
+        bio: '',
+        website: '',
+        followers: [],
+        following: [],
+        createdAt: new Date().toISOString()
+      };
+
+      users.push(newUser);
+      saveData();
+      
+      // Auto login
+      currentUser = newUser;
+      localStorage.setItem('ln_currentUser', JSON.stringify(currentUser));
+      
+      showNotification('Account created successfully!');
+      loadApp();
     });
 
     // Log In
@@ -2136,13 +2040,15 @@
       const email = $('loginEmail').value.trim().toLowerCase();
       const password = $('loginPassword').value;
 
-      try {
-        await auth.signInWithEmailAndPassword(email, password);
+      const user = users.find(u => u.email === email && u.password === password);
+      
+      if (user) {
+        currentUser = user;
+        localStorage.setItem('ln_currentUser', JSON.stringify(currentUser));
         showNotification('Logged in successfully!');
         loadApp();
-      } catch (error) {
-        console.error('Login error:', error);
-        showNotification(error.message, 3000, true);
+      } else {
+        showNotification('Invalid email or password', 3000, true);
       }
     });
 
@@ -2179,24 +2085,19 @@
 
     // Load App
     function loadApp() {
-      const user = auth.currentUser;
-      if (!user) return;
+      if (!currentUser) return;
 
       authScreen.style.display = 'none';
       appScreen.style.display = 'block';
 
       // Update user avatar in feed
-      usersCollection.doc(user.uid).get().then(doc => {
-        if (doc.exists) {
-          const userData = doc.data();
-          if (userData.pic) {
-            $('feedAvatar').style.backgroundImage = `url(${userData.pic})`;
-            $('feedAvatar').textContent = '';
-          }
-        }
-      });
+      if (currentUser.pic) {
+        $('feedAvatar').style.backgroundImage = `url(${currentUser.pic})`;
+        $('feedAvatar').textContent = '';
+      }
 
       setActiveNav('navFeed');
+      initializeGigs();
     }
 
     // Post Type Selection
@@ -2248,45 +2149,32 @@
       }
     });
 
-    // Load Feed with Real-time Updates
+    // Load Feed
     function loadFeed() {
-      const user = auth.currentUser;
-      if (!user) return;
+      if (!currentUser) return;
 
       const feedList = $('feedList');
       feedList.innerHTML = '';
 
-      // Real-time listener for posts
-      const unsubscribe = postsCollection
-        .orderBy('createdAt', 'desc')
-        .onSnapshot(async (snapshot) => {
-          feedList.innerHTML = '';
+      // Sort posts by date (newest first)
+      const sortedPosts = [...posts].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
-          if (snapshot.empty) {
-            feedList.innerHTML = `
-              <div class="empty-state">
-                <i class="fa-solid fa-newspaper"></i>
-                <p>No posts yet. Be the first to share something!</p>
-              </div>
-            `;
-            return;
-          }
+      if (sortedPosts.length === 0) {
+        feedList.innerHTML = `
+          <div class="empty-state">
+            <i class="fa-solid fa-newspaper"></i>
+            <p>No posts yet. Be the first to share something!</p>
+          </div>
+        `;
+        return;
+      }
 
-          for (const doc of snapshot.docs) {
-            const post = { id: doc.id, ...doc.data() };
-            const userDoc = await usersCollection.doc(post.userId).get();
-            
-            if (!userDoc.exists) continue;
-            
-            const postUser = userDoc.data();
-            renderPost(post, postUser, feedList);
-          }
-        }, (error) => {
-          console.error('Error loading posts:', error);
-        });
-
-      // Store unsubscribe function for cleanup
-      window.feedUnsubscribe = unsubscribe;
+      sortedPosts.forEach(post => {
+        const user = users.find(u => u.id === post.userId);
+        if (user) {
+          renderPost(post, user, feedList);
+        }
+      });
     }
 
     function renderPost(post, user, container) {
@@ -2295,75 +2183,51 @@
       postElement.id = `post-${post.id}`;
       
       // Check if current user has liked this post
-      const currentUser = auth.currentUser;
-      let isLiked = false;
-      if (currentUser) {
-        likesCollection
-          .where('postId', '==', post.id)
-          .where('userId', '==', currentUser.uid)
-          .get()
-          .then(snapshot => {
-            isLiked = !snapshot.empty;
-            updateLikeButton(postElement, post.likes || 0, isLiked);
-          });
-      }
+      const isLiked = likes.some(like => like.postId === post.id && like.userId === currentUser.id);
+      const postLikes = likes.filter(like => like.postId === post.id).length;
+      const postComments = comments.filter(comment => comment.postId === post.id);
       
-      if (post.type === 'certificate' && post.file && post.fileType && post.fileType.startsWith('image/')) {
+      // Check if current user owns this post
+      const isOwnPost = post.userId === currentUser.id;
+      
+      if (post.type === 'certificate' && post.file) {
         postElement.innerHTML = `
           <div class="post-header">
-            <div class="avatar-small" style="${user.pic ? `background-image: url(${user.pic})` : ''}">${user.pic ? '' : user.username.charAt(0).toUpperCase()}</div>
-            <div class="post-username">${escape(user.username)}</div>
-          </div>
-          <div class="post-image-wrapper">
-            <img src="${post.file}" alt="Certificate image" />
+            <div class="post-user-info">
+              <div class="avatar-small" style="${user.pic ? `background-image: url(${user.pic})` : ''}">${user.pic ? '' : user.username.charAt(0).toUpperCase()}</div>
+              <div class="post-username">${escape(user.username)}</div>
+            </div>
+            ${isOwnPost ? `<button class="post-delete" data-postid="${post.id}"><i class="fa-solid fa-trash"></i></button>` : ''}
           </div>
           <div class="post-content">
-            ${post.text ? `<div class="post-text">${escape(post.text)}</div>` : ''}
-            <div class="post-actions">
-              <i class="fa-regular fa-heart post-action like-btn" data-postid="${post.id}"></i>
-              <i class="fa-regular fa-comment post-action comment-btn" data-postid="${post.id}"></i>
-              <i class="fa-regular fa-paper-plane post-action share-btn" data-postid="${post.id}"></i>
-            </div>
-            <div class="post-likes">${post.likes || 0} likes</div>
-            <div class="post-comments" id="comments-${post.id}"></div>
-            <div class="comment-input">
-              <input type="text" placeholder="Add a comment..." class="comment-text-input" data-postid="${post.id}" />
-              <button class="comment-btn" data-postid="${post.id}">Post</button>
-            </div>
-            <div class="post-timestamp">${formatDate(post.createdAt?.toDate())}</div>
-          </div>
-        `;
-      } else if (post.type === 'certificate') {
-        postElement.innerHTML = `
-          <div class="post-header">
-            <div class="avatar-small" style="${user.pic ? `background-image: url(${user.pic})` : ''}">${user.pic ? '' : user.username.charAt(0).toUpperCase()}</div>
-            <div class="post-username">${escape(user.username)}</div>
-          </div>
-          <div class="post-content" style="padding-top: 16px;">
             <div style="text-align: center; padding: 20px; background: #fff8e1; border-radius: 8px; margin-bottom: 16px;">
               <i class="fa-solid fa-certificate" style="font-size: 48px; color: var(--warning); margin-bottom: 12px;"></i>
               <p style="font-weight: 600; margin-bottom: 8px;">${escape(post.text || 'Certificate')}</p>
               ${post.fileName ? `<p style="font-size: 12px; color: var(--text-secondary);">${escape(post.fileName)}</p>` : ''}
             </div>
+            ${post.text ? `<div class="post-text">${escape(post.text)}</div>` : ''}
             <div class="post-actions">
-              <i class="fa-regular fa-heart post-action like-btn" data-postid="${post.id}"></i>
+              <i class="fa-regular fa-heart post-action like-btn ${isLiked ? 'liked' : ''}" data-postid="${post.id}"></i>
               <i class="fa-regular fa-comment post-action comment-btn" data-postid="${post.id}"></i>
               <i class="fa-regular fa-paper-plane post-action share-btn" data-postid="${post.id}"></i>
             </div>
-            <div class="post-likes">${post.likes || 0} likes</div>
+            <div class="post-likes">${postLikes} likes</div>
             <div class="post-comments" id="comments-${post.id}"></div>
             <div class="comment-input">
               <input type="text" placeholder="Add a comment..." class="comment-text-input" data-postid="${post.id}" />
               <button class="comment-btn" data-postid="${post.id}">Post</button>
             </div>
-            <div class="post-timestamp">${formatDate(post.createdAt?.toDate())}</div>
+            <div class="post-timestamp">${formatDate(new Date(post.createdAt))}</div>
           </div>
         `;
       } else if (post.file && post.type === 'image') {
         postElement.innerHTML = `
           <div class="post-header">
-            <div class="avatar-small" style="${user.pic ? `background-image: url(${user.pic})` : ''}">${user.pic ? '' : user.username.charAt(0).toUpperCase()}</div>
-            <div class="post-username">${escape(user.username)}</div>
+            <div class="post-user-info">
+              <div class="avatar-small" style="${user.pic ? `background-image: url(${user.pic})` : ''}">${user.pic ? '' : user.username.charAt(0).toUpperCase()}</div>
+              <div class="post-username">${escape(user.username)}</div>
+            </div>
+            ${isOwnPost ? `<button class="post-delete" data-postid="${post.id}"><i class="fa-solid fa-trash"></i></button>` : ''}
           </div>
           <div class="post-image-wrapper">
             <img src="${post.file}" alt="Post image" />
@@ -2371,40 +2235,43 @@
           <div class="post-content">
             ${post.text ? `<div class="post-text">${escape(post.text)}</div>` : ''}
             <div class="post-actions">
-              <i class="fa-regular fa-heart post-action like-btn" data-postid="${post.id}"></i>
+              <i class="fa-regular fa-heart post-action like-btn ${isLiked ? 'liked' : ''}" data-postid="${post.id}"></i>
               <i class="fa-regular fa-comment post-action comment-btn" data-postid="${post.id}"></i>
               <i class="fa-regular fa-paper-plane post-action share-btn" data-postid="${post.id}"></i>
             </div>
-            <div class="post-likes">${post.likes || 0} likes</div>
+            <div class="post-likes">${postLikes} likes</div>
             <div class="post-comments" id="comments-${post.id}"></div>
             <div class="comment-input">
               <input type="text" placeholder="Add a comment..." class="comment-text-input" data-postid="${post.id}" />
               <button class="comment-btn" data-postid="${post.id}">Post</button>
             </div>
-            <div class="post-timestamp">${formatDate(post.createdAt?.toDate())}</div>
+            <div class="post-timestamp">${formatDate(new Date(post.createdAt))}</div>
           </div>
         `;
       } else if (post.type === 'work') {
         postElement.innerHTML = `
           <div class="post-header">
-            <div class="avatar-small" style="${user.pic ? `background-image: url(${user.pic})` : ''}">${user.pic ? '' : user.username.charAt(0).toUpperCase()}</div>
-            <div class="post-username">${escape(user.username)}</div>
+            <div class="post-user-info">
+              <div class="avatar-small" style="${user.pic ? `background-image: url(${user.pic})` : ''}">${user.pic ? '' : user.username.charAt(0).toUpperCase()}</div>
+              <div class="post-username">${escape(user.username)}</div>
+            </div>
+            ${isOwnPost ? `<button class="post-delete" data-postid="${post.id}"><i class="fa-solid fa-trash"></i></button>` : ''}
           </div>
           <div class="post-content">
             <div class="post-text">${escape(post.text)}</div>
             ${post.link ? `<a href="${post.link}" target="_blank" class="work-link">${post.link}</a>` : ''}
             <div class="post-actions">
-              <i class="fa-regular fa-heart post-action like-btn" data-postid="${post.id}"></i>
+              <i class="fa-regular fa-heart post-action like-btn ${isLiked ? 'liked' : ''}" data-postid="${post.id}"></i>
               <i class="fa-regular fa-comment post-action comment-btn" data-postid="${post.id}"></i>
               <i class="fa-regular fa-paper-plane post-action share-btn" data-postid="${post.id}"></i>
             </div>
-            <div class="post-likes">${post.likes || 0} likes</div>
+            <div class="post-likes">${postLikes} likes</div>
             <div class="post-comments" id="comments-${post.id}"></div>
             <div class="comment-input">
               <input type="text" placeholder="Add a comment..." class="comment-text-input" data-postid="${post.id}" />
               <button class="comment-btn" data-postid="${post.id}">Post</button>
             </div>
-            <div class="post-timestamp">${formatDate(post.createdAt?.toDate())}</div>
+            <div class="post-timestamp">${formatDate(new Date(post.createdAt))}</div>
           </div>
         `;
       }
@@ -2421,6 +2288,7 @@
         const shareBtn = postElement.querySelector('.share-btn');
         const commentInput = postElement.querySelector('.comment-text-input');
         const commentPostBtn = postElement.querySelector('.comment-btn[data-postid]');
+        const deleteBtn = postElement.querySelector('.post-delete');
         
         if (likeBtn) {
           likeBtn.addEventListener('click', () => toggleLike(post.id));
@@ -2457,6 +2325,10 @@
             }
           });
         }
+        
+        if (deleteBtn) {
+          deleteBtn.addEventListener('click', () => deletePost(post.id));
+        }
       }, 100);
     }
 
@@ -2466,7 +2338,7 @@
       
       if (likeBtn) {
         if (isLiked) {
-          likeBtn.className = 'fa-solid fa-heart post-action like-btn';
+          likeBtn.className = 'fa-solid fa-heart post-action like-btn liked';
           likeBtn.style.color = 'var(--danger)';
         } else {
           likeBtn.className = 'fa-regular fa-heart post-action like-btn';
@@ -2479,68 +2351,56 @@
       }
     }
 
-    async function toggleLike(postId) {
-      const user = auth.currentUser;
-      if (!user) return;
+    function toggleLike(postId) {
+      if (!currentUser) return;
       
-      const likeRef = likesCollection
-        .where('postId', '==', postId)
-        .where('userId', '==', user.uid);
-        
-      const snapshot = await likeRef.get();
+      const existingLikeIndex = likes.findIndex(like => 
+        like.postId === postId && like.userId === currentUser.id
+      );
       
-      if (snapshot.empty) {
-        // Like the post
-        await likesCollection.add({
-          postId,
-          userId: user.uid,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-        
-        // Update post likes count
-        const postRef = postsCollection.doc(postId);
-        const postDoc = await postRef.get();
-        const currentLikes = postDoc.data().likes || 0;
-        
-        await postRef.update({
-          likes: currentLikes + 1
-        });
-        
-        showNotification('Liked!');
-      } else {
+      if (existingLikeIndex !== -1) {
         // Unlike the post
-        await snapshot.docs[0].ref.delete();
-        
-        // Update post likes count
-        const postRef = postsCollection.doc(postId);
-        const postDoc = await postRef.get();
-        const currentLikes = postDoc.data().likes || 0;
-        
-        await postRef.update({
-          likes: Math.max(0, currentLikes - 1)
-        });
-        
+        likes.splice(existingLikeIndex, 1);
         showNotification('Unliked');
+      } else {
+        // Like the post
+        likes.push({
+          id: uid(),
+          postId,
+          userId: currentUser.id,
+          createdAt: new Date().toISOString()
+        });
+        showNotification('Liked!');
+      }
+      
+      saveData();
+      
+      // Update UI
+      const postElement = $(`post-${postId}`);
+      if (postElement) {
+        const isLiked = likes.some(like => like.postId === postId && like.userId === currentUser.id);
+        const postLikes = likes.filter(like => like.postId === postId).length;
+        updateLikeButton(postElement, postLikes, isLiked);
       }
     }
 
-    async function addComment(postId, text) {
-      const user = auth.currentUser;
-      if (!user) return;
+    function addComment(postId, text) {
+      if (!currentUser) return;
       
-      try {
-        await commentsCollection.add({
-          postId,
-          userId: user.uid,
-          text,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-        
-        showNotification('Comment added!');
-      } catch (error) {
-        console.error('Error adding comment:', error);
-        showNotification('Error adding comment', 3000, true);
-      }
+      const newComment = {
+        id: uid(),
+        postId,
+        userId: currentUser.id,
+        text,
+        createdAt: new Date().toISOString()
+      };
+      
+      comments.push(newComment);
+      saveData();
+      
+      // Update UI
+      loadComments(postId);
+      showNotification('Comment added!');
     }
 
     function loadComments(postId) {
@@ -2549,31 +2409,25 @@
       
       commentsContainer.innerHTML = '';
       
-      commentsCollection
-        .where('postId', '==', postId)
-        .orderBy('createdAt', 'asc')
-        .onSnapshot(async (snapshot) => {
-          commentsContainer.innerHTML = '';
-          
-          if (snapshot.empty) return;
-          
-          for (const doc of snapshot.docs) {
-            const comment = doc.data();
-            const userDoc = await usersCollection.doc(comment.userId).get();
-            
-            if (!userDoc.exists) continue;
-            
-            const user = userDoc.data();
-            const commentElement = document.createElement('div');
-            commentElement.className = 'comment';
-            commentElement.innerHTML = `
-              <div class="comment-username">${escape(user.username)}</div>
-              <div class="comment-text">${escape(comment.text)}</div>
-            `;
-            
-            commentsContainer.appendChild(commentElement);
-          }
-        });
+      const postComments = comments
+        .filter(comment => comment.postId === postId)
+        .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+      
+      if (postComments.length === 0) return;
+      
+      postComments.forEach(comment => {
+        const user = users.find(u => u.id === comment.userId);
+        if (!user) return;
+        
+        const commentElement = document.createElement('div');
+        commentElement.className = 'comment';
+        commentElement.innerHTML = `
+          <div class="comment-username">${escape(user.username)}</div>
+          <div class="comment-text">${escape(comment.text)}</div>
+        `;
+        
+        commentsContainer.appendChild(commentElement);
+      });
     }
 
     function sharePost(postId) {
@@ -2594,70 +2448,148 @@
         });
     }
 
+    function deletePost(postId) {
+      if (!currentUser) return;
+      
+      // Remove post
+      const postIndex = posts.findIndex(p => p.id === postId);
+      if (postIndex !== -1 && posts[postIndex].userId === currentUser.id) {
+        posts.splice(postIndex, 1);
+        
+        // Remove associated likes and comments
+        const likeIndices = likes.map((like, index) => like.postId === postId ? index : -1).filter(i => i !== -1);
+        likeIndices.reverse().forEach(i => likes.splice(i, 1));
+        
+        const commentIndices = comments.map((comment, index) => comment.postId === postId ? index : -1).filter(i => i !== -1);
+        commentIndices.reverse().forEach(i => comments.splice(i, 1));
+        
+        saveData();
+        
+        // Update UI
+        const postElement = $(`post-${postId}`);
+        if (postElement) {
+          postElement.remove();
+        }
+        
+        // Reload profile if we're on the profile page
+        if (currentProfileUser && currentProfileUser.id === currentUser.id) {
+          loadProfileContent(currentUser.id);
+        }
+        
+        showNotification('Post deleted');
+      }
+    }
+
     // Load Profile
     function loadProfile(userId = null) {
-      const user = auth.currentUser;
-      if (!user) return;
+      if (!currentUser) return;
 
-      const profileUserId = userId || user.uid;
-      window.currentProfileUserId = profileUserId;
+      const profileUserId = userId || currentUser.id;
+      currentProfileUser = users.find(u => u.id === profileUserId) || currentUser;
       
-      usersCollection.doc(profileUserId).get().then(async (doc) => {
-        if (!doc.exists) return;
+      if (!currentProfileUser) return;
+      
+      const isOwnProfile = currentProfileUser.id === currentUser.id;
+
+      // Update profile elements
+      if (currentProfileUser.pic) {
+        $('profilePic').style.backgroundImage = `url(${currentProfileUser.pic})`;
+        $('profilePic').textContent = '';
+      } else {
+        $('profilePic').style.backgroundImage = '';
+        $('profilePic').textContent = currentProfileUser.username.charAt(0).toUpperCase();
+      }
+
+      $('profileUsername').textContent = currentProfileUser.username;
+      $('profileName').textContent = currentProfileUser.name || currentProfileUser.username;
+      $('profileBio').textContent = currentProfileUser.bio || 'No bio yet';
+      
+      if (currentProfileUser.website) {
+        $('profileWebsite').textContent = currentProfileUser.website;
+        $('profileWebsite').href = currentProfileUser.website;
+        $('profileWebsite').style.display = 'block';
+      } else {
+        $('profileWebsite').style.display = 'none';
+      }
+
+      // Get post count
+      const userPosts = posts.filter(p => p.userId === currentProfileUser.id);
+      
+      $('postCount').textContent = userPosts.length;
+      $('followerCount').textContent = currentProfileUser.followers ? currentProfileUser.followers.length : 0;
+      $('followingCount').textContent = currentProfileUser.following ? currentProfileUser.following.length : 0;
+
+      // Update action buttons
+      const profileButtons = $('profileButtons');
+      profileButtons.innerHTML = '';
+      
+      if (isOwnProfile) {
+        profileButtons.innerHTML = `
+          <button id="btnEditProfile" class="btn-edit">Edit Profile</button>
+          <button id="btnShareProfile" class="btn-message">Share Profile</button>
+        `;
         
-        const profileUser = doc.data();
-        const isOwnProfile = profileUser.uid === user.uid;
-
-        // Update profile elements
-        if (profileUser.pic) {
-          $('profilePic').style.backgroundImage = `url(${profileUser.pic})`;
-          $('profilePic').textContent = '';
-        } else {
-          $('profilePic').style.backgroundImage = '';
-          $('profilePic').textContent = profileUser.username.charAt(0).toUpperCase();
-        }
-
-        $('profileUsername').textContent = profileUser.username;
-        $('profileName').textContent = profileUser.name || profileUser.username;
-        $('profileBio').textContent = profileUser.bio || 'No bio yet';
+        $('btnEditProfile').addEventListener('click', () => {
+          $('editName').value = currentProfileUser.name || '';
+          $('editBio').value = currentProfileUser.bio || '';
+          $('editWebsite').value = currentProfileUser.website || '';
+          $('editModal').style.display = 'flex';
+        });
         
-        if (profileUser.website) {
-          $('profileWebsite').textContent = profileUser.website;
-          $('profileWebsite').href = profileUser.website;
-          $('profileWebsite').style.display = 'block';
-        } else {
-          $('profileWebsite').style.display = 'none';
-        }
-
-        // Get post count
-        const postsSnapshot = await postsCollection
-          .where('userId', '==', profileUserId)
-          .get();
+        $('btnShareProfile').addEventListener('click', () => {
+          const profileLink = `${window.location.origin}?profile=${currentProfileUser.id}`;
+          $('profileLink').value = profileLink;
+          $('shareProfileModal').style.display = 'flex';
+        });
+      } else {
+        const isFollowing = currentUser.following && currentUser.following.includes(currentProfileUser.id);
         
-        $('postCount').textContent = postsSnapshot.size;
-        $('followerCount').textContent = profileUser.followers ? profileUser.followers.length : 0;
-        $('followingCount').textContent = profileUser.following ? profileUser.following.length : 0;
+        profileButtons.innerHTML = `
+          <button id="btnFollow" class="${isFollowing ? 'btn-edit' : 'btn-follow'}">${isFollowing ? 'Following' : 'Follow'}</button>
+          <button id="btnMessage" class="btn-message">Message</button>
+          <button id="btnShareProfile" class="btn-message">Share Profile</button>
+        `;
+        
+        $('btnFollow').addEventListener('click', () => toggleFollow(currentProfileUser.id));
+        $('btnMessage').addEventListener('click', () => startNewChat(currentProfileUser.id));
+        $('btnShareProfile').addEventListener('click', () => {
+          const profileLink = `${window.location.origin}?profile=${currentProfileUser.id}`;
+          $('profileLink').value = profileLink;
+          $('shareProfileModal').style.display = 'flex';
+        });
+      }
 
-        // Update action buttons
-        if (isOwnProfile) {
-          $('btnEditProfile').style.display = 'block';
-          $('btnShareProfile').style.display = 'block';
-          $('btnFollow').style.display = 'none';
-        } else {
-          $('btnEditProfile').style.display = 'none';
-          $('btnShareProfile').style.display = 'none';
-          $('btnFollow').style.display = 'block';
-          
-          const currentUserDoc = await usersCollection.doc(user.uid).get();
-          const currentUser = currentUserDoc.data();
-          const isFollowing = currentUser.following && currentUser.following.includes(profileUser.uid);
-          $('btnFollow').textContent = isFollowing ? 'Following' : 'Follow';
-          $('btnFollow').className = isFollowing ? 'btn-edit' : 'btn-follow';
-        }
+      // Load profile content
+      loadProfileContent(currentProfileUser.id);
+    }
 
-        // Load profile content
-        loadProfileContent(profileUserId);
-      });
+    function toggleFollow(userId) {
+      if (!currentUser) return;
+      
+      const userToFollow = users.find(u => u.id === userId);
+      if (!userToFollow) return;
+      
+      const isFollowing = currentUser.following && currentUser.following.includes(userId);
+      
+      if (isFollowing) {
+        // Unfollow
+        currentUser.following = currentUser.following.filter(id => id !== userId);
+        userToFollow.followers = userToFollow.followers.filter(id => id !== currentUser.id);
+        showNotification(`Unfollowed ${userToFollow.username}`);
+      } else {
+        // Follow
+        if (!currentUser.following) currentUser.following = [];
+        if (!userToFollow.followers) userToFollow.followers = [];
+        
+        currentUser.following.push(userId);
+        userToFollow.followers.push(currentUser.id);
+        showNotification(`Following ${userToFollow.username}`);
+      }
+      
+      saveData();
+      
+      // Update UI
+      loadProfile(userId);
     }
 
     // Profile Tabs
@@ -2669,7 +2601,7 @@
         profileTabs.forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
         activeProfileTab = tab.getAttribute('data-tab');
-        loadProfileContent(window.currentProfileUserId || auth.currentUser.uid);
+        loadProfileContent(currentProfileUser.id);
       });
     });
 
@@ -2677,99 +2609,94 @@
       const profileContent = $('profileContent');
       profileContent.innerHTML = '';
 
-      let query = postsCollection.where('userId', '==', userId);
+      let userPosts = posts.filter(p => p.userId === userId);
       
       if (activeProfileTab === 'posts') {
-        query = query.where('type', '==', 'image');
+        userPosts = userPosts.filter(p => p.type === 'image');
       } else if (activeProfileTab === 'works') {
-        query = query.where('type', '==', 'work');
+        userPosts = userPosts.filter(p => p.type === 'work');
       } else if (activeProfileTab === 'certificates') {
-        query = query.where('type', '==', 'certificate');
+        userPosts = userPosts.filter(p => p.type === 'certificate');
       }
 
-      query.get().then(async (snapshot) => {
-        if (snapshot.empty) {
-          let emptyMessage = '';
-          if (activeProfileTab === 'posts') emptyMessage = 'No posts yet';
-          else if (activeProfileTab === 'works') emptyMessage = 'No works yet';
-          else if (activeProfileTab === 'certificates') emptyMessage = 'No certificates yet';
-          
-          profileContent.innerHTML = `
-            <div class="empty-state">
-              <i class="fa-solid fa-${activeProfileTab === 'posts' ? 'image' : activeProfileTab === 'works' ? 'briefcase' : 'certificate'}"></i>
-              <p>${emptyMessage}</p>
+      if (userPosts.length === 0) {
+        let emptyMessage = '';
+        if (activeProfileTab === 'posts') emptyMessage = 'No posts yet';
+        else if (activeProfileTab === 'works') emptyMessage = 'No works yet';
+        else if (activeProfileTab === 'certificates') emptyMessage = 'No certificates yet';
+        
+        profileContent.innerHTML = `
+          <div class="empty-state">
+            <i class="fa-solid fa-${activeProfileTab === 'posts' ? 'image' : activeProfileTab === 'works' ? 'briefcase' : 'certificate'}"></i>
+            <p>${emptyMessage}</p>
+          </div>
+        `;
+        return;
+      }
+
+      const user = users.find(u => u.id === userId);
+
+      if (activeProfileTab === 'works') {
+        const worksGrid = document.createElement('div');
+        worksGrid.className = 'works-grid';
+        
+        userPosts.forEach(post => {
+          const workElement = document.createElement('div');
+          workElement.className = 'work-item';
+          workElement.innerHTML = `
+            <div class="work-header">
+              <div class="avatar-small" style="${user.pic ? `background-image: url(${user.pic})` : ''}">${user.pic ? '' : user.username.charAt(0).toUpperCase()}</div>
+              <div class="work-username">${escape(user.username)}</div>
             </div>
+            <div class="work-content">${escape(post.text)}</div>
+            ${post.link ? `<a href="${post.link}" target="_blank" class="work-link">${post.link}</a>` : ''}
+            <div class="work-actions">
+              <i class="fa-regular fa-heart work-action"></i>
+              <i class="fa-regular fa-comment work-action"></i>
+              <i class="fa-regular fa-paper-plane work-action"></i>
+            </div>
+            <div class="work-likes">${likes.filter(like => like.postId === post.id).length} likes</div>
           `;
-          return;
-        }
-
-        const userDoc = await usersCollection.doc(userId).get();
-        const user = userDoc.data();
-
-        if (activeProfileTab === 'works') {
-          const worksGrid = document.createElement('div');
-          worksGrid.className = 'works-grid';
+          worksGrid.appendChild(workElement);
+        });
+        
+        profileContent.appendChild(worksGrid);
+      } else {
+        const contentGrid = document.createElement('div');
+        contentGrid.className = 'content-grid';
+        
+        userPosts.forEach(post => {
+          const contentElement = document.createElement('div');
+          contentElement.className = 'content-item';
           
-          snapshot.forEach(doc => {
-            const work = doc.data();
-            const workElement = document.createElement('div');
-            workElement.className = 'work-item';
-            workElement.innerHTML = `
-              <div class="work-header">
-                <div class="avatar-small" style="${user.pic ? `background-image: url(${user.pic})` : ''}">${user.pic ? '' : user.username.charAt(0).toUpperCase()}</div>
-                <div class="work-username">${escape(user.username)}</div>
+          if (post.file && post.type === 'image') {
+            contentElement.innerHTML = `
+              <img src="${post.file}" alt="Content image" />
+              <div class="content-overlay">
+                <div class="content-stat"><i class="fa-solid fa-heart"></i> ${likes.filter(like => like.postId === post.id).length}</div>
+                <div class="content-stat"><i class="fa-solid fa-comment"></i> ${comments.filter(comment => comment.postId === post.id).length}</div>
               </div>
-              <div class="work-content">${escape(work.text)}</div>
-              ${work.link ? `<a href="${work.link}" target="_blank" class="work-link">${work.link}</a>` : ''}
-              <div class="work-actions">
-                <i class="fa-regular fa-heart work-action"></i>
-                <i class="fa-regular fa-comment work-action"></i>
-                <i class="fa-regular fa-paper-plane work-action"></i>
-              </div>
-              <div class="work-likes">${work.likes || 0} likes</div>
             `;
-            worksGrid.appendChild(workElement);
-          });
-          
-          profileContent.appendChild(worksGrid);
-        } else {
-          const contentGrid = document.createElement('div');
-          contentGrid.className = 'content-grid';
-          
-          snapshot.forEach(doc => {
-            const content = doc.data();
-            const contentElement = document.createElement('div');
-            contentElement.className = 'content-item';
-            
-            if (content.file && content.fileType && content.fileType.startsWith('image/')) {
-              contentElement.innerHTML = `
-                <img src="${content.file}" alt="Content image" />
-                <div class="content-overlay">
-                  <div class="content-stat"><i class="fa-solid fa-heart"></i> ${content.likes || 0}</div>
-                  <div class="content-stat"><i class="fa-solid fa-comment"></i> ${content.comments ? content.comments.length : 0}</div>
+          } else if (post.type === 'certificate') {
+            contentElement.innerHTML = `
+              <div class="content-item-certificate">
+                <div>
+                  <i class="fa-solid fa-certificate" style="font-size: 32px; margin-bottom: 12px; color: var(--warning);"></i>
+                  <p>${escape(post.text || 'Certificate')}</p>
                 </div>
-              `;
-            } else if (content.type === 'certificate') {
-              contentElement.innerHTML = `
-                <div class="content-item-certificate">
-                  <div>
-                    <i class="fa-solid fa-certificate" style="font-size: 32px; margin-bottom: 12px; color: var(--warning);"></i>
-                    <p>${escape(content.text || 'Certificate')}</p>
-                  </div>
-                </div>
-              `;
-            } else {
-              contentElement.innerHTML = `
-                <div class="content-item-text">${escape(content.text)}</div>
-              `;
-            }
-            
-            contentGrid.appendChild(contentElement);
-          });
+              </div>
+            `;
+          } else {
+            contentElement.innerHTML = `
+              <div class="content-item-text">${escape(post.text)}</div>
+            `;
+          }
           
-          profileContent.appendChild(contentGrid);
-        }
-      });
+          contentGrid.appendChild(contentElement);
+        });
+        
+        profileContent.appendChild(contentGrid);
+      }
     }
 
     // Format date for display
@@ -2792,8 +2719,7 @@
 
     // Create Post
     $('btnPost').addEventListener('click', async () => {
-      const user = auth.currentUser;
-      if (!user) return;
+      if (!currentUser) return;
 
       const text = $('postText').value.trim();
       const fileInput = $('postFile');
@@ -2805,20 +2731,21 @@
       }
 
       let fileURL = null;
-      let fileType = null;
       let fileName = null;
       let link = null;
       
       if (file) {
-        try {
-          fileURL = await uploadFile(file, `posts/${user.uid}`);
-          fileType = file.type;
+        // In a real app, this would upload to a server
+        // For demo purposes, we'll use a data URL
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          fileURL = e.target.result;
           fileName = file.name;
-        } catch (error) {
-          console.error('Error uploading file:', error);
-          showNotification('Error uploading file', 3000, true);
-          return;
-        }
+          completePostCreation(text, fileURL, fileName, link);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        completePostCreation(text, fileURL, fileName, link);
       }
       
       // For work posts, extract link from text
@@ -2829,47 +2756,42 @@
           link = urls[0];
         }
       }
+    });
 
+    function completePostCreation(text, fileURL, fileName, link) {
       const newPost = {
         id: uid(),
-        userId: user.uid,
+        userId: currentUser.id,
         text,
         file: fileURL,
-        fileType,
         fileName,
         link,
         type: currentPostType,
-        likes: 0,
-        comments: [],
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        createdAt: new Date().toISOString()
       };
 
-      try {
-        await postsCollection.add(newPost);
-        $('postText').value = '';
-        fileInput.value = '';
-        $('filePreview').innerHTML = '';
-        showNotification('Post published!');
-      } catch (error) {
-        console.error('Error creating post:', error);
-        showNotification('Error publishing post', 3000, true);
+      posts.push(newPost);
+      saveData();
+      
+      $('postText').value = '';
+      $('postFile').value = '';
+      $('filePreview').innerHTML = '';
+      showNotification('Post published!');
+      
+      // Refresh feed and profile
+      loadFeed();
+      if (currentProfileUser && currentProfileUser.id === currentUser.id) {
+        loadProfileContent(currentUser.id);
       }
-    });
+    }
 
     // Edit Profile Modal
-    $('btnEditProfile').addEventListener('click', () => {
-      const user = auth.currentUser;
-      if (!user) return;
+    $('closeEditModal').addEventListener('click', () => {
+      $('editModal').style.display = 'none';
+    });
 
-      usersCollection.doc(user.uid).get().then((doc) => {
-        if (doc.exists) {
-          const userData = doc.data();
-          $('editName').value = userData.name || '';
-          $('editBio').value = userData.bio || '';
-          $('editWebsite').value = userData.website || '';
-          $('editModal').style.display = 'flex';
-        }
-      });
+    $('cancelEdit').addEventListener('click', () => {
+      $('editModal').style.display = 'none';
     });
 
     // Profile picture preview in edit modal
@@ -2892,66 +2814,45 @@
       }
     });
 
-    $('closeEditModal').addEventListener('click', () => {
-      $('editModal').style.display = 'none';
-    });
-
-    $('cancelEdit').addEventListener('click', () => {
-      $('editModal').style.display = 'none';
-    });
-
     $('saveEdit').addEventListener('click', async () => {
-      const user = auth.currentUser;
-      if (!user) return;
+      if (!currentUser) return;
 
       const name = $('editName').value.trim();
       const bio = $('editBio').value.trim();
       const website = $('editWebsite').value.trim();
       const picFile = $('editPic').files[0];
 
-      let picURL = null;
       if (picFile) {
-        try {
-          picURL = await uploadFile(picFile, `profile_pictures/${user.uid}`);
-        } catch (error) {
-          console.error('Error uploading image:', error);
-          showNotification('Error uploading image', 3000, true);
-          return;
-        }
-      }
-
-      const updates = {
-        name: name || '',
-        bio,
-        website,
-        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-      };
-
-      if (picURL) {
-        updates.pic = picURL;
-      }
-
-      try {
-        await usersCollection.doc(user.uid).update(updates);
-        $('editModal').style.display = 'none';
-        loadProfile();
-        showNotification('Profile updated!');
-      } catch (error) {
-        console.error('Error updating profile:', error);
-        showNotification('Error updating profile', 3000, true);
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          currentUser.pic = e.target.result;
+          completeProfileUpdate(name, bio, website);
+        };
+        reader.readAsDataURL(picFile);
+      } else {
+        completeProfileUpdate(name, bio, website);
       }
     });
+
+    function completeProfileUpdate(name, bio, website) {
+      currentUser.name = name || '';
+      currentUser.bio = bio;
+      currentUser.website = website;
+      
+      // Update user in users array
+      const userIndex = users.findIndex(u => u.id === currentUser.id);
+      if (userIndex !== -1) {
+        users[userIndex] = currentUser;
+      }
+      
+      saveData();
+      
+      $('editModal').style.display = 'none';
+      loadProfile();
+      showNotification('Profile updated!');
+    }
 
     // Share Profile
-    $('btnShareProfile').addEventListener('click', () => {
-      const user = auth.currentUser;
-      if (user) {
-        const profileLink = `${window.location.origin}?profile=${user.uid}`;
-        $('profileLink').value = profileLink;
-        $('shareProfileModal').style.display = 'flex';
-      }
-    });
-
     $('closeShareProfileModal').addEventListener('click', () => {
       $('shareProfileModal').style.display = 'none';
     });
@@ -2965,100 +2866,6 @@
       profileLink.select();
       document.execCommand('copy');
       showNotification('Profile link copied to clipboard!');
-    });
-
-    // Change Password
-    $('savePassword').addEventListener('click', () => {
-      const user = auth.currentUser;
-      if (!user) return;
-
-      const newPassword = $('newPassword').value;
-      const confirmPassword = $('confirmPassword').value;
-
-      if (!newPassword || !confirmPassword) {
-        showNotification('Please fill all fields', 3000, true);
-        return;
-      }
-
-      if (newPassword !== confirmPassword) {
-        showNotification('New passwords do not match', 3000, true);
-        return;
-      }
-
-      user.updatePassword(newPassword)
-        .then(() => {
-          $('currentPassword').value = '';
-          $('newPassword').value = '';
-          $('confirmPassword').value = '';
-          $('changePasswordModal').style.display = 'none';
-          showNotification('Password changed successfully!');
-        })
-        .catch((error) => {
-          console.error('Error changing password:', error);
-          showNotification(error.message, 3000, true);
-        });
-    });
-
-    $('closeChangePasswordModal').addEventListener('click', () => {
-      $('changePasswordModal').style.display = 'none';
-    });
-
-    $('cancelChangePassword').addEventListener('click', () => {
-      $('changePasswordModal').style.display = 'none';
-    });
-
-    // Follow/Unfollow functionality
-    $('btnFollow').addEventListener('click', async () => {
-      const user = auth.currentUser;
-      if (!user) return;
-
-      const profileUsername = $('profileUsername').textContent;
-      
-      try {
-        // Find the profile user
-        const profileUserQuery = await usersCollection.where('username', '==', profileUsername).get();
-        if (profileUserQuery.empty) return;
-        
-        const profileUserDoc = profileUserQuery.docs[0];
-        const profileUser = profileUserDoc.data();
-        const currentUserDoc = await usersCollection.doc(user.uid).get();
-        const currentUser = currentUserDoc.data();
-
-        // Initialize arrays if they don't exist
-        const currentUserFollowing = currentUser.following || [];
-        const profileUserFollowers = profileUser.followers || [];
-
-        const isFollowing = currentUserFollowing.includes(profileUser.uid);
-
-        if (isFollowing) {
-          // Unfollow
-          await usersCollection.doc(user.uid).update({
-            following: firebase.firestore.FieldValue.arrayRemove(profileUser.uid)
-          });
-          await usersCollection.doc(profileUser.uid).update({
-            followers: firebase.firestore.FieldValue.arrayRemove(user.uid)
-          });
-          $('btnFollow').textContent = 'Follow';
-          $('btnFollow').className = 'btn-follow';
-          showNotification(`Unfollowed ${profileUser.username}`);
-        } else {
-          // Follow
-          await usersCollection.doc(user.uid).update({
-            following: firebase.firestore.FieldValue.arrayUnion(profileUser.uid)
-          });
-          await usersCollection.doc(profileUser.uid).update({
-            followers: firebase.firestore.FieldValue.arrayUnion(user.uid)
-          });
-          $('btnFollow').textContent = 'Following';
-          $('btnFollow').className = 'btn-edit';
-          showNotification(`Following ${profileUser.username}`);
-        }
-
-        loadProfile(profileUser.uid);
-      } catch (error) {
-        console.error('Error following user:', error);
-        showNotification('Error following user', 3000, true);
-      }
     });
 
     // Search functionality
@@ -3081,42 +2888,39 @@
       const resultsContainer = $('searchResults');
       resultsContainer.innerHTML = '';
       
-      usersCollection
-        .where('username', '>=', query)
-        .where('username', '<=', query + '\uf8ff')
-        .limit(10)
-        .get()
-        .then(snapshot => {
-          if (snapshot.empty) {
-            resultsContainer.innerHTML = '<div class="search-result-item">No users found</div>';
-            resultsContainer.style.display = 'block';
-            return;
-          }
-          
-          snapshot.forEach(doc => {
-            const user = doc.data();
-            const resultItem = document.createElement('div');
-            resultItem.className = 'search-result-item';
-            resultItem.innerHTML = `
-              <div class="user-avatar" style="${user.pic ? `background-image: url(${user.pic})` : ''}">${user.pic ? '' : user.username.charAt(0).toUpperCase()}</div>
-              <div class="user-info">
-                <div class="user-name">${escape(user.username)}</div>
-                <div class="user-username">${escape(user.name || '')}</div>
-              </div>
-            `;
-            
-            resultItem.addEventListener('click', () => {
-              $('searchInput').value = '';
-              resultsContainer.style.display = 'none';
-              loadProfile(user.uid);
-              setActiveNav('navProfile');
-            });
-            
-            resultsContainer.appendChild(resultItem);
-          });
-          
-          resultsContainer.style.display = 'block';
+      const matchingUsers = users.filter(user => 
+        user.username.toLowerCase().includes(query.toLowerCase()) ||
+        (user.name && user.name.toLowerCase().includes(query.toLowerCase()))
+      ).slice(0, 10);
+      
+      if (matchingUsers.length === 0) {
+        resultsContainer.innerHTML = '<div class="search-result-item">No users found</div>';
+        resultsContainer.style.display = 'block';
+        return;
+      }
+      
+      matchingUsers.forEach(user => {
+        const resultItem = document.createElement('div');
+        resultItem.className = 'search-result-item';
+        resultItem.innerHTML = `
+          <div class="user-avatar" style="${user.pic ? `background-image: url(${user.pic})` : ''}">${user.pic ? '' : user.username.charAt(0).toUpperCase()}</div>
+          <div class="user-info">
+            <div class="user-name">${escape(user.username)}</div>
+            <div class="user-username">${escape(user.name || '')}</div>
+          </div>
+        `;
+        
+        resultItem.addEventListener('click', () => {
+          $('searchInput').value = '';
+          resultsContainer.style.display = 'none';
+          loadProfile(user.id);
+          setActiveNav('navProfile');
         });
+        
+        resultsContainer.appendChild(resultItem);
+      });
+      
+      resultsContainer.style.display = 'block';
     }
 
     // Close search results when clicking outside
@@ -3127,9 +2931,6 @@
     });
 
     // Chat functionality
-    let currentChatId = null;
-    let currentChatUser = null;
-
     $('headerChat').addEventListener('click', () => {
       loadChatList();
       $('chatListModal').style.display = 'flex';
@@ -3140,53 +2941,48 @@
     });
 
     function loadChatList() {
-      const user = auth.currentUser;
-      if (!user) return;
+      if (!currentUser) return;
 
       const chatList = $('chatList');
       chatList.innerHTML = '';
 
       // Get all chats where current user is a participant
-      chatsCollection
-        .where('participants', 'array-contains', user.uid)
-        .orderBy('lastMessageAt', 'desc')
-        .get()
-        .then(async (snapshot) => {
-          if (snapshot.empty) {
-            chatList.innerHTML = `
-              <div class="empty-state" style="padding: 20px;">
-                <i class="fa-regular fa-comment"></i>
-                <p>No messages yet</p>
-              </div>
-            `;
-            return;
-          }
+      const userChats = chats.filter(chat => 
+        chat.participants.includes(currentUser.id)
+      ).sort((a, b) => new Date(b.lastMessageAt) - new Date(a.lastMessageAt));
 
-          for (const doc of snapshot.docs) {
-            const chat = doc.data();
-            const otherUserId = chat.participants.find(id => id !== user.uid);
-            const otherUserDoc = await usersCollection.doc(otherUserId).get();
-            
-            if (!otherUserDoc.exists) continue;
-            
-            const otherUser = otherUserDoc.data();
-            const chatItem = document.createElement('div');
-            chatItem.className = 'chat-item';
-            chatItem.innerHTML = `
-              <div class="user-avatar" style="${otherUser.pic ? `background-image: url(${otherUser.pic})` : ''}">${otherUser.pic ? '' : otherUser.username.charAt(0).toUpperCase()}</div>
-              <div class="chat-info">
-                <div class="chat-username">${escape(otherUser.username)}</div>
-                <div class="chat-last-message">${escape(chat.lastMessage || 'No messages yet')}</div>
-              </div>
-            `;
-            
-            chatItem.addEventListener('click', () => {
-              openChat(doc.id, otherUser);
-            });
-            
-            chatList.appendChild(chatItem);
-          }
+      if (userChats.length === 0) {
+        chatList.innerHTML = `
+          <div class="empty-state" style="padding: 20px;">
+            <i class="fa-regular fa-comment"></i>
+            <p>No messages yet</p>
+          </div>
+        `;
+        return;
+      }
+
+      userChats.forEach(chat => {
+        const otherUserId = chat.participants.find(id => id !== currentUser.id);
+        const otherUser = users.find(u => u.id === otherUserId);
+        
+        if (!otherUser) return;
+        
+        const chatItem = document.createElement('div');
+        chatItem.className = 'chat-item';
+        chatItem.innerHTML = `
+          <div class="user-avatar" style="${otherUser.pic ? `background-image: url(${otherUser.pic})` : ''}">${otherUser.pic ? '' : otherUser.username.charAt(0).toUpperCase()}</div>
+          <div class="chat-info">
+            <div class="chat-username">${escape(otherUser.username)}</div>
+            <div class="chat-last-message">${escape(chat.lastMessage || 'No messages yet')}</div>
+          </div>
+        `;
+        
+        chatItem.addEventListener('click', () => {
+          openChat(chat.id, otherUser);
         });
+        
+        chatList.appendChild(chatItem);
+      });
     }
 
     function openChat(chatId, user) {
@@ -3218,27 +3014,25 @@
       const messagesContainer = $('chatMessages');
       messagesContainer.innerHTML = '';
 
-      chatsCollection.doc(chatId).collection('messages')
-        .orderBy('createdAt', 'asc')
-        .onSnapshot(snapshot => {
-          messagesContainer.innerHTML = '';
-          
-          snapshot.forEach(doc => {
-            const message = doc.data();
-            renderMessage(message, messagesContainer);
-          });
-          
-          // Scroll to bottom
-          messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        });
+      const chat = chats.find(c => c.id === chatId);
+      if (!chat || !chat.messages) return;
+      
+      // Sort messages by date
+      const sortedMessages = [...chat.messages].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+      
+      sortedMessages.forEach(message => {
+        renderMessage(message, messagesContainer);
+      });
+      
+      // Scroll to bottom
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
     }
 
     function renderMessage(message, container) {
-      const user = auth.currentUser;
-      if (!user) return;
+      if (!currentUser) return;
       
       const messageElement = document.createElement('div');
-      messageElement.className = `message ${message.senderId === user.uid ? 'sent' : 'received'}`;
+      messageElement.className = `message ${message.senderId === currentUser.id ? 'sent' : 'received'}`;
       
       let messageContent = escape(message.text);
       
@@ -3268,127 +3062,102 @@
 
     $('chatFile').addEventListener('change', async (e) => {
       const file = e.target.files[0];
-      if (!file) return;
+      if (!file || !currentChatId) return;
       
-      try {
-        const fileURL = await uploadFile(file, `chat_files/${currentChatId}`);
+      // In a real app, this would upload to a server
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const fileURL = e.target.result;
         
-        const user = auth.currentUser;
-        if (!user || !currentChatId) return;
+        const chat = chats.find(c => c.id === currentChatId);
+        if (!chat) return;
         
-        await chatsCollection.doc(currentChatId).collection('messages').add({
-          senderId: user.uid,
+        if (!chat.messages) chat.messages = [];
+        
+        chat.messages.push({
+          id: uid(),
+          senderId: currentUser.id,
           text: '',
           file: fileURL,
           fileName: file.name,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          createdAt: new Date().toISOString()
         });
         
-        // Update chat last message
-        await chatsCollection.doc(currentChatId).update({
-          lastMessage: `Sent a file: ${file.name}`,
-          lastMessageAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
+        chat.lastMessage = `Sent a file: ${file.name}`;
+        chat.lastMessageAt = new Date().toISOString();
+        
+        saveData();
         
         $('chatFile').value = '';
+        loadChatMessages(currentChatId);
         showNotification('File sent!');
-      } catch (error) {
-        console.error('Error sending file:', error);
-        showNotification('Error sending file', 3000, true);
-      }
+      };
+      reader.readAsDataURL(file);
     });
 
-    async function sendMessage() {
-      const user = auth.currentUser;
-      if (!user || !currentChatId) return;
+    function sendMessage() {
+      if (!currentUser || !currentChatId) return;
       
       const messageText = $('chatInput').value.trim();
       if (!messageText) return;
       
-      try {
-        await chatsCollection.doc(currentChatId).collection('messages').add({
-          senderId: user.uid,
-          text: messageText,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-        
-        // Update chat last message
-        await chatsCollection.doc(currentChatId).update({
-          lastMessage: messageText,
-          lastMessageAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-        
-        $('chatInput').value = '';
-      } catch (error) {
-        console.error('Error sending message:', error);
-        showNotification('Error sending message', 3000, true);
-      }
+      const chat = chats.find(c => c.id === currentChatId);
+      if (!chat) return;
+      
+      if (!chat.messages) chat.messages = [];
+      
+      chat.messages.push({
+        id: uid(),
+        senderId: currentUser.id,
+        text: messageText,
+        createdAt: new Date().toISOString()
+      });
+      
+      chat.lastMessage = messageText;
+      chat.lastMessageAt = new Date().toISOString();
+      
+      saveData();
+      
+      $('chatInput').value = '';
+      loadChatMessages(currentChatId);
     }
 
     // Start a new chat with a user
     function startNewChat(userId) {
-      const currentUser = auth.currentUser;
       if (!currentUser) return;
       
       // Check if chat already exists
-      chatsCollection
-        .where('participants', 'array-contains', currentUser.uid)
-        .get()
-        .then(snapshot => {
-          let existingChat = null;
-          
-          snapshot.forEach(doc => {
-            const chat = doc.data();
-            if (chat.participants.includes(userId)) {
-              existingChat = doc;
-            }
-          });
-          
-          if (existingChat) {
-            // Open existing chat
-            usersCollection.doc(userId).get().then(userDoc => {
-              if (userDoc.exists) {
-                openChat(existingChat.id, userDoc.data());
-              }
-            });
-          } else {
-            // Create new chat
-            const chatId = uid();
-            chatsCollection.doc(chatId).set({
-              id: chatId,
-              participants: [currentUser.uid, userId],
-              createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-              lastMessage: '',
-              lastMessageAt: firebase.firestore.FieldValue.serverTimestamp()
-            }).then(() => {
-              usersCollection.doc(userId).get().then(userDoc => {
-                if (userDoc.exists) {
-                  openChat(chatId, userDoc.data());
-                }
-              });
-            });
-          }
-        });
-    }
-
-    // Add message button to user items in followers/following modals
-    function addMessageButtonToUserItems() {
-      document.querySelectorAll('.user-item').forEach(item => {
-        const userId = item.getAttribute('data-userid');
-        if (userId) {
-          const messageBtn = document.createElement('button');
-          messageBtn.className = 'user-action';
-          messageBtn.innerHTML = '<i class="fa-regular fa-comment"></i>';
-          messageBtn.style.marginLeft = '8px';
-          messageBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            startNewChat(userId);
-            $('followersModal').style.display = 'none';
-            $('followingModal').style.display = 'none';
-          });
-          item.appendChild(messageBtn);
+      const existingChat = chats.find(chat => 
+        chat.participants.includes(currentUser.id) && 
+        chat.participants.includes(userId)
+      );
+      
+      if (existingChat) {
+        // Open existing chat
+        const otherUser = users.find(u => u.id === userId);
+        if (otherUser) {
+          openChat(existingChat.id, otherUser);
         }
-      });
+      } else {
+        // Create new chat
+        const chatId = uid();
+        const newChat = {
+          id: chatId,
+          participants: [currentUser.id, userId],
+          messages: [],
+          createdAt: new Date().toISOString(),
+          lastMessage: '',
+          lastMessageAt: new Date().toISOString()
+        };
+        
+        chats.push(newChat);
+        saveData();
+        
+        const otherUser = users.find(u => u.id === userId);
+        if (otherUser) {
+          openChat(chatId, otherUser);
+        }
+      }
     }
 
     // Organizations functionality
@@ -3396,53 +3165,46 @@
       const organizationsList = $('organizationsList');
       organizationsList.innerHTML = '';
 
-      // Real-time listener for organizations
-      organizationsCollection.onSnapshot((snapshot) => {
-        organizationsList.innerHTML = '';
+      if (organizations.length === 0) {
+        organizationsList.innerHTML = `
+          <div class="empty-state" style="grid-column: 1 / -1;">
+            <i class="fa-solid fa-building"></i>
+            <p>No organizations yet. Create the first one!</p>
+          </div>
+        `;
+        return;
+      }
 
-        if (snapshot.empty) {
-          organizationsList.innerHTML = `
-            <div class="empty-state" style="grid-column: 1 / -1;">
-              <i class="fa-solid fa-building"></i>
-              <p>No organizations yet. Create the first one!</p>
+      organizations.forEach(organization => {
+        const organizationElement = document.createElement('div');
+        organizationElement.className = 'organization-card';
+        organizationElement.innerHTML = `
+          <div class="organization-header">
+            <div class="organization-avatar">${organization.name.charAt(0).toUpperCase()}</div>
+            <div class="organization-info">
+              <div class="organization-name">${escape(organization.name)}</div>
+              <div class="organization-members">${organization.members.length} members</div>
             </div>
-          `;
-          return;
-        }
+          </div>
+          <div class="organization-description">${escape(organization.description)}</div>
+          <div class="organization-actions">
+            <button class="btn-primary" style="width: 100%;" data-organizationid="${organization.id}">Join Organization</button>
+          </div>
+        `;
+        organizationsList.appendChild(organizationElement);
+      });
 
-        snapshot.forEach(doc => {
-          const organization = doc.data();
-          const organizationElement = document.createElement('div');
-          organizationElement.className = 'organization-card';
-          organizationElement.innerHTML = `
-            <div class="organization-header">
-              <div class="organization-avatar">${organization.name.charAt(0).toUpperCase()}</div>
-              <div class="organization-info">
-                <div class="organization-name">${escape(organization.name)}</div>
-                <div class="organization-members">${organization.members.length} members</div>
-              </div>
-            </div>
-            <div class="organization-description">${escape(organization.description)}</div>
-            <div class="organization-actions">
-              <button class="btn-primary" style="width: 100%;" data-organizationid="${doc.id}">Join Organization</button>
-            </div>
-          `;
-          organizationsList.appendChild(organizationElement);
-        });
-
-        // Add event listeners to join buttons
-        document.querySelectorAll('[data-organizationid]').forEach(button => {
-          button.addEventListener('click', (e) => {
-            const organizationId = e.target.getAttribute('data-organizationid');
-            joinOrganization(organizationId);
-          });
+      // Add event listeners to join buttons
+      document.querySelectorAll('[data-organizationid]').forEach(button => {
+        button.addEventListener('click', (e) => {
+          const organizationId = e.target.getAttribute('data-organizationid');
+          joinOrganization(organizationId);
         });
       });
     }
 
     $('btnCreateOrganization').addEventListener('click', async () => {
-      const user = auth.currentUser;
-      if (!user) return;
+      if (!currentUser) return;
 
       const name = $('organizationName').value.trim();
       const description = $('organizationDescription').value.trim();
@@ -3456,34 +3218,33 @@
         id: uid(),
         name,
         description,
-        creatorId: user.uid,
-        members: [user.uid],
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        creatorId: currentUser.id,
+        members: [currentUser.id],
+        createdAt: new Date().toISOString()
       };
 
-      try {
-        await organizationsCollection.add(newOrganization);
-        $('organizationName').value = '';
-        $('organizationDescription').value = '';
-        showNotification('Organization created!');
-      } catch (error) {
-        console.error('Error creating organization:', error);
-        showNotification('Error creating organization', 3000, true);
-      }
+      organizations.push(newOrganization);
+      saveData();
+      
+      $('organizationName').value = '';
+      $('organizationDescription').value = '';
+      loadOrganizations();
+      showNotification('Organization created!');
     });
 
-    async function joinOrganization(organizationId) {
-      const user = auth.currentUser;
-      if (!user) return;
+    function joinOrganization(organizationId) {
+      if (!currentUser) return;
 
-      try {
-        await organizationsCollection.doc(organizationId).update({
-          members: firebase.firestore.FieldValue.arrayUnion(user.uid)
-        });
+      const organization = organizations.find(o => o.id === organizationId);
+      if (!organization) return;
+
+      if (!organization.members.includes(currentUser.id)) {
+        organization.members.push(currentUser.id);
+        saveData();
+        loadOrganizations();
         showNotification('Joined organization!');
-      } catch (error) {
-        console.error('Error joining organization:', error);
-        showNotification('Error joining organization', 3000, true);
+      } else {
+        showNotification('You are already a member of this organization');
       }
     }
 
@@ -3492,42 +3253,36 @@
       const gigsList = $('gigsList');
       gigsList.innerHTML = '';
 
-      // Real-time listener for gigs
-      gigsCollection.onSnapshot((snapshot) => {
-        gigsList.innerHTML = '';
+      if (gigs.length === 0) {
+        gigsList.innerHTML = `
+          <div class="empty-state" style="grid-column: 1 / -1;">
+            <i class="fa-solid fa-briefcase"></i>
+            <p>No gigs available yet. Check back later!</p>
+          </div>
+        `;
+        return;
+      }
 
-        if (snapshot.empty) {
-          gigsList.innerHTML = `
-            <div class="empty-state" style="grid-column: 1 / -1;">
-              <i class="fa-solid fa-briefcase"></i>
-              <p>No gigs available yet. Check back later!</p>
-            </div>
-          `;
-          return;
-        }
+      gigs.forEach(gig => {
+        const gigElement = document.createElement('div');
+        gigElement.className = 'gig-card';
+        gigElement.innerHTML = `
+          <div class="gig-header">
+            <div class="gig-title">${escape(gig.title)}</div>
+          </div>
+          <div class="gig-description">${escape(gig.description)}</div>
+          <div class="gig-actions">
+            <button class="btn-primary" style="width: 100%;" data-gigid="${gig.id}">Apply Now</button>
+          </div>
+        `;
+        gigsList.appendChild(gigElement);
+      });
 
-        snapshot.forEach(doc => {
-          const gig = doc.data();
-          const gigElement = document.createElement('div');
-          gigElement.className = 'gig-card';
-          gigElement.innerHTML = `
-            <div class="gig-header">
-              <div class="gig-title">${escape(gig.title)}</div>
-            </div>
-            <div class="gig-description">${escape(gig.description)}</div>
-            <div class="gig-actions">
-              <button class="btn-primary" style="width: 100%;" data-gigid="${doc.id}">Apply Now</button>
-            </div>
-          `;
-          gigsList.appendChild(gigElement);
-        });
-
-        // Add event listeners to apply buttons
-        document.querySelectorAll('[data-gigid]').forEach(button => {
-          button.addEventListener('click', (e) => {
-            const gigId = e.target.getAttribute('data-gigid');
-            openGigApplication(gigId);
-          });
+      // Add event listeners to apply buttons
+      document.querySelectorAll('[data-gigid]').forEach(button => {
+        button.addEventListener('click', (e) => {
+          const gigId = e.target.getAttribute('data-gigid');
+          openGigApplication(gigId);
         });
       });
     }
@@ -3546,8 +3301,7 @@
     });
 
     $('submitGigApplication').addEventListener('click', async () => {
-      const user = auth.currentUser;
-      if (!user) return;
+      if (!currentUser) return;
 
       const email = $('applicationEmail').value.trim();
       const phone = $('applicationPhone').value.trim();
@@ -3558,80 +3312,71 @@
         return;
       }
 
-      try {
-        await gigApplicationsCollection.add({
-          gigId: window.currentGigId,
-          userId: user.uid,
-          email,
-          phone,
-          message,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
+      const newApplication = {
+        id: uid(),
+        gigId: window.currentGigId,
+        userId: currentUser.id,
+        email,
+        phone,
+        message,
+        createdAt: new Date().toISOString()
+      };
 
-        $('applicationEmail').value = '';
-        $('applicationPhone').value = '';
-        $('applicationMessage').value = '';
-        $('gigApplicationModal').style.display = 'none';
-        showNotification('Application submitted successfully!');
-      } catch (error) {
-        console.error('Error submitting application:', error);
-        showNotification('Error submitting application', 3000, true);
-      }
+      gigApplications.push(newApplication);
+      saveData();
+
+      $('applicationEmail').value = '';
+      $('applicationPhone').value = '';
+      $('applicationMessage').value = '';
+      $('gigApplicationModal').style.display = 'none';
+      showNotification('Application submitted successfully!');
     });
 
     // Initialize with some sample gigs
     function initializeGigs() {
-      gigsCollection.get().then(snapshot => {
-        if (snapshot.empty) {
-          const sampleGigs = [
-            {
-              title: "Web Developer Intern",
-              description: "Looking for a web developer intern with knowledge of HTML, CSS, and JavaScript. Remote position available.",
-              createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            },
-            {
-              title: "Graphic Designer",
-              description: "Need a creative graphic designer for social media content. Experience with Adobe Creative Suite preferred.",
-              createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            },
-            {
-              title: "Content Writer",
-              description: "Seeking a skilled content writer for blog posts and articles. Must have excellent writing skills.",
-              createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            }
-          ];
-          
-          sampleGigs.forEach(gig => {
-            gigsCollection.add(gig);
-          });
-        }
-      });
+      if (gigs.length === 0) {
+        const sampleGigs = [
+          {
+            id: uid(),
+            title: "Web Developer Intern",
+            description: "Looking for a web developer intern with knowledge of HTML, CSS, and JavaScript. Remote position available.",
+            createdAt: new Date().toISOString()
+          },
+          {
+            id: uid(),
+            title: "Graphic Designer",
+            description: "Need a creative graphic designer for social media content. Experience with Adobe Creative Suite preferred.",
+            createdAt: new Date().toISOString()
+          },
+          {
+            id: uid(),
+            title: "Content Writer",
+            description: "Seeking a skilled content writer for blog posts and articles. Must have excellent writing skills.",
+            createdAt: new Date().toISOString()
+          }
+        ];
+        
+        gigs.push(...sampleGigs);
+        saveData();
+      }
     }
 
-    // Initialize app and Firebase auth state listener
+    // Initialize app
     document.addEventListener('DOMContentLoaded', () => {
-      // Firebase auth state observer
-      auth.onAuthStateChanged((user) => {
-        if (user) {
-          loadApp();
-          initializeGigs();
-        } else {
-          authScreen.style.display = 'flex';
-          appScreen.style.display = 'none';
-        }
-      });
+      // Check if user is already logged in
+      if (currentUser) {
+        loadApp();
+      } else {
+        authScreen.style.display = 'flex';
+        appScreen.style.display = 'none';
+      }
 
       // Check for profile parameter in URL
       const urlParams = new URLSearchParams(window.location.search);
       const profileId = urlParams.get('profile');
-      if (profileId) {
-        // This would be used when someone shares their profile link
-        auth.onAuthStateChanged((user) => {
-          if (user) {
-            loadProfile(profileId);
-            setActiveNav('navProfile');
-          }
-        });
+      if (profileId && currentUser) {
+        loadProfile(profileId);
+        setActiveNav('navProfile');
       }
     });
   </script>
