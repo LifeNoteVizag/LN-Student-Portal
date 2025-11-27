@@ -14,13 +14,13 @@
       --border: #dbdbdb;
       --text: #262626;
       --text-secondary: #737373;
-      --accent: #0095f6;
-      --accent-hover: #1877f2;
+      --accent: #5c6bc0;
+      --accent-hover: #3f51b5;
       --hover-bg: #fafafa;
       --danger: #ed4956;
       --success: #42b883;
       --warning: #ffc107;
-      --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --gradient: linear-gradient(135deg, #5c6bc0 0%, #3949ab 100%);
     }
 
     [data-theme="dark"] {
@@ -29,8 +29,8 @@
       --border: #333333;
       --text: #ffffff;
       --text-secondary: #a8a8a8;
-      --accent: #4a90e2;
-      --accent-hover: #357abd;
+      --accent: #7986cb;
+      --accent-hover: #5c6bc0;
       --hover-bg: #2a2a2a;
       --danger: #e74c3c;
       --success: #2ecc71;
@@ -102,7 +102,7 @@
 
     .input-field:focus {
       border-color: var(--accent);
-      box-shadow: 0 0 0 2px rgba(0, 149, 246, 0.2);
+      box-shadow: 0 0 0 2px rgba(92, 107, 192, 0.2);
     }
 
     .file-input-wrapper {
@@ -589,15 +589,15 @@
       gap: 5px;
     }
 
-    /* NOTES GRID */
-    .notes-grid {
+    /* WORKS GRID */
+    .works-grid {
       display: flex;
       flex-direction: column;
       gap: 16px;
       margin-top: 28px;
     }
 
-    .note-item {
+    .work-item {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 12px;
@@ -606,48 +606,60 @@
       transition: transform 0.2s;
     }
 
-    .note-item:hover {
+    .work-item:hover {
       transform: translateY(-2px);
     }
 
-    .note-header {
+    .work-header {
       display: flex;
       align-items: center;
       gap: 12px;
       margin-bottom: 12px;
     }
 
-    .note-username {
+    .work-username {
       font-weight: 600;
       font-size: 14px;
       color: var(--text);
     }
 
-    .note-content {
+    .work-content {
       font-size: 14px;
       line-height: 1.5;
       margin-bottom: 12px;
       color: var(--text);
     }
 
-    .note-actions {
+    .work-link {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    .work-link:hover {
+      text-decoration: underline;
+    }
+
+    .work-actions {
       display: flex;
       gap: 16px;
       margin-bottom: 8px;
     }
 
-    .note-action {
+    .work-action {
       font-size: 16px;
       cursor: pointer;
       color: var(--text-secondary);
       transition: color 0.2s;
     }
 
-    .note-action:hover {
+    .work-action:hover {
       color: var(--accent);
     }
 
-    .note-likes {
+    .work-likes {
       font-size: 12px;
       color: var(--text-secondary);
     }
@@ -830,13 +842,13 @@
       text-transform: uppercase;
     }
 
-    /* GROUPS VIEW */
-    .groups-container {
+    /* ORGANIZATIONS VIEW */
+    .organizations-container {
       max-width: 800px;
       margin: 0 auto;
     }
 
-    .create-group {
+    .create-organization {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 12px;
@@ -845,20 +857,20 @@
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     }
 
-    .create-group-header {
+    .create-organization-header {
       display: flex;
       gap: 12px;
       align-items: flex-start;
       margin-bottom: 12px;
     }
 
-    .groups-list {
+    .organizations-list {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       gap: 20px;
     }
 
-    .group-card {
+    .organization-card {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 12px;
@@ -867,18 +879,18 @@
       transition: transform 0.2s;
     }
 
-    .group-card:hover {
+    .organization-card:hover {
       transform: translateY(-5px);
     }
 
-    .group-header {
+    .organization-header {
       display: flex;
       align-items: center;
       gap: 12px;
       margin-bottom: 12px;
     }
 
-    .group-avatar {
+    .organization-avatar {
       width: 50px;
       height: 50px;
       border-radius: 50%;
@@ -894,29 +906,79 @@
       background-position: center;
     }
 
-    .group-info {
+    .organization-info {
       flex: 1;
     }
 
-    .group-name {
+    .organization-name {
       font-weight: 600;
       font-size: 16px;
       margin-bottom: 4px;
     }
 
-    .group-members {
+    .organization-members {
       font-size: 14px;
       color: var(--text-secondary);
     }
 
-    .group-description {
+    .organization-description {
       font-size: 14px;
       line-height: 1.5;
       margin-bottom: 12px;
       color: var(--text);
     }
 
-    .group-actions {
+    .organization-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    /* GIGS VIEW */
+    .gigs-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .gigs-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .gig-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s;
+    }
+
+    .gig-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .gig-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .gig-title {
+      font-weight: 600;
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+
+    .gig-description {
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+
+    .gig-actions {
       display: flex;
       gap: 8px;
     }
@@ -1179,6 +1241,28 @@
       background: var(--accent-hover);
     }
 
+    /* SETTINGS MODAL */
+    .settings-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .settings-item {
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .settings-item:hover {
+      background: var(--hover-bg);
+    }
+
+    .settings-item:last-child {
+      border-bottom: none;
+    }
+
     /* RESPONSIVE */
     @media(max-width: 768px) {
       .profile-header {
@@ -1214,7 +1298,7 @@
         gap: 8px;
       }
 
-      .groups-list {
+      .organizations-list, .gigs-list {
         grid-template-columns: 1fr;
       }
     }
@@ -1303,7 +1387,8 @@
     <header class="app-header">
       <div class="header-logo">LN Portal</div>
       <div class="header-icons">
-        <!-- Theme toggle removed from header - now only in profile -->
+        <i id="headerChat" class="fa-regular fa-comment header-icon"></i>
+        <i id="headerSettings" class="fa-solid fa-gear header-icon"></i>
       </div>
     </header>
 
@@ -1318,7 +1403,7 @@
           </div>
           <div class="post-options">
             <button id="postTypeImage" class="post-option active" data-type="image">Image</button>
-            <button id="postTypeNote" class="post-option" data-type="note">Note</button>
+            <button id="postTypeWork" class="post-option" data-type="work">Work</button>
             <button id="postTypeCertificate" class="post-option" data-type="certificate">Certificate</button>
           </div>
           <div class="create-post-actions">
@@ -1342,7 +1427,7 @@
               <h2 id="profileUsername" class="profile-username">username</h2>
               <div class="profile-actions">
                 <button id="btnEditProfile" class="btn-edit">Edit Profile</button>
-                <button id="btnMessage" class="btn-message">Message</button>
+                <button id="btnShareProfile" class="btn-message">Share Profile</button>
                 <button id="btnFollow" class="btn-follow">Follow</button>
               </div>
             </div>
@@ -1356,11 +1441,6 @@
               <div id="profileBio">No bio yet</div>
               <a id="profileWebsite" href="#" class="profile-website" target="_blank"></a>
             </div>
-            <div class="profile-settings">
-              <i id="themeToggleProfile" class="fa-solid fa-moon theme-toggle" style="font-size: 20px; cursor: pointer;"></i>
-              <button id="btnChangePassword" class="btn-settings">Change Password</button>
-              <button id="btnLogoutProfile" class="btn-settings">Log Out</button>
-            </div>
           </div>
         </div>
 
@@ -1369,13 +1449,13 @@
             <i class="fa-solid fa-image"></i>
             POSTS
           </div>
-          <div class="tab" data-tab="notes">
-            <i class="fa-solid fa-note-sticky"></i>
-            NOTES
+          <div class="tab" data-tab="works">
+            <i class="fa-solid fa-briefcase"></i>
+            WORKS
           </div>
-          <div class="tab" data-tab="MILESTONES">
+          <div class="tab" data-tab="certificates">
             <i class="fa-solid fa-certificate"></i>
-            MILESTONES
+            CERTIFICATES
           </div>
         </div>
 
@@ -1384,28 +1464,28 @@
         </div>
       </div>
 
-      <!-- GROUPS VIEW -->
-      <div id="groupsView" class="groups-container hide">
-        <div class="create-group">
-          <div class="create-group-header">
-            <div id="groupAvatar" class="avatar-small">U</div>
-            <textarea id="groupName" class="post-textarea" placeholder="Group name"></textarea>
+      <!-- ORGANIZATIONS VIEW -->
+      <div id="organizationsView" class="organizations-container hide">
+        <div class="create-organization">
+          <div class="create-organization-header">
+            <div id="organizationAvatar" class="avatar-small">U</div>
+            <textarea id="organizationName" class="post-textarea" placeholder="Organization name"></textarea>
           </div>
-          <div class="create-group-header">
-            <textarea id="groupDescription" class="post-textarea" placeholder="Group description"></textarea>
+          <div class="create-organization-header">
+            <textarea id="organizationDescription" class="post-textarea" placeholder="Organization description"></textarea>
           </div>
           <div class="create-post-actions">
-            <button id="btnCreateGroup" class="btn-primary" style="width: auto; margin: 0; padding: 7px 24px;">Create Group</button>
+            <button id="btnCreateOrganization" class="btn-primary" style="width: auto; margin: 0; padding: 7px 24px;">Create Organization</button>
           </div>
         </div>
-        <div id="groupsList" class="groups-list"></div>
+        <div id="organizationsList" class="organizations-list"></div>
       </div>
 
-      <!-- CHATS VIEW -->
-      <div id="chatsView" class="feed-container hide">
+      <!-- GIGS VIEW -->
+      <div id="gigsView" class="gigs-container hide">
         <div class="create-post">
-          <h3 style="margin-bottom: 16px;">Your Conversations</h3>
-          <div id="conversationsList"></div>
+          <h3 style="margin-bottom: 16px;">Available Gigs</h3>
+          <div id="gigsList" class="gigs-list"></div>
         </div>
       </div>
     </main>
@@ -1413,8 +1493,8 @@
     <!-- FOOTER NAVIGATION -->
     <footer class="app-footer">
       <i id="navFeed" class="fa-solid fa-home footer-icon active"></i>
-      <i id="navGroups" class="fa-solid fa-users footer-icon"></i>
-      <i id="navChats" class="fa-solid fa-comments footer-icon"></i>
+      <i id="navOrganizations" class="fa-solid fa-building footer-icon"></i>
+      <i id="navGigs" class="fa-solid fa-briefcase footer-icon"></i>
       <i id="navProfile" class="fa-solid fa-user footer-icon"></i>
     </footer>
 
@@ -1446,6 +1526,32 @@
           <div class="modal-actions">
             <button id="cancelEdit" class="btn-secondary">Cancel</button>
             <button id="saveEdit" class="btn-primary">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SETTINGS MODAL -->
+    <div id="settingsModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          Settings
+          <span id="closeSettingsModal" class="modal-close">&times;</span>
+        </div>
+        <div class="modal-body">
+          <div class="settings-list">
+            <div class="settings-item" id="settingsTheme">
+              <i class="fa-solid fa-moon" style="margin-right: 12px;"></i>
+              <span>Switch Theme</span>
+            </div>
+            <div class="settings-item" id="settingsChangePassword">
+              <i class="fa-solid fa-key" style="margin-right: 12px;"></i>
+              <span>Change Password</span>
+            </div>
+            <div class="settings-item" id="settingsLogout">
+              <i class="fa-solid fa-right-from-bracket" style="margin-right: 12px;"></i>
+              <span>Log Out</span>
+            </div>
           </div>
         </div>
       </div>
@@ -1522,18 +1628,21 @@
       </div>
     </div>
 
-    <!-- GROUP CHAT MODAL -->
-    <div id="groupChatModal" class="modal">
+    <!-- SHARE PROFILE MODAL -->
+    <div id="shareProfileModal" class="modal">
       <div class="modal-content">
         <div class="modal-header">
-          <span id="groupChatName">Group Name</span>
-          <span id="closeGroupChatModal" class="modal-close">&times;</span>
+          Share Profile
+          <span id="closeShareProfileModal" class="modal-close">&times;</span>
         </div>
-        <div class="chat-container">
-          <div id="groupChatMessages" class="chat-messages"></div>
-          <div class="chat-input">
-            <input id="groupChatInput" type="text" placeholder="Type a message..." />
-            <button id="sendGroupMessage" class="chat-send">Send</button>
+        <div class="modal-body">
+          <p style="margin-bottom: 16px;">Share your profile link with others:</p>
+          <div class="input-field" style="display: flex; align-items: center;">
+            <input id="profileLink" type="text" readonly style="flex: 1; border: none; background: transparent;" />
+            <button id="copyProfileLink" class="btn-primary" style="width: auto; margin: 0; padding: 7px 12px;">Copy</button>
+          </div>
+          <div class="modal-actions">
+            <button id="closeShareProfile" class="btn-secondary">Close</button>
           </div>
         </div>
       </div>
@@ -1552,12 +1661,12 @@
       saveUsers(u) { localStorage.setItem('ln_users', JSON.stringify(u)) },
       getPosts() { return JSON.parse(localStorage.getItem('ln_posts') || '[]') },
       savePosts(p) { localStorage.setItem('ln_posts', JSON.stringify(p)) },
-      getGroups() { return JSON.parse(localStorage.getItem('ln_groups') || '[]') },
-      saveGroups(g) { localStorage.setItem('ln_groups', JSON.stringify(g)) },
+      getOrganizations() { return JSON.parse(localStorage.getItem('ln_organizations') || '[]') },
+      saveOrganizations(o) { localStorage.setItem('ln_organizations', JSON.stringify(o)) },
+      getGigs() { return JSON.parse(localStorage.getItem('ln_gigs') || '[]') },
+      saveGigs(g) { localStorage.setItem('ln_gigs', JSON.stringify(g)) },
       getChats() { return JSON.parse(localStorage.getItem('ln_chats') || '{}') },
       saveChats(c) { localStorage.setItem('ln_chats', JSON.stringify(c)) },
-      getGroupChats() { return JSON.parse(localStorage.getItem('ln_group_chats') || '{}') },
-      saveGroupChats(gc) { localStorage.setItem('ln_group_chats', JSON.stringify(gc)) },
       setSession(e) { localStorage.setItem('ln_session', e) },
       getSession() { return localStorage.getItem('ln_session') },
       clearSession() { localStorage.removeItem('ln_session') },
@@ -1594,19 +1703,39 @@
       }, duration);
     }
 
-    // Theme Toggle (now only in profile)
-    const themeToggleProfile = $('themeToggleProfile');
+    // Theme Toggle
     function applyTheme(theme) {
       document.documentElement.setAttribute('data-theme', theme);
-      themeToggleProfile.className = theme === 'dark' ? 'fa-solid fa-sun theme-toggle' : 'fa-solid fa-moon theme-toggle';
     }
     applyTheme(DB.getTheme());
 
-    themeToggleProfile.addEventListener('click', () => {
+    // Settings Modal
+    $('headerSettings').addEventListener('click', () => {
+      $('settingsModal').style.display = 'flex';
+    });
+
+    $('closeSettingsModal').addEventListener('click', () => {
+      $('settingsModal').style.display = 'none';
+    });
+
+    $('settingsTheme').addEventListener('click', () => {
       const current = DB.getTheme();
       const newTheme = current === 'light' ? 'dark' : 'light';
       DB.setTheme(newTheme);
       applyTheme(newTheme);
+      showNotification(`Theme changed to ${newTheme}`);
+    });
+
+    $('settingsChangePassword').addEventListener('click', () => {
+      $('settingsModal').style.display = 'none';
+      $('changePasswordModal').style.display = 'flex';
+    });
+
+    $('settingsLogout').addEventListener('click', () => {
+      DB.clearSession();
+      authScreen.style.display = 'flex';
+      appScreen.style.display = 'none';
+      showNotification('Logged out successfully!');
     });
 
     // Auth Forms
@@ -1746,14 +1875,6 @@
       loadApp();
     });
 
-    // Logout
-    $('btnLogoutProfile').addEventListener('click', () => {
-      DB.clearSession();
-      authScreen.style.display = 'flex';
-      appScreen.style.display = 'none';
-      showNotification('Logged out successfully!');
-    });
-
     // Navigation
     function setActiveNav(activeId) {
       // Update footer icons
@@ -1773,19 +1894,19 @@
       } else if (activeId === 'navProfile') {
         $('profileView').classList.remove('hide');
         loadProfile();
-      } else if (activeId === 'navGroups') {
-        $('groupsView').classList.remove('hide');
-        loadGroups();
-      } else if (activeId === 'navChats') {
-        $('chatsView').classList.remove('hide');
-        loadConversations();
+      } else if (activeId === 'navOrganizations') {
+        $('organizationsView').classList.remove('hide');
+        loadOrganizations();
+      } else if (activeId === 'navGigs') {
+        $('gigsView').classList.remove('hide');
+        loadGigs();
       }
     }
 
     $('navFeed').addEventListener('click', () => setActiveNav('navFeed'));
     $('navProfile').addEventListener('click', () => setActiveNav('navProfile'));
-    $('navGroups').addEventListener('click', () => setActiveNav('navGroups'));
-    $('navChats').addEventListener('click', () => setActiveNav('navChats'));
+    $('navOrganizations').addEventListener('click', () => setActiveNav('navOrganizations'));
+    $('navGigs').addEventListener('click', () => setActiveNav('navGigs'));
 
     // Load App
     function loadApp() {
@@ -1949,8 +2070,27 @@
               <div class="post-timestamp">${formatDate(post.createdAt)}</div>
             </div>
           `;
+        } else if (post.type === 'work') {
+          // Work post with link
+          postElement.innerHTML = `
+            <div class="post-header">
+              <div class="avatar-small" style="${user.pic ? `background-image: url(${user.pic})` : ''}">${user.pic ? '' : user.username.charAt(0).toUpperCase()}</div>
+              <div class="post-username">${escape(user.username)}</div>
+            </div>
+            <div class="post-content">
+              <div class="post-text">${escape(post.text)}</div>
+              ${post.link ? `<a href="${post.link}" target="_blank" class="work-link">${post.link}</a>` : ''}
+              <div class="post-actions">
+                <i class="fa-regular fa-heart post-action"></i>
+                <i class="fa-regular fa-comment post-action"></i>
+                <i class="fa-regular fa-paper-plane post-action"></i>
+              </div>
+              <div class="post-likes">${post.likes || 0} likes</div>
+              <div class="post-timestamp">${formatDate(post.createdAt)}</div>
+            </div>
+          `;
         } else {
-          // Note post
+          // Note post (fallback)
           postElement.innerHTML = `
             <div class="post-header">
               <div class="avatar-small" style="${user.pic ? `background-image: url(${user.pic})` : ''}">${user.pic ? '' : user.username.charAt(0).toUpperCase()}</div>
@@ -2025,16 +2165,12 @@
       // Update action buttons
       if (isOwnProfile) {
         $('btnEditProfile').style.display = 'block';
-        $('btnMessage').style.display = 'none';
+        $('btnShareProfile').style.display = 'block';
         $('btnFollow').style.display = 'none';
-        $('btnChangePassword').style.display = 'block';
-        $('btnLogoutProfile').style.display = 'block';
       } else {
         $('btnEditProfile').style.display = 'none';
-        $('btnMessage').style.display = 'block';
+        $('btnShareProfile').style.display = 'none';
         $('btnFollow').style.display = 'block';
-        $('btnChangePassword').style.display = 'none';
-        $('btnLogoutProfile').style.display = 'none';
         
         const currentUser = users.find(u => u.id === session);
         const isFollowing = currentUser.following && currentUser.following.includes(profileUser.id);
@@ -2077,9 +2213,9 @@
       
       if (activeProfileTab === 'posts') {
         userContent = posts.filter(p => p.userId === userId && p.type === 'image');
-      } else if (activeProfileTab === 'notes') {
-        userContent = posts.filter(p => p.userId === userId && p.type === 'note');
-      } else if (activeProfileTab === 'MILESTONES') {
+      } else if (activeProfileTab === 'works') {
+        userContent = posts.filter(p => p.userId === userId && p.type === 'work');
+      } else if (activeProfileTab === 'certificates') {
         userContent = posts.filter(p => p.userId === userId && p.type === 'certificate');
       }
       
@@ -2087,48 +2223,49 @@
         let emptyMessage = '';
         if (activeProfileTab === 'posts') {
           emptyMessage = 'No posts yet';
-        } else if (activeProfileTab === 'notes') {
-          emptyMessage = 'No notes yet';
-        } else if (activeProfileTab === 'MILESTONES') {
-          emptyMessage = 'No MILESTONES yet';
+        } else if (activeProfileTab === 'works') {
+          emptyMessage = 'No works yet';
+        } else if (activeProfileTab === 'certificates') {
+          emptyMessage = 'No certificates yet';
         }
         
         profileContent.innerHTML = `
           <div class="empty-state">
-            <i class="fa-solid fa-${activeProfileTab === 'posts' ? 'image' : activeProfileTab === 'notes' ? 'note-sticky' : 'certificate'}"></i>
+            <i class="fa-solid fa-${activeProfileTab === 'posts' ? 'image' : activeProfileTab === 'works' ? 'briefcase' : 'certificate'}"></i>
             <p>${emptyMessage}</p>
           </div>
         `;
         return;
       }
       
-      if (activeProfileTab === 'notes') {
-        // Display notes in a vertical list (like tweets)
-        const notesGrid = document.createElement('div');
-        notesGrid.className = 'notes-grid';
+      if (activeProfileTab === 'works') {
+        // Display works in a vertical list
+        const worksGrid = document.createElement('div');
+        worksGrid.className = 'works-grid';
         
-        userContent.forEach(note => {
-          const noteElement = document.createElement('div');
-          noteElement.className = 'note-item';
-          noteElement.innerHTML = `
-            <div class="note-header">
+        userContent.forEach(work => {
+          const workElement = document.createElement('div');
+          workElement.className = 'work-item';
+          workElement.innerHTML = `
+            <div class="work-header">
               <div class="avatar-small" style="${profileUser.pic ? `background-image: url(${profileUser.pic})` : ''}">${profileUser.pic ? '' : profileUser.username.charAt(0).toUpperCase()}</div>
-              <div class="note-username">${escape(profileUser.username)}</div>
+              <div class="work-username">${escape(profileUser.username)}</div>
             </div>
-            <div class="note-content">${escape(note.text)}</div>
-            <div class="note-actions">
-              <i class="fa-regular fa-heart note-action"></i>
-              <i class="fa-regular fa-comment note-action"></i>
-              <i class="fa-regular fa-paper-plane note-action"></i>
+            <div class="work-content">${escape(work.text)}</div>
+            ${work.link ? `<a href="${work.link}" target="_blank" class="work-link">${work.link}</a>` : ''}
+            <div class="work-actions">
+              <i class="fa-regular fa-heart work-action"></i>
+              <i class="fa-regular fa-comment work-action"></i>
+              <i class="fa-regular fa-paper-plane work-action"></i>
             </div>
-            <div class="note-likes">${note.likes || 0} likes</div>
+            <div class="work-likes">${work.likes || 0} likes</div>
           `;
-          notesGrid.appendChild(noteElement);
+          worksGrid.appendChild(workElement);
         });
         
-        profileContent.appendChild(notesGrid);
+        profileContent.appendChild(worksGrid);
       } else {
-        // Display posts and MILESTONES in a grid
+        // Display posts and certificates in a grid
         const contentGrid = document.createElement('div');
         contentGrid.className = 'content-grid';
         
@@ -2192,7 +2329,7 @@
       const fileInput = $('postFile');
       const file = fileInput.files[0];
 
-      if (!text && !file) {
+      if (!text && !file && currentPostType !== 'work') {
         showNotification('Please add text or a file to your post', 3000, true);
         return;
       }
@@ -2200,6 +2337,7 @@
       let fileData = null;
       let fileType = null;
       let fileName = null;
+      let link = null;
       
       if (file) {
         try {
@@ -2212,6 +2350,15 @@
           return;
         }
       }
+      
+      // For work posts, extract link from text
+      if (currentPostType === 'work') {
+        const urlRegex = /(https?:\/\/[^\s]+)/g;
+        const urls = text.match(urlRegex);
+        if (urls && urls.length > 0) {
+          link = urls[0];
+        }
+      }
 
       const posts = DB.getPosts();
       const newPost = {
@@ -2221,6 +2368,7 @@
         file: fileData,
         fileType,
         fileName,
+        link,
         type: currentPostType,
         likes: 0,
         comments: [],
@@ -2324,11 +2472,35 @@
       showNotification('Profile updated!');
     });
 
-    // Change Password Modal
-    $('btnChangePassword').addEventListener('click', () => {
-      $('changePasswordModal').style.display = 'flex';
+    // Share Profile
+    $('btnShareProfile').addEventListener('click', () => {
+      const session = DB.getSession();
+      const users = DB.getUsers();
+      const user = users.find(u => u.id === session);
+      
+      if (user) {
+        const profileLink = `${window.location.origin}?profile=${user.id}`;
+        $('profileLink').value = profileLink;
+        $('shareProfileModal').style.display = 'flex';
+      }
     });
 
+    $('closeShareProfileModal').addEventListener('click', () => {
+      $('shareProfileModal').style.display = 'none';
+    });
+
+    $('closeShareProfile').addEventListener('click', () => {
+      $('shareProfileModal').style.display = 'none';
+    });
+
+    $('copyProfileLink').addEventListener('click', () => {
+      const profileLink = $('profileLink');
+      profileLink.select();
+      document.execCommand('copy');
+      showNotification('Profile link copied to clipboard!');
+    });
+
+    // Change Password Modal
     $('closeChangePasswordModal').addEventListener('click', () => {
       $('changePasswordModal').style.display = 'none';
     });
@@ -2413,94 +2585,200 @@
       loadProfile(profileUser.id);
     });
 
-    // Followers/Following modals
-    $('followersStat').addEventListener('click', () => {
-      const profileUsername = $('profileUsername').textContent;
+    // Organizations functionality
+    function loadOrganizations() {
+      const session = DB.getSession();
       const users = DB.getUsers();
-      const profileUser = users.find(u => u.username === profileUsername);
-      
-      if (!profileUser) return;
-      
-      const followersList = $('followersList');
-      followersList.innerHTML = '';
-      
-      if (!profileUser.followers || profileUser.followers.length === 0) {
-        followersList.innerHTML = '<div style="text-align: center; padding: 20px; color: var(--text-secondary)">No followers yet</div>';
-      } else {
-        profileUser.followers.forEach(followerId => {
-          const follower = users.find(u => u.id === followerId);
-          if (!follower) return;
-          
-          const userItem = document.createElement('div');
-          userItem.className = 'user-item';
-          userItem.innerHTML = `
-            <div class="user-avatar" style="${follower.pic ? `background-image: url(${follower.pic})` : ''}">${follower.pic ? '' : follower.username.charAt(0).toUpperCase()}</div>
-            <div class="user-info">
-              <div class="user-name">${escape(follower.username)}</div>
-              <div class="user-username">${escape(follower.name || '')}</div>
-            </div>
-            <button class="user-action follow-toggle" data-userid="${follower.id}">Follow</button>
-          `;
-          followersList.appendChild(userItem);
-        });
+      const organizations = DB.getOrganizations();
+      const currentUser = users.find(u => u.id === session);
+
+      if (currentUser && currentUser.pic) {
+        $('organizationAvatar').style.backgroundImage = `url(${currentUser.pic})`;
+        $('organizationAvatar').textContent = '';
       }
-      
-      $('followersModal').style.display = 'flex';
-    });
 
-    $('closeFollowersModal').addEventListener('click', () => {
-      $('followersModal').style.display = 'none';
-    });
+      const organizationsList = $('organizationsList');
+      organizationsList.innerHTML = '';
 
-    $('followingStat').addEventListener('click', () => {
-      const profileUsername = $('profileUsername').textContent;
-      const users = DB.getUsers();
-      const profileUser = users.find(u => u.username === profileUsername);
-      
-      if (!profileUser) return;
-      
-      const followingList = $('followingList');
-      followingList.innerHTML = '';
-      
-      if (!profileUser.following || profileUser.following.length === 0) {
-        followingList.innerHTML = '<div style="text-align: center; padding: 20px; color: var(--text-secondary)">Not following anyone yet</div>';
-      } else {
-        profileUser.following.forEach(followingId => {
-          const followingUser = users.find(u => u.id === followingId);
-          if (!followingUser) return;
-          
-          const userItem = document.createElement('div');
-          userItem.className = 'user-item';
-          userItem.innerHTML = `
-            <div class="user-avatar" style="${followingUser.pic ? `background-image: url(${followingUser.pic})` : ''}">${followingUser.pic ? '' : followingUser.username.charAt(0).toUpperCase()}</div>
-            <div class="user-info">
-              <div class="user-name">${escape(followingUser.username)}</div>
-              <div class="user-username">${escape(followingUser.name || '')}</div>
-            </div>
-            <button class="user-action follow-toggle" data-userid="${followingUser.id}">Follow</button>
-          `;
-          followingList.appendChild(userItem);
-        });
+      if (organizations.length === 0) {
+        organizationsList.innerHTML = `
+          <div class="empty-state" style="grid-column: 1 / -1;">
+            <i class="fa-solid fa-building"></i>
+            <p>No organizations yet. Create the first one!</p>
+          </div>
+        `;
+        return;
       }
+
+      organizations.forEach(organization => {
+        const organizationElement = document.createElement('div');
+        organizationElement.className = 'organization-card';
+        organizationElement.innerHTML = `
+          <div class="organization-header">
+            <div class="organization-avatar">${organization.name.charAt(0).toUpperCase()}</div>
+            <div class="organization-info">
+              <div class="organization-name">${escape(organization.name)}</div>
+              <div class="organization-members">${organization.members.length} members</div>
+            </div>
+          </div>
+          <div class="organization-description">${escape(organization.description)}</div>
+          <div class="organization-actions">
+            <button class="btn-primary" style="width: 100%;" data-organizationid="${organization.id}">Join Organization</button>
+          </div>
+        `;
+        organizationsList.appendChild(organizationElement);
+      });
+
+      // Add event listeners to join buttons
+      document.querySelectorAll('[data-organizationid]').forEach(button => {
+        button.addEventListener('click', (e) => {
+          const organizationId = e.target.getAttribute('data-organizationid');
+          joinOrganization(organizationId);
+        });
+      });
+    }
+
+    $('btnCreateOrganization').addEventListener('click', () => {
+      const session = DB.getSession();
+      if (!session) return;
+
+      const name = $('organizationName').value.trim();
+      const description = $('organizationDescription').value.trim();
+
+      if (!name) {
+        showNotification('Please enter an organization name', 3000, true);
+        return;
+      }
+
+      const organizations = DB.getOrganizations();
+      const newOrganization = {
+        id: uid(),
+        name,
+        description,
+        creatorId: session,
+        members: [session],
+        createdAt: new Date().toISOString()
+      };
+
+      organizations.push(newOrganization);
+      DB.saveOrganizations(organizations);
+
+      $('organizationName').value = '';
+      $('organizationDescription').value = '';
+
+      loadOrganizations();
+      showNotification('Organization created!');
+    });
+
+    function joinOrganization(organizationId) {
+      const session = DB.getSession();
+      const organizations = DB.getOrganizations();
+      const organizationIndex = organizations.findIndex(o => o.id === organizationId);
+
+      if (organizationIndex === -1) return;
+
+      const organization = organizations[organizationIndex];
+      if (!organization.members.includes(session)) {
+        organization.members.push(session);
+        DB.saveOrganizations(organizations);
+        loadOrganizations();
+        showNotification(`Joined ${organization.name}!`);
+      }
+    }
+
+    // Gigs functionality
+    function loadGigs() {
+      const gigs = DB.getGigs();
+      const gigsList = $('gigsList');
+      gigsList.innerHTML = '';
+
+      if (gigs.length === 0) {
+        gigsList.innerHTML = `
+          <div class="empty-state" style="grid-column: 1 / -1;">
+            <i class="fa-solid fa-briefcase"></i>
+            <p>No gigs available yet. Check back later!</p>
+          </div>
+        `;
+        return;
+      }
+
+      gigs.forEach(gig => {
+        const gigElement = document.createElement('div');
+        gigElement.className = 'gig-card';
+        gigElement.innerHTML = `
+          <div class="gig-header">
+            <div class="gig-title">${escape(gig.title)}</div>
+          </div>
+          <div class="gig-description">${escape(gig.description)}</div>
+          <div class="gig-actions">
+            <button class="btn-primary" style="width: 100%;" data-gigid="${gig.id}">Apply Now</button>
+          </div>
+        `;
+        gigsList.appendChild(gigElement);
+      });
+
+      // Add event listeners to apply buttons
+      document.querySelectorAll('[data-gigid]').forEach(button => {
+        button.addEventListener('click', (e) => {
+          const gigId = e.target.getAttribute('data-gigid');
+          applyToGig(gigId);
+        });
+      });
+    }
+
+    function applyToGig(gigId) {
+      const gigs = DB.getGigs();
+      const gig = gigs.find(g => g.id === gigId);
       
-      $('followingModal').style.display = 'flex';
-    });
+      if (gig) {
+        showNotification(`Applied to ${gig.title}! We'll contact you soon.`);
+      }
+    }
 
-    $('closeFollowingModal').addEventListener('click', () => {
-      $('followingModal').style.display = 'none';
-    });
+    // Initialize with some sample gigs
+    function initializeGigs() {
+      const gigs = DB.getGigs();
+      if (gigs.length === 0) {
+        const sampleGigs = [
+          {
+            id: uid(),
+            title: "Web Developer Intern",
+            description: "Looking for a web developer intern with knowledge of HTML, CSS, and JavaScript. Remote position available.",
+            createdAt: new Date().toISOString()
+          },
+          {
+            id: uid(),
+            title: "Graphic Designer",
+            description: "Need a creative graphic designer for social media content. Experience with Adobe Creative Suite preferred.",
+            createdAt: new Date().toISOString()
+          },
+          {
+            id: uid(),
+            title: "Content Writer",
+            description: "Seeking a skilled content writer for blog posts and articles. Must have excellent writing skills.",
+            createdAt: new Date().toISOString()
+          }
+        ];
+        DB.saveGigs(sampleGigs);
+      }
+    }
 
-    // Message functionality
-    $('btnMessage').addEventListener('click', () => {
-      const profileUsername = $('profileUsername').textContent;
+    // Chat functionality
+    $('headerChat').addEventListener('click', () => {
+      const session = DB.getSession();
       const users = DB.getUsers();
-      const profileUser = users.find(u => u.username === profileUsername);
+      const currentUser = users.find(u => u.id === session);
       
-      if (!profileUser) return;
-      
-      $('chatUserName').textContent = profileUser.username;
-      loadChat(profileUser.id);
-      $('chatModal').style.display = 'flex';
+      // For demo purposes, open chat with a random user
+      const otherUsers = users.filter(u => u.id !== session);
+      if (otherUsers.length > 0) {
+        const randomUser = otherUsers[Math.floor(Math.random() * otherUsers.length)];
+        $('chatUserName').textContent = randomUser.username;
+        loadChat(randomUser.id);
+        $('chatModal').style.display = 'flex';
+      } else {
+        showNotification('No other users to chat with', 3000, true);
+      }
     });
 
     $('closeChatModal').addEventListener('click', () => {
@@ -2574,262 +2852,6 @@
       }
     });
 
-    // Groups functionality
-    function loadGroups() {
-      const session = DB.getSession();
-      const users = DB.getUsers();
-      const groups = DB.getGroups();
-      const currentUser = users.find(u => u.id === session);
-
-      if (currentUser && currentUser.pic) {
-        $('groupAvatar').style.backgroundImage = `url(${currentUser.pic})`;
-        $('groupAvatar').textContent = '';
-      }
-
-      const groupsList = $('groupsList');
-      groupsList.innerHTML = '';
-
-      if (groups.length === 0) {
-        groupsList.innerHTML = `
-          <div class="empty-state" style="grid-column: 1 / -1;">
-            <i class="fa-solid fa-users"></i>
-            <p>No groups yet. Create the first one!</p>
-          </div>
-        `;
-        return;
-      }
-
-      groups.forEach(group => {
-        const groupElement = document.createElement('div');
-        groupElement.className = 'group-card';
-        groupElement.innerHTML = `
-          <div class="group-header">
-            <div class="group-avatar">${group.name.charAt(0).toUpperCase()}</div>
-            <div class="group-info">
-              <div class="group-name">${escape(group.name)}</div>
-              <div class="group-members">${group.members.length} members</div>
-            </div>
-          </div>
-          <div class="group-description">${escape(group.description)}</div>
-          <div class="group-actions">
-            <button class="btn-primary" style="width: 100%;" data-groupid="${group.id}">Join Group</button>
-          </div>
-        `;
-        groupsList.appendChild(groupElement);
-      });
-
-      // Add event listeners to join buttons
-      document.querySelectorAll('[data-groupid]').forEach(button => {
-        button.addEventListener('click', (e) => {
-          const groupId = e.target.getAttribute('data-groupid');
-          joinGroup(groupId);
-        });
-      });
-    }
-
-    $('btnCreateGroup').addEventListener('click', () => {
-      const session = DB.getSession();
-      if (!session) return;
-
-      const name = $('groupName').value.trim();
-      const description = $('groupDescription').value.trim();
-
-      if (!name) {
-        showNotification('Please enter a group name', 3000, true);
-        return;
-      }
-
-      const groups = DB.getGroups();
-      const newGroup = {
-        id: uid(),
-        name,
-        description,
-        creatorId: session,
-        members: [session],
-        createdAt: new Date().toISOString()
-      };
-
-      groups.push(newGroup);
-      DB.saveGroups(groups);
-
-      $('groupName').value = '';
-      $('groupDescription').value = '';
-
-      loadGroups();
-      showNotification('Group created!');
-    });
-
-    function joinGroup(groupId) {
-      const session = DB.getSession();
-      const groups = DB.getGroups();
-      const groupIndex = groups.findIndex(g => g.id === groupId);
-
-      if (groupIndex === -1) return;
-
-      const group = groups[groupIndex];
-      if (!group.members.includes(session)) {
-        group.members.push(session);
-        DB.saveGroups(groups);
-        loadGroups();
-        showNotification(`Joined ${group.name}!`);
-      } else {
-        // Open group chat
-        openGroupChat(groupId);
-      }
-    }
-
-    function openGroupChat(groupId) {
-      const groups = DB.getGroups();
-      const group = groups.find(g => g.id === groupId);
-      
-      if (!group) return;
-      
-      $('groupChatName').textContent = group.name;
-      loadGroupChat(groupId);
-      $('groupChatModal').style.display = 'flex';
-    }
-
-    function loadGroupChat(groupId) {
-      const session = DB.getSession();
-      const groupChats = DB.getGroupChats();
-      const users = DB.getUsers();
-      
-      const groupChatMessages = $('groupChatMessages');
-      groupChatMessages.innerHTML = '';
-      
-      if (groupChats[groupId]) {
-        groupChats[groupId].forEach(message => {
-          const user = users.find(u => u.id === message.senderId);
-          const messageElement = document.createElement('div');
-          messageElement.className = `message ${message.senderId === session ? 'sent' : 'received'}`;
-          messageElement.innerHTML = `
-            <div style="font-size: 12px; margin-bottom: 4px; opacity: 0.8;">${user ? user.username : 'Unknown'}</div>
-            <div>${escape(message.text)}</div>
-          `;
-          groupChatMessages.appendChild(messageElement);
-        });
-      }
-      
-      // Scroll to bottom
-      groupChatMessages.scrollTop = groupChatMessages.scrollHeight;
-    }
-
-    $('closeGroupChatModal').addEventListener('click', () => {
-      $('groupChatModal').style.display = 'none';
-    });
-
-    $('sendGroupMessage').addEventListener('click', () => {
-      const input = $('groupChatInput');
-      const text = input.value.trim();
-      
-      if (!text) return;
-      
-      const session = DB.getSession();
-      const groupName = $('groupChatName').textContent;
-      const groups = DB.getGroups();
-      const group = groups.find(g => g.name === groupName);
-      
-      if (!group) return;
-      
-      const groupChats = DB.getGroupChats();
-      const groupId = group.id;
-      
-      if (!groupChats[groupId]) groupChats[groupId] = [];
-      
-      const newMessage = {
-        id: uid(),
-        senderId: session,
-        text,
-        timestamp: new Date().toISOString()
-      };
-      
-      groupChats[groupId].push(newMessage);
-      DB.saveGroupChats(groupChats);
-      
-      // Add message to UI
-      const groupChatMessages = $('groupChatMessages');
-      const users = DB.getUsers();
-      const user = users.find(u => u.id === session);
-      
-      const messageElement = document.createElement('div');
-      messageElement.className = 'message sent';
-      messageElement.innerHTML = `
-        <div style="font-size: 12px; margin-bottom: 4px; opacity: 0.8;">${user ? user.username : 'You'}</div>
-        <div>${escape(text)}</div>
-      `;
-      groupChatMessages.appendChild(messageElement);
-      
-      // Clear input and scroll to bottom
-      input.value = '';
-      groupChatMessages.scrollTop = groupChatMessages.scrollHeight;
-    });
-
-    $('groupChatInput').addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        $('sendGroupMessage').click();
-      }
-    });
-
-    // Conversations functionality
-    function loadConversations() {
-      const session = DB.getSession();
-      const users = DB.getUsers();
-      const chats = DB.getChats();
-      
-      const conversationsList = $('conversationsList');
-      conversationsList.innerHTML = '';
-      
-      // Get unique user IDs from chats
-      const userChats = {};
-      
-      Object.keys(chats).forEach(chatId => {
-        if (chatId.includes(session)) {
-          const userIds = chatId.split('_');
-          const otherUserId = userIds[0] === session ? userIds[1] : userIds[0];
-          
-          if (!userChats[otherUserId]) {
-            userChats[otherUserId] = chats[chatId];
-          }
-        }
-      });
-      
-      if (Object.keys(userChats).length === 0) {
-        conversationsList.innerHTML = `
-          <div class="empty-state">
-            <i class="fa-solid fa-comments"></i>
-            <p>No conversations yet. Start a chat with someone!</p>
-          </div>
-        `;
-        return;
-      }
-      
-      Object.keys(userChats).forEach(userId => {
-        const user = users.find(u => u.id === userId);
-        if (!user) return;
-        
-        const lastMessage = userChats[userId][userChats[userId].length - 1];
-        
-        const conversationElement = document.createElement('div');
-        conversationElement.className = 'user-item';
-        conversationElement.style.cursor = 'pointer';
-        conversationElement.innerHTML = `
-          <div class="user-avatar" style="${user.pic ? `background-image: url(${user.pic})` : ''}">${user.pic ? '' : user.username.charAt(0).toUpperCase()}</div>
-          <div class="user-info">
-            <div class="user-name">${escape(user.username)}</div>
-            <div class="user-username">${lastMessage ? escape(lastMessage.text) : 'No messages yet'}</div>
-          </div>
-        `;
-        
-        conversationElement.addEventListener('click', () => {
-          $('chatUserName').textContent = user.username;
-          loadChat(user.id);
-          $('chatModal').style.display = 'flex';
-        });
-        
-        conversationsList.appendChild(conversationElement);
-      });
-    }
-
     // Initialize app
     document.addEventListener('DOMContentLoaded', () => {
       if (DB.getSession()) {
@@ -2838,8 +2860,10 @@
         authScreen.style.display = 'flex';
         appScreen.style.display = 'none';
       }
+      
+      // Initialize sample data
+      initializeGigs();
     });
   </script>
 </body>
 </html>
-
