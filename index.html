@@ -7,10 +7,11 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   
-  <!-- Add Firebase SDKs -->
+  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
 
   <style>
     :root {
@@ -19,13 +20,13 @@
       --border: #dbdbdb;
       --text: #262626;
       --text-secondary: #737373;
-      --accent: #0095f6;
-      --accent-hover: #1877f2;
+      --accent: #5c6bc0;
+      --accent-hover: #3f51b5;
       --hover-bg: #fafafa;
       --danger: #ed4956;
       --success: #42b883;
       --warning: #ffc107;
-      --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --gradient: linear-gradient(135deg, #5c6bc0 0%, #3949ab 100%);
     }
 
     [data-theme="dark"] {
@@ -34,8 +35,8 @@
       --border: #333333;
       --text: #ffffff;
       --text-secondary: #a8a8a8;
-      --accent: #4a90e2;
-      --accent-hover: #357abd;
+      --accent: #7986cb;
+      --accent-hover: #5c6bc0;
       --hover-bg: #2a2a2a;
       --danger: #e74c3c;
       --success: #2ecc71;
@@ -107,7 +108,7 @@
 
     .input-field:focus {
       border-color: var(--accent);
-      box-shadow: 0 0 0 2px rgba(0, 149, 246, 0.2);
+      box-shadow: 0 0 0 2px rgba(92, 107, 192, 0.2);
     }
 
     .file-input-wrapper {
@@ -594,15 +595,15 @@
       gap: 5px;
     }
 
-    /* NOTES GRID */
-    .notes-grid {
+    /* WORKS GRID */
+    .works-grid {
       display: flex;
       flex-direction: column;
       gap: 16px;
       margin-top: 28px;
     }
 
-    .note-item {
+    .work-item {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 12px;
@@ -611,48 +612,60 @@
       transition: transform 0.2s;
     }
 
-    .note-item:hover {
+    .work-item:hover {
       transform: translateY(-2px);
     }
 
-    .note-header {
+    .work-header {
       display: flex;
       align-items: center;
       gap: 12px;
       margin-bottom: 12px;
     }
 
-    .note-username {
+    .work-username {
       font-weight: 600;
       font-size: 14px;
       color: var(--text);
     }
 
-    .note-content {
+    .work-content {
       font-size: 14px;
       line-height: 1.5;
       margin-bottom: 12px;
       color: var(--text);
     }
 
-    .note-actions {
+    .work-link {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    .work-link:hover {
+      text-decoration: underline;
+    }
+
+    .work-actions {
       display: flex;
       gap: 16px;
       margin-bottom: 8px;
     }
 
-    .note-action {
+    .work-action {
       font-size: 16px;
       cursor: pointer;
       color: var(--text-secondary);
       transition: color 0.2s;
     }
 
-    .note-action:hover {
+    .work-action:hover {
       color: var(--accent);
     }
 
-    .note-likes {
+    .work-likes {
       font-size: 12px;
       color: var(--text-secondary);
     }
@@ -835,13 +848,13 @@
       text-transform: uppercase;
     }
 
-    /* GROUPS VIEW */
-    .groups-container {
+    /* ORGANIZATIONS VIEW */
+    .organizations-container {
       max-width: 800px;
       margin: 0 auto;
     }
 
-    .create-group {
+    .create-organization {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 12px;
@@ -850,20 +863,20 @@
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     }
 
-    .create-group-header {
+    .create-organization-header {
       display: flex;
       gap: 12px;
       align-items: flex-start;
       margin-bottom: 12px;
     }
 
-    .groups-list {
+    .organizations-list {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       gap: 20px;
     }
 
-    .group-card {
+    .organization-card {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 12px;
@@ -872,18 +885,18 @@
       transition: transform 0.2s;
     }
 
-    .group-card:hover {
+    .organization-card:hover {
       transform: translateY(-5px);
     }
 
-    .group-header {
+    .organization-header {
       display: flex;
       align-items: center;
       gap: 12px;
       margin-bottom: 12px;
     }
 
-    .group-avatar {
+    .organization-avatar {
       width: 50px;
       height: 50px;
       border-radius: 50%;
@@ -899,29 +912,79 @@
       background-position: center;
     }
 
-    .group-info {
+    .organization-info {
       flex: 1;
     }
 
-    .group-name {
+    .organization-name {
       font-weight: 600;
       font-size: 16px;
       margin-bottom: 4px;
     }
 
-    .group-members {
+    .organization-members {
       font-size: 14px;
       color: var(--text-secondary);
     }
 
-    .group-description {
+    .organization-description {
       font-size: 14px;
       line-height: 1.5;
       margin-bottom: 12px;
       color: var(--text);
     }
 
-    .group-actions {
+    .organization-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    /* GIGS VIEW */
+    .gigs-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .gigs-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .gig-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s;
+    }
+
+    .gig-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .gig-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .gig-title {
+      font-weight: 600;
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+
+    .gig-description {
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+
+    .gig-actions {
       display: flex;
       gap: 8px;
     }
@@ -1184,6 +1247,28 @@
       background: var(--accent-hover);
     }
 
+    /* SETTINGS MODAL */
+    .settings-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .settings-item {
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .settings-item:hover {
+      background: var(--hover-bg);
+    }
+
+    .settings-item:last-child {
+      border-bottom: none;
+    }
+
     /* RESPONSIVE */
     @media(max-width: 768px) {
       .profile-header {
@@ -1219,7 +1304,7 @@
         gap: 8px;
       }
 
-      .groups-list {
+      .organizations-list, .gigs-list {
         grid-template-columns: 1fr;
       }
     }
@@ -1250,20 +1335,6 @@
     .notification.error {
       background: var(--danger);
     }
-
-    .loading {
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      border: 3px solid rgba(255,255,255,.3);
-      border-radius: 50%;
-      border-top-color: #fff;
-      animation: spin 1s ease-in-out infinite;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
   </style>
 </head>
 
@@ -1282,10 +1353,7 @@
           <span id="fileLabel">Choose profile picture (optional)</span>
           <input id="signupPic" type="file" accept="image/*" />
         </div>
-        <button type="submit" class="btn-primary" id="signupBtn">
-          <span id="signupText">Sign Up</span>
-          <div id="signupLoading" class="loading hide"></div>
-        </button>
+        <button type="submit" class="btn-primary">Sign Up</button>
         
         <div class="divider">OR</div>
         
@@ -1303,10 +1371,7 @@
       <form id="loginForm" class="auth-form hide">
         <input id="loginEmail" type="email" class="input-field" placeholder="Email" required />
         <input id="loginPassword" type="password" class="input-field" placeholder="Password" required />
-        <button type="submit" class="btn-primary" id="loginBtn">
-          <span id="loginText">Log In</span>
-          <div id="loginLoading" class="loading hide"></div>
-        </button>
+        <button type="submit" class="btn-primary">Log In</button>
         
         <div class="divider">OR</div>
         
@@ -1328,7 +1393,8 @@
     <header class="app-header">
       <div class="header-logo">LN Portal</div>
       <div class="header-icons">
-        <!-- Theme toggle removed from header - now only in profile -->
+        <i id="headerChat" class="fa-regular fa-comment header-icon"></i>
+        <i id="headerSettings" class="fa-solid fa-gear header-icon"></i>
       </div>
     </header>
 
@@ -1343,7 +1409,7 @@
           </div>
           <div class="post-options">
             <button id="postTypeImage" class="post-option active" data-type="image">Image</button>
-            <button id="postTypeNote" class="post-option" data-type="note">Note</button>
+            <button id="postTypeWork" class="post-option" data-type="work">Work</button>
             <button id="postTypeCertificate" class="post-option" data-type="certificate">Certificate</button>
           </div>
           <div class="create-post-actions">
@@ -1352,10 +1418,7 @@
               <i class="fa-solid fa-paperclip"></i>
             </label>
             <div id="filePreview" class="preview-container"></div>
-            <button id="btnPost" class="btn-primary" style="width: auto; margin: 0; padding: 7px 24px;">
-              <span id="postTextBtn">Post</span>
-              <div id="postLoading" class="loading hide"></div>
-            </button>
+            <button id="btnPost" class="btn-primary" style="width: auto; margin: 0; padding: 7px 24px;">Post</button>
           </div>
         </div>
         <div id="feedList"></div>
@@ -1370,7 +1433,7 @@
               <h2 id="profileUsername" class="profile-username">username</h2>
               <div class="profile-actions">
                 <button id="btnEditProfile" class="btn-edit">Edit Profile</button>
-                <button id="btnMessage" class="btn-message">Message</button>
+                <button id="btnShareProfile" class="btn-message">Share Profile</button>
                 <button id="btnFollow" class="btn-follow">Follow</button>
               </div>
             </div>
@@ -1384,11 +1447,6 @@
               <div id="profileBio">No bio yet</div>
               <a id="profileWebsite" href="#" class="profile-website" target="_blank"></a>
             </div>
-            <div class="profile-settings">
-              <i id="themeToggleProfile" class="fa-solid fa-moon theme-toggle" style="font-size: 20px; cursor: pointer;"></i>
-              <button id="btnChangePassword" class="btn-settings">Change Password</button>
-              <button id="btnLogoutProfile" class="btn-settings">Log Out</button>
-            </div>
           </div>
         </div>
 
@@ -1397,9 +1455,9 @@
             <i class="fa-solid fa-image"></i>
             POSTS
           </div>
-          <div class="tab" data-tab="notes">
-            <i class="fa-solid fa-note-sticky"></i>
-            NOTES
+          <div class="tab" data-tab="works">
+            <i class="fa-solid fa-briefcase"></i>
+            WORKS
           </div>
           <div class="tab" data-tab="certificates">
             <i class="fa-solid fa-certificate"></i>
@@ -1412,28 +1470,28 @@
         </div>
       </div>
 
-      <!-- GROUPS VIEW -->
-      <div id="groupsView" class="groups-container hide">
-        <div class="create-group">
-          <div class="create-group-header">
-            <div id="groupAvatar" class="avatar-small">U</div>
-            <textarea id="groupName" class="post-textarea" placeholder="Group name"></textarea>
+      <!-- ORGANIZATIONS VIEW -->
+      <div id="organizationsView" class="organizations-container hide">
+        <div class="create-organization">
+          <div class="create-organization-header">
+            <div id="organizationAvatar" class="avatar-small">U</div>
+            <textarea id="organizationName" class="post-textarea" placeholder="Organization name"></textarea>
           </div>
-          <div class="create-group-header">
-            <textarea id="groupDescription" class="post-textarea" placeholder="Group description"></textarea>
+          <div class="create-organization-header">
+            <textarea id="organizationDescription" class="post-textarea" placeholder="Organization description"></textarea>
           </div>
           <div class="create-post-actions">
-            <button id="btnCreateGroup" class="btn-primary" style="width: auto; margin: 0; padding: 7px 24px;">Create Group</button>
+            <button id="btnCreateOrganization" class="btn-primary" style="width: auto; margin: 0; padding: 7px 24px;">Create Organization</button>
           </div>
         </div>
-        <div id="groupsList" class="groups-list"></div>
+        <div id="organizationsList" class="organizations-list"></div>
       </div>
 
-      <!-- CHATS VIEW -->
-      <div id="chatsView" class="feed-container hide">
+      <!-- GIGS VIEW -->
+      <div id="gigsView" class="gigs-container hide">
         <div class="create-post">
-          <h3 style="margin-bottom: 16px;">Your Conversations</h3>
-          <div id="conversationsList"></div>
+          <h3 style="margin-bottom: 16px;">Available Gigs</h3>
+          <div id="gigsList" class="gigs-list"></div>
         </div>
       </div>
     </main>
@@ -1441,8 +1499,8 @@
     <!-- FOOTER NAVIGATION -->
     <footer class="app-footer">
       <i id="navFeed" class="fa-solid fa-home footer-icon active"></i>
-      <i id="navGroups" class="fa-solid fa-users footer-icon"></i>
-      <i id="navChats" class="fa-solid fa-comments footer-icon"></i>
+      <i id="navOrganizations" class="fa-solid fa-building footer-icon"></i>
+      <i id="navGigs" class="fa-solid fa-briefcase footer-icon"></i>
       <i id="navProfile" class="fa-solid fa-user footer-icon"></i>
     </footer>
 
@@ -1474,6 +1532,32 @@
           <div class="modal-actions">
             <button id="cancelEdit" class="btn-secondary">Cancel</button>
             <button id="saveEdit" class="btn-primary">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SETTINGS MODAL -->
+    <div id="settingsModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          Settings
+          <span id="closeSettingsModal" class="modal-close">&times;</span>
+        </div>
+        <div class="modal-body">
+          <div class="settings-list">
+            <div class="settings-item" id="settingsTheme">
+              <i class="fa-solid fa-moon" style="margin-right: 12px;"></i>
+              <span>Switch Theme</span>
+            </div>
+            <div class="settings-item" id="settingsChangePassword">
+              <i class="fa-solid fa-key" style="margin-right: 12px;"></i>
+              <span>Change Password</span>
+            </div>
+            <div class="settings-item" id="settingsLogout">
+              <i class="fa-solid fa-right-from-bracket" style="margin-right: 12px;"></i>
+              <span>Log Out</span>
+            </div>
           </div>
         </div>
       </div>
@@ -1550,18 +1634,21 @@
       </div>
     </div>
 
-    <!-- GROUP CHAT MODAL -->
-    <div id="groupChatModal" class="modal">
+    <!-- SHARE PROFILE MODAL -->
+    <div id="shareProfileModal" class="modal">
       <div class="modal-content">
         <div class="modal-header">
-          <span id="groupChatName">Group Name</span>
-          <span id="closeGroupChatModal" class="modal-close">&times;</span>
+          Share Profile
+          <span id="closeShareProfileModal" class="modal-close">&times;</span>
         </div>
-        <div class="chat-container">
-          <div id="groupChatMessages" class="chat-messages"></div>
-          <div class="chat-input">
-            <input id="groupChatInput" type="text" placeholder="Type a message..." />
-            <button id="sendGroupMessage" class="chat-send">Send</button>
+        <div class="modal-body">
+          <p style="margin-bottom: 16px;">Share your profile link with others:</p>
+          <div class="input-field" style="display: flex; align-items: center;">
+            <input id="profileLink" type="text" readonly style="flex: 1; border: none; background: transparent;" />
+            <button id="copyProfileLink" class="btn-primary" style="width: auto; margin: 0; padding: 7px 12px;">Copy</button>
+          </div>
+          <div class="modal-actions">
+            <button id="closeShareProfile" class="btn-secondary">Close</button>
           </div>
         </div>
       </div>
@@ -1572,33 +1659,47 @@
   <div id="notification" class="notification"></div>
 
   <script>
-      const firebaseConfig = {
-      apiKey: "AIzaSyA3UpwRNNzqstvCYUo6eiYyKssBMZnhg6w",
-      authDomain: "ln-project-ikshvakh.firebaseapp.com",
-      projectId: "ln-project-ikshvakh",
-      storageBucket: "ln-project-ikshvakh.firebasestorage.app",
-      messagingSenderId: "231879409444",
-      appId: "1:231879409444:web:ed7d43f9dd4d316e70bdb1"
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "your-api-key-here",
+      authDomain: "your-project-id.firebaseapp.com",
+      projectId: "your-project-id",
+      storageBucket: "your-project-id.appspot.com",
+      messagingSenderId: "your-sender-id",
+      appId: "your-app-id"
     };
 
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
+    const storage = firebase.storage();
 
-    // Utility functions
     const $ = id => document.getElementById(id);
 
-    function uid(n = 8) { return Math.random().toString(36).slice(2, 2 + n) }
-
-    function readFile(file) {
-      return new Promise((res, rej) => {
-        const r = new FileReader();
-        r.onload = () => res(r.result);
-        r.onerror = rej;
-        r.readAsDataURL(file);
-      });
+    // Firebase Storage Helper
+    async function uploadFile(file, path) {
+      try {
+        const storageRef = storage.ref();
+        const fileRef = storageRef.child(`${path}/${Date.now()}_${file.name}`);
+        const snapshot = await fileRef.put(file);
+        const downloadURL = await snapshot.ref.getDownloadURL();
+        return downloadURL;
+      } catch (error) {
+        console.error('Error uploading file:', error);
+        throw error;
+      }
     }
+
+    // Firebase Firestore Collections
+    const usersCollection = db.collection('users');
+    const postsCollection = db.collection('posts');
+    const organizationsCollection = db.collection('organizations');
+    const gigsCollection = db.collection('gigs');
+    const chatsCollection = db.collection('chats');
+
+    // Helper Functions
+    function uid(n = 8) { return Math.random().toString(36).slice(2, 2 + n) }
 
     function escape(s) {
       return String(s || '')
@@ -1618,31 +1719,40 @@
       }, duration);
     }
 
-    function showLoading(buttonId, textId, loadingId) {
-      $(textId).classList.add('hide');
-      $(loadingId).classList.remove('hide');
-      $(buttonId).disabled = true;
-    }
-
-    function hideLoading(buttonId, textId, loadingId) {
-      $(textId).classList.remove('hide');
-      $(loadingId).classList.add('hide');
-      $(buttonId).disabled = false;
-    }
-
     // Theme Toggle
-    const themeToggleProfile = $('themeToggleProfile');
     function applyTheme(theme) {
       document.documentElement.setAttribute('data-theme', theme);
-      themeToggleProfile.className = theme === 'dark' ? 'fa-solid fa-sun theme-toggle' : 'fa-solid fa-moon theme-toggle';
-      localStorage.setItem('ln_theme', theme);
     }
     applyTheme(localStorage.getItem('ln_theme') || 'light');
 
-    themeToggleProfile.addEventListener('click', () => {
+    // Settings Modal
+    $('headerSettings').addEventListener('click', () => {
+      $('settingsModal').style.display = 'flex';
+    });
+
+    $('closeSettingsModal').addEventListener('click', () => {
+      $('settingsModal').style.display = 'none';
+    });
+
+    $('settingsTheme').addEventListener('click', () => {
       const current = localStorage.getItem('ln_theme') || 'light';
       const newTheme = current === 'light' ? 'dark' : 'light';
+      localStorage.setItem('ln_theme', newTheme);
       applyTheme(newTheme);
+      showNotification(`Theme changed to ${newTheme}`);
+    });
+
+    $('settingsChangePassword').addEventListener('click', () => {
+      $('settingsModal').style.display = 'none';
+      $('changePasswordModal').style.display = 'flex';
+    });
+
+    $('settingsLogout').addEventListener('click', () => {
+      auth.signOut().then(() => {
+        authScreen.style.display = 'flex';
+        appScreen.style.display = 'none';
+        showNotification('Logged out successfully!');
+      });
     });
 
     // Auth Forms
@@ -1667,7 +1777,48 @@
       $('fileLabel').textContent = fileName;
     });
 
-    // Sign Up with Firebase
+    // Google Sign-In
+    function handleGoogleAuth() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      auth.signInWithPopup(provider)
+        .then(async (result) => {
+          const user = result.user;
+          
+          // Check if user exists in Firestore
+          const userDoc = await usersCollection.doc(user.uid).get();
+          
+          if (!userDoc.exists) {
+            // Create new user in Firestore
+            await usersCollection.doc(user.uid).set({
+              uid: user.uid,
+              username: user.displayName || `user_${uid(6)}`,
+              email: user.email,
+              name: user.displayName || `Google User ${uid(4)}`,
+              pic: user.photoURL || null,
+              bio: '',
+              website: '',
+              followers: [],
+              following: [],
+              createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+              isGoogleUser: true
+            });
+            showNotification('Account created with Google!');
+          } else {
+            showNotification('Logged in with Google!');
+          }
+          
+          loadApp();
+        })
+        .catch((error) => {
+          console.error('Google auth error:', error);
+          showNotification('Error with Google authentication', 4000, true);
+        });
+    }
+
+    $('googleSignUp').addEventListener('click', handleGoogleAuth);
+    $('googleLogin').addEventListener('click', handleGoogleAuth);
+
+    // Email/Password Sign Up
     signupForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const username = $('signupUsername').value.trim();
@@ -1680,162 +1831,52 @@
         return;
       }
 
-      showLoading('signupBtn', 'signupText', 'signupLoading');
-
       try {
-        // Check if username already exists
-        const usernameSnapshot = await db.collection('users').where('username', '==', username).get();
-        if (!usernameSnapshot.empty) {
-          throw new Error('Username already exists');
-        }
-
         // Create user in Firebase Auth
         const userCredential = await auth.createUserWithEmailAndPassword(email, password);
         const user = userCredential.user;
 
-        let pic = null;
+        let picURL = null;
         if (picFile) {
-          try {
-            pic = await readFile(picFile);
-          } catch (error) {
-            console.error('Error reading file:', error);
-          }
+          picURL = await uploadFile(picFile, `profile_pictures/${user.uid}`);
         }
 
-        // Create user profile in Firestore
-        await db.collection('users').doc(user.uid).set({
+        // Create user document in Firestore
+        await usersCollection.doc(user.uid).set({
           uid: user.uid,
-          username: username,
-          email: email,
-          pic: pic,
+          username,
+          email,
+          pic: picURL,
           name: username,
           bio: '',
           website: '',
           followers: [],
           following: [],
-          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
 
         showNotification('Account created successfully!');
-        
+        loadApp();
       } catch (error) {
-        console.error('Signup error:', error);
+        console.error('Sign up error:', error);
         showNotification(error.message, 4000, true);
-      } finally {
-        hideLoading('signupBtn', 'signupText', 'signupLoading');
       }
     });
 
-    // Log In with Firebase
+    // Log In
     loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = $('loginEmail').value.trim().toLowerCase();
       const password = $('loginPassword').value;
 
-      showLoading('loginBtn', 'loginText', 'loginLoading');
-
       try {
         await auth.signInWithEmailAndPassword(email, password);
         showNotification('Logged in successfully!');
+        loadApp();
       } catch (error) {
         console.error('Login error:', error);
-        showNotification(error.message, 4000, true);
-      } finally {
-        hideLoading('loginBtn', 'loginText', 'loginLoading');
+        showNotification(error.message, 3000, true);
       }
-    });
-
-    // Google Sign-In
-    function handleGoogleAuth() {
-      const provider = new firebase.auth.GoogleAuthProvider();
-      
-      auth.signInWithPopup(provider)
-        .then(async (result) => {
-          const user = result.user;
-          
-          // Check if user already exists in Firestore
-          const userDoc = await db.collection('users').doc(user.uid).get();
-          
-          if (!userDoc.exists) {
-            // Create new user profile
-            const username = `user_${uid(6)}`;
-            await db.collection('users').doc(user.uid).set({
-              uid: user.uid,
-              username: username,
-              email: user.email,
-              pic: user.photoURL,
-              name: user.displayName || username,
-              bio: '',
-              website: '',
-              followers: [],
-              following: [],
-              createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-              updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-              isGoogleUser: true
-            });
-            showNotification('Account created with Google!');
-          } else {
-            showNotification('Logged in with Google!');
-          }
-        })
-        .catch((error) => {
-          console.error('Google auth error:', error);
-          showNotification(error.message, 4000, true);
-        });
-    }
-
-    $('googleSignUp').addEventListener('click', handleGoogleAuth);
-    $('googleLogin').addEventListener('click', handleGoogleAuth);
-
-    // Auth State Listener
-    auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        // User is signed in
-        authScreen.style.display = 'none';
-        appScreen.style.display = 'block';
-        setActiveNav('navFeed');
-        
-        // Load user data
-        await loadCurrentUserData(user.uid);
-      } else {
-        // User is signed out
-        authScreen.style.display = 'flex';
-        appScreen.style.display = 'none';
-      }
-    });
-
-    // Load current user data
-    async function loadCurrentUserData(uid) {
-      try {
-        const userDoc = await db.collection('users').doc(uid).get();
-        if (userDoc.exists) {
-          window.currentUser = userDoc.data();
-          updateUIWithUserData(window.currentUser);
-        }
-      } catch (error) {
-        console.error('Error loading user data:', error);
-      }
-    }
-
-    function updateUIWithUserData(user) {
-      // Update feed avatar
-      if (user.pic) {
-        $('feedAvatar').style.backgroundImage = `url(${user.pic})`;
-        $('feedAvatar').textContent = '';
-      }
-      
-      // Update group avatar
-      if (user.pic) {
-        $('groupAvatar').style.backgroundImage = `url(${user.pic})`;
-        $('groupAvatar').textContent = '';
-      }
-    }
-
-    // Logout
-    $('btnLogoutProfile').addEventListener('click', () => {
-      auth.signOut();
-      showNotification('Logged out successfully!');
     });
 
     // Navigation
@@ -1855,19 +1896,41 @@
       } else if (activeId === 'navProfile') {
         $('profileView').classList.remove('hide');
         loadProfile();
-      } else if (activeId === 'navGroups') {
-        $('groupsView').classList.remove('hide');
-        loadGroups();
-      } else if (activeId === 'navChats') {
-        $('chatsView').classList.remove('hide');
-        loadConversations();
+      } else if (activeId === 'navOrganizations') {
+        $('organizationsView').classList.remove('hide');
+        loadOrganizations();
+      } else if (activeId === 'navGigs') {
+        $('gigsView').classList.remove('hide');
+        loadGigs();
       }
     }
 
     $('navFeed').addEventListener('click', () => setActiveNav('navFeed'));
     $('navProfile').addEventListener('click', () => setActiveNav('navProfile'));
-    $('navGroups').addEventListener('click', () => setActiveNav('navGroups'));
-    $('navChats').addEventListener('click', () => setActiveNav('navChats'));
+    $('navOrganizations').addEventListener('click', () => setActiveNav('navOrganizations'));
+    $('navGigs').addEventListener('click', () => setActiveNav('navGigs'));
+
+    // Load App
+    function loadApp() {
+      const user = auth.currentUser;
+      if (!user) return;
+
+      authScreen.style.display = 'none';
+      appScreen.style.display = 'block';
+
+      // Update user avatar in feed
+      usersCollection.doc(user.uid).get().then(doc => {
+        if (doc.exists) {
+          const userData = doc.data();
+          if (userData.pic) {
+            $('feedAvatar').style.backgroundImage = `url(${userData.pic})`;
+            $('feedAvatar').textContent = '';
+          }
+        }
+      });
+
+      setActiveNav('navFeed');
+    }
 
     // Post Type Selection
     let currentPostType = 'image';
@@ -1893,7 +1956,7 @@
     });
 
     // File Preview
-    $('postFile').addEventListener('change', async (e) => {
+    $('postFile').addEventListener('change', (e) => {
       const file = e.target.files[0];
       if (!file) return;
       
@@ -1901,15 +1964,14 @@
       preview.innerHTML = '';
       
       if (file.type.startsWith('image/')) {
-        try {
-          const dataUrl = await readFile(file);
+        const reader = new FileReader();
+        reader.onload = (e) => {
           const img = document.createElement('img');
-          img.src = dataUrl;
+          img.src = e.target.result;
           img.className = 'preview-image';
           preview.appendChild(img);
-        } catch (error) {
-          console.error('Error reading file:', error);
-        }
+        };
+        reader.readAsDataURL(file);
       } else {
         const fileInfo = document.createElement('div');
         fileInfo.textContent = `File: ${file.name} (${(file.size / 1024).toFixed(2)} KB)`;
@@ -1919,228 +1981,147 @@
       }
     });
 
-    // Load Feed from Firestore
-    async function loadFeed() {
+    // Load Feed with Real-time Updates
+    function loadFeed() {
+      const user = auth.currentUser;
+      if (!user) return;
+
       const feedList = $('feedList');
-      feedList.innerHTML = '<div style="text-align: center; padding: 40px;">Loading posts...</div>';
+      feedList.innerHTML = '';
 
-      try {
-        const postsSnapshot = await db.collection('posts')
-          .orderBy('createdAt', 'desc')
-          .limit(50)
-          .get();
+      // Real-time listener for posts
+      const unsubscribe = postsCollection
+        .orderBy('createdAt', 'desc')
+        .onSnapshot(async (snapshot) => {
+          feedList.innerHTML = '';
 
-        if (postsSnapshot.empty) {
-          feedList.innerHTML = `
-            <div class="empty-state">
-              <i class="fa-solid fa-newspaper"></i>
-              <p>No posts yet. Be the first to share something!</p>
-            </div>
-          `;
-          return;
-        }
-
-        feedList.innerHTML = '';
-        
-        // Get all user data for posts
-        const userIds = [...new Set(postsSnapshot.docs.map(doc => doc.data().userId))];
-        const usersMap = new Map();
-        
-        for (const userId of userIds) {
-          const userDoc = await db.collection('users').doc(userId).get();
-          if (userDoc.exists) {
-            usersMap.set(userId, userDoc.data());
+          if (snapshot.empty) {
+            feedList.innerHTML = `
+              <div class="empty-state">
+                <i class="fa-solid fa-newspaper"></i>
+                <p>No posts yet. Be the first to share something!</p>
+              </div>
+            `;
+            return;
           }
-        }
 
-        postsSnapshot.forEach(doc => {
-          const post = doc.data();
-          const user = usersMap.get(post.userId);
-          if (!user) return;
-
-          const postElement = document.createElement('div');
-          postElement.className = 'post-card';
-          
-          if (post.type === 'certificate' && post.file && post.fileType && post.fileType.startsWith('image/')) {
-            postElement.innerHTML = `
-              <div class="post-header">
-                <div class="avatar-small" style="${user.pic ? `background-image: url(${user.pic})` : ''}">${user.pic ? '' : user.username.charAt(0).toUpperCase()}</div>
-                <div class="post-username">${escape(user.username)}</div>
-              </div>
-              <div class="post-image-wrapper">
-                <img src="${post.file}" alt="Certificate image" />
-              </div>
-              <div class="post-content">
-                ${post.text ? `<div class="post-text">${escape(post.text)}</div>` : ''}
-                <div class="post-actions">
-                  <i class="fa-regular fa-heart post-action"></i>
-                  <i class="fa-regular fa-comment post-action"></i>
-                  <i class="fa-regular fa-paper-plane post-action"></i>
-                </div>
-                <div class="post-likes">${post.likes || 0} likes</div>
-                <div class="post-timestamp">${formatDate(post.createdAt?.toDate())}</div>
-              </div>
-            `;
-          } else if (post.type === 'certificate') {
-            postElement.innerHTML = `
-              <div class="post-header">
-                <div class="avatar-small" style="${user.pic ? `background-image: url(${user.pic})` : ''}">${user.pic ? '' : user.username.charAt(0).toUpperCase()}</div>
-                <div class="post-username">${escape(user.username)}</div>
-              </div>
-              <div class="post-content" style="padding-top: 16px;">
-                <div style="text-align: center; padding: 20px; background: #fff8e1; border-radius: 8px; margin-bottom: 16px;">
-                  <i class="fa-solid fa-certificate" style="font-size: 48px; color: var(--warning); margin-bottom: 12px;"></i>
-                  <p style="font-weight: 600; margin-bottom: 8px;">${escape(post.text || 'Certificate')}</p>
-                  ${post.fileName ? `<p style="font-size: 12px; color: var(--text-secondary);">${escape(post.fileName)}</p>` : ''}
-                </div>
-                <div class="post-actions">
-                  <i class="fa-regular fa-heart post-action"></i>
-                  <i class="fa-regular fa-comment post-action"></i>
-                  <i class="fa-regular fa-paper-plane post-action"></i>
-                </div>
-                <div class="post-likes">${post.likes || 0} likes</div>
-                <div class="post-timestamp">${formatDate(post.createdAt?.toDate())}</div>
-              </div>
-            `;
-          } else if (post.file && post.type === 'image') {
-            postElement.innerHTML = `
-              <div class="post-header">
-                <div class="avatar-small" style="${user.pic ? `background-image: url(${user.pic})` : ''}">${user.pic ? '' : user.username.charAt(0).toUpperCase()}</div>
-                <div class="post-username">${escape(user.username)}</div>
-              </div>
-              <div class="post-image-wrapper">
-                <img src="${post.file}" alt="Post image" />
-              </div>
-              <div class="post-content">
-                ${post.text ? `<div class="post-text">${escape(post.text)}</div>` : ''}
-                <div class="post-actions">
-                  <i class="fa-regular fa-heart post-action"></i>
-                  <i class="fa-regular fa-comment post-action"></i>
-                  <i class="fa-regular fa-paper-plane post-action"></i>
-                </div>
-                <div class="post-likes">${post.likes || 0} likes</div>
-                <div class="post-timestamp">${formatDate(post.createdAt?.toDate())}</div>
-              </div>
-            `;
-          } else {
-            postElement.innerHTML = `
-              <div class="post-header">
-                <div class="avatar-small" style="${user.pic ? `background-image: url(${user.pic})` : ''}">${user.pic ? '' : user.username.charAt(0).toUpperCase()}</div>
-                <div class="post-username">${escape(user.username)}</div>
-              </div>
-              <div class="post-content">
-                <div class="post-text">${escape(post.text)}</div>
-                <div class="post-actions">
-                  <i class="fa-regular fa-heart post-action"></i>
-                  <i class="fa-regular fa-comment post-action"></i>
-                  <i class="fa-regular fa-paper-plane post-action"></i>
-                </div>
-                <div class="post-likes">${post.likes || 0} likes</div>
-                <div class="post-timestamp">${formatDate(post.createdAt?.toDate())}</div>
-              </div>
-            `;
+          for (const doc of snapshot.docs) {
+            const post = doc.data();
+            const userDoc = await usersCollection.doc(post.userId).get();
+            
+            if (!userDoc.exists) continue;
+            
+            const postUser = userDoc.data();
+            renderPost(post, postUser, feedList);
           }
-          
-          feedList.appendChild(postElement);
+        }, (error) => {
+          console.error('Error loading posts:', error);
         });
 
-      } catch (error) {
-        console.error('Error loading feed:', error);
-        feedList.innerHTML = `
-          <div class="empty-state">
-            <i class="fa-solid fa-exclamation-triangle"></i>
-            <p>Error loading posts. Please try again.</p>
+      // Store unsubscribe function for cleanup
+      window.feedUnsubscribe = unsubscribe;
+    }
+
+    function renderPost(post, user, container) {
+      const postElement = document.createElement('div');
+      postElement.className = 'post-card';
+      
+      if (post.type === 'certificate' && post.file && post.fileType && post.fileType.startsWith('image/')) {
+        postElement.innerHTML = `
+          <div class="post-header">
+            <div class="avatar-small" style="${user.pic ? `background-image: url(${user.pic})` : ''}">${user.pic ? '' : user.username.charAt(0).toUpperCase()}</div>
+            <div class="post-username">${escape(user.username)}</div>
+          </div>
+          <div class="post-image-wrapper">
+            <img src="${post.file}" alt="Certificate image" />
+          </div>
+          <div class="post-content">
+            ${post.text ? `<div class="post-text">${escape(post.text)}</div>` : ''}
+            <div class="post-actions">
+              <i class="fa-regular fa-heart post-action" data-postid="${post.id}"></i>
+              <i class="fa-regular fa-comment post-action"></i>
+              <i class="fa-regular fa-paper-plane post-action"></i>
+            </div>
+            <div class="post-likes">${post.likes || 0} likes</div>
+            <div class="post-timestamp">${formatDate(post.createdAt?.toDate())}</div>
+          </div>
+        `;
+      } else if (post.type === 'certificate') {
+        postElement.innerHTML = `
+          <div class="post-header">
+            <div class="avatar-small" style="${user.pic ? `background-image: url(${user.pic})` : ''}">${user.pic ? '' : user.username.charAt(0).toUpperCase()}</div>
+            <div class="post-username">${escape(user.username)}</div>
+          </div>
+          <div class="post-content" style="padding-top: 16px;">
+            <div style="text-align: center; padding: 20px; background: #fff8e1; border-radius: 8px; margin-bottom: 16px;">
+              <i class="fa-solid fa-certificate" style="font-size: 48px; color: var(--warning); margin-bottom: 12px;"></i>
+              <p style="font-weight: 600; margin-bottom: 8px;">${escape(post.text || 'Certificate')}</p>
+              ${post.fileName ? `<p style="font-size: 12px; color: var(--text-secondary);">${escape(post.fileName)}</p>` : ''}
+            </div>
+            <div class="post-actions">
+              <i class="fa-regular fa-heart post-action" data-postid="${post.id}"></i>
+              <i class="fa-regular fa-comment post-action"></i>
+              <i class="fa-regular fa-paper-plane post-action"></i>
+            </div>
+            <div class="post-likes">${post.likes || 0} likes</div>
+            <div class="post-timestamp">${formatDate(post.createdAt?.toDate())}</div>
+          </div>
+        `;
+      } else if (post.file && post.type === 'image') {
+        postElement.innerHTML = `
+          <div class="post-header">
+            <div class="avatar-small" style="${user.pic ? `background-image: url(${user.pic})` : ''}">${user.pic ? '' : user.username.charAt(0).toUpperCase()}</div>
+            <div class="post-username">${escape(user.username)}</div>
+          </div>
+          <div class="post-image-wrapper">
+            <img src="${post.file}" alt="Post image" />
+          </div>
+          <div class="post-content">
+            ${post.text ? `<div class="post-text">${escape(post.text)}</div>` : ''}
+            <div class="post-actions">
+              <i class="fa-regular fa-heart post-action" data-postid="${post.id}"></i>
+              <i class="fa-regular fa-comment post-action"></i>
+              <i class="fa-regular fa-paper-plane post-action"></i>
+            </div>
+            <div class="post-likes">${post.likes || 0} likes</div>
+            <div class="post-timestamp">${formatDate(post.createdAt?.toDate())}</div>
+          </div>
+        `;
+      } else if (post.type === 'work') {
+        postElement.innerHTML = `
+          <div class="post-header">
+            <div class="avatar-small" style="${user.pic ? `background-image: url(${user.pic})` : ''}">${user.pic ? '' : user.username.charAt(0).toUpperCase()}</div>
+            <div class="post-username">${escape(user.username)}</div>
+          </div>
+          <div class="post-content">
+            <div class="post-text">${escape(post.text)}</div>
+            ${post.link ? `<a href="${post.link}" target="_blank" class="work-link">${post.link}</a>` : ''}
+            <div class="post-actions">
+              <i class="fa-regular fa-heart post-action" data-postid="${post.id}"></i>
+              <i class="fa-regular fa-comment post-action"></i>
+              <i class="fa-regular fa-paper-plane post-action"></i>
+            </div>
+            <div class="post-likes">${post.likes || 0} likes</div>
+            <div class="post-timestamp">${formatDate(post.createdAt?.toDate())}</div>
           </div>
         `;
       }
+      
+      container.appendChild(postElement);
     }
 
-    // Create Post with Firebase
-    $('btnPost').addEventListener('click', async () => {
+    // Load Profile
+    function loadProfile(userId = null) {
       const user = auth.currentUser;
-      if (!user) {
-        showNotification('Please log in to post', 3000, true);
-        return;
-      }
+      if (!user) return;
 
-      const text = $('postText').value.trim();
-      const fileInput = $('postFile');
-      const file = fileInput.files[0];
-
-      if (!text && !file) {
-        showNotification('Please add text or a file to your post', 3000, true);
-        return;
-      }
-
-      showLoading('btnPost', 'postTextBtn', 'postLoading');
-
-      let fileData = null;
-      let fileType = null;
-      let fileName = null;
+      const profileUserId = userId || user.uid;
       
-      if (file) {
-        try {
-          fileData = await readFile(file);
-          fileType = file.type;
-          fileName = file.name;
-        } catch (error) {
-          console.error('Error reading file:', error);
-          showNotification('Error uploading file', 3000, true);
-          hideLoading('btnPost', 'postTextBtn', 'postLoading');
-          return;
-        }
-      }
-
-      try {
-        await db.collection('posts').add({
-          userId: user.uid,
-          text,
-          file: fileData,
-          fileType,
-          fileName,
-          type: currentPostType,
-          likes: 0,
-          comments: [],
-          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-
-        $('postText').value = '';
-        fileInput.value = '';
-        $('filePreview').innerHTML = '';
-
-        loadFeed();
-        if (!$('profileView').classList.contains('hide')) {
-          loadProfile();
-        }
-
-        showNotification('Post published!');
-      } catch (error) {
-        console.error('Error creating post:', error);
-        showNotification('Error publishing post', 3000, true);
-      } finally {
-        hideLoading('btnPost', 'postTextBtn', 'postLoading');
-      }
-    });
-
-    // Load Profile from Firestore
-    async function loadProfile(userId = null) {
-      const currentUser = auth.currentUser;
-      if (!currentUser) return;
-
-      const profileUserId = userId || currentUser.uid;
-      
-      try {
-        const userDoc = await db.collection('users').doc(profileUserId).get();
-        if (!userDoc.exists) {
-          showNotification('User not found', 3000, true);
-          return;
-        }
-
-        const profileUser = userDoc.data();
-        window.currentProfileUserId = profileUser.uid;
-
-        const isOwnProfile = profileUser.uid === currentUser.uid;
+      usersCollection.doc(profileUserId).get().then(async (doc) => {
+        if (!doc.exists) return;
+        
+        const profileUser = doc.data();
+        const isOwnProfile = profileUser.uid === user.uid;
 
         // Update profile elements
         if (profileUser.pic) {
@@ -2163,11 +2144,11 @@
           $('profileWebsite').style.display = 'none';
         }
 
-        // Get user's posts count
-        const postsSnapshot = await db.collection('posts')
-          .where('userId', '==', profileUser.uid)
+        // Get post count
+        const postsSnapshot = await postsCollection
+          .where('userId', '==', profileUserId)
           .get();
-
+        
         $('postCount').textContent = postsSnapshot.size;
         $('followerCount').textContent = profileUser.followers ? profileUser.followers.length : 0;
         $('followingCount').textContent = profileUser.following ? profileUser.following.length : 0;
@@ -2175,29 +2156,23 @@
         // Update action buttons
         if (isOwnProfile) {
           $('btnEditProfile').style.display = 'block';
-          $('btnMessage').style.display = 'none';
+          $('btnShareProfile').style.display = 'block';
           $('btnFollow').style.display = 'none';
-          $('btnChangePassword').style.display = 'block';
-          $('btnLogoutProfile').style.display = 'block';
         } else {
           $('btnEditProfile').style.display = 'none';
-          $('btnMessage').style.display = 'block';
+          $('btnShareProfile').style.display = 'none';
           $('btnFollow').style.display = 'block';
-          $('btnChangePassword').style.display = 'none';
-          $('btnLogoutProfile').style.display = 'none';
           
-          const isFollowing = window.currentUser.following && window.currentUser.following.includes(profileUser.uid);
+          const currentUserDoc = await usersCollection.doc(user.uid).get();
+          const currentUser = currentUserDoc.data();
+          const isFollowing = currentUser.following && currentUser.following.includes(profileUser.uid);
           $('btnFollow').textContent = isFollowing ? 'Following' : 'Follow';
           $('btnFollow').className = isFollowing ? 'btn-edit' : 'btn-follow';
         }
 
         // Load profile content
-        loadProfileContent(profileUser.uid);
-
-      } catch (error) {
-        console.error('Error loading profile:', error);
-        showNotification('Error loading profile', 3000, true);
-      }
+        loadProfileContent(profileUserId);
+      });
     }
 
     // Profile Tabs
@@ -2209,83 +2184,74 @@
         profileTabs.forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
         activeProfileTab = tab.getAttribute('data-tab');
-        
-        if (window.currentProfileUserId) {
-          loadProfileContent(window.currentProfileUserId);
-        }
+        loadProfileContent(window.currentProfileUserId || auth.currentUser.uid);
       });
     });
 
-    async function loadProfileContent(userId) {
+    function loadProfileContent(userId) {
       const profileContent = $('profileContent');
-      profileContent.innerHTML = '<div style="text-align: center; padding: 40px;">Loading...</div>';
+      profileContent.innerHTML = '';
 
-      try {
-        let query = db.collection('posts').where('userId', '==', userId);
-        
-        if (activeProfileTab === 'posts') {
-          query = query.where('type', '==', 'image');
-        } else if (activeProfileTab === 'notes') {
-          query = query.where('type', '==', 'note');
-        } else if (activeProfileTab === 'certificates') {
-          query = query.where('type', '==', 'certificate');
-        }
+      let query = postsCollection.where('userId', '==', userId);
+      
+      if (activeProfileTab === 'posts') {
+        query = query.where('type', '==', 'image');
+      } else if (activeProfileTab === 'works') {
+        query = query.where('type', '==', 'work');
+      } else if (activeProfileTab === 'certificates') {
+        query = query.where('type', '==', 'certificate');
+      }
 
-        const postsSnapshot = await query.orderBy('createdAt', 'desc').get();
-        const userDoc = await db.collection('users').doc(userId).get();
-        const profileUser = userDoc.data();
-
-        profileContent.innerHTML = '';
-
-        if (postsSnapshot.empty) {
+      query.get().then(async (snapshot) => {
+        if (snapshot.empty) {
           let emptyMessage = '';
-          if (activeProfileTab === 'posts') {
-            emptyMessage = 'No posts yet';
-          } else if (activeProfileTab === 'notes') {
-            emptyMessage = 'No notes yet';
-          } else if (activeProfileTab === 'certificates') {
-            emptyMessage = 'No certificates yet';
-          }
+          if (activeProfileTab === 'posts') emptyMessage = 'No posts yet';
+          else if (activeProfileTab === 'works') emptyMessage = 'No works yet';
+          else if (activeProfileTab === 'certificates') emptyMessage = 'No certificates yet';
           
           profileContent.innerHTML = `
             <div class="empty-state">
-              <i class="fa-solid fa-${activeProfileTab === 'posts' ? 'image' : activeProfileTab === 'notes' ? 'note-sticky' : 'certificate'}"></i>
+              <i class="fa-solid fa-${activeProfileTab === 'posts' ? 'image' : activeProfileTab === 'works' ? 'briefcase' : 'certificate'}"></i>
               <p>${emptyMessage}</p>
             </div>
           `;
           return;
         }
 
-        if (activeProfileTab === 'notes') {
-          const notesGrid = document.createElement('div');
-          notesGrid.className = 'notes-grid';
+        const userDoc = await usersCollection.doc(userId).get();
+        const user = userDoc.data();
+
+        if (activeProfileTab === 'works') {
+          const worksGrid = document.createElement('div');
+          worksGrid.className = 'works-grid';
           
-          postsSnapshot.forEach(doc => {
-            const note = doc.data();
-            const noteElement = document.createElement('div');
-            noteElement.className = 'note-item';
-            noteElement.innerHTML = `
-              <div class="note-header">
-                <div class="avatar-small" style="${profileUser.pic ? `background-image: url(${profileUser.pic})` : ''}">${profileUser.pic ? '' : profileUser.username.charAt(0).toUpperCase()}</div>
-                <div class="note-username">${escape(profileUser.username)}</div>
+          snapshot.forEach(doc => {
+            const work = doc.data();
+            const workElement = document.createElement('div');
+            workElement.className = 'work-item';
+            workElement.innerHTML = `
+              <div class="work-header">
+                <div class="avatar-small" style="${user.pic ? `background-image: url(${user.pic})` : ''}">${user.pic ? '' : user.username.charAt(0).toUpperCase()}</div>
+                <div class="work-username">${escape(user.username)}</div>
               </div>
-              <div class="note-content">${escape(note.text)}</div>
-              <div class="note-actions">
-                <i class="fa-regular fa-heart note-action"></i>
-                <i class="fa-regular fa-comment note-action"></i>
-                <i class="fa-regular fa-paper-plane note-action"></i>
+              <div class="work-content">${escape(work.text)}</div>
+              ${work.link ? `<a href="${work.link}" target="_blank" class="work-link">${work.link}</a>` : ''}
+              <div class="work-actions">
+                <i class="fa-regular fa-heart work-action"></i>
+                <i class="fa-regular fa-comment work-action"></i>
+                <i class="fa-regular fa-paper-plane work-action"></i>
               </div>
-              <div class="note-likes">${note.likes || 0} likes</div>
+              <div class="work-likes">${work.likes || 0} likes</div>
             `;
-            notesGrid.appendChild(noteElement);
+            worksGrid.appendChild(workElement);
           });
           
-          profileContent.appendChild(notesGrid);
+          profileContent.appendChild(worksGrid);
         } else {
           const contentGrid = document.createElement('div');
           contentGrid.className = 'content-grid';
           
-          postsSnapshot.forEach(doc => {
+          snapshot.forEach(doc => {
             const content = doc.data();
             const contentElement = document.createElement('div');
             contentElement.className = 'content-item';
@@ -2318,16 +2284,7 @@
           
           profileContent.appendChild(contentGrid);
         }
-
-      } catch (error) {
-        console.error('Error loading profile content:', error);
-        profileContent.innerHTML = `
-          <div class="empty-state">
-            <i class="fa-solid fa-exclamation-triangle"></i>
-            <p>Error loading content. Please try again.</p>
-          </div>
-        `;
-      }
+      });
     }
 
     // Format date for display
@@ -2348,19 +2305,90 @@
       return date.toLocaleDateString();
     }
 
+    // Create Post
+    $('btnPost').addEventListener('click', async () => {
+      const user = auth.currentUser;
+      if (!user) return;
+
+      const text = $('postText').value.trim();
+      const fileInput = $('postFile');
+      const file = fileInput.files[0];
+
+      if (!text && !file && currentPostType !== 'work') {
+        showNotification('Please add text or a file to your post', 3000, true);
+        return;
+      }
+
+      let fileURL = null;
+      let fileType = null;
+      let fileName = null;
+      let link = null;
+      
+      if (file) {
+        try {
+          fileURL = await uploadFile(file, `posts/${user.uid}`);
+          fileType = file.type;
+          fileName = file.name;
+        } catch (error) {
+          console.error('Error uploading file:', error);
+          showNotification('Error uploading file', 3000, true);
+          return;
+        }
+      }
+      
+      // For work posts, extract link from text
+      if (currentPostType === 'work') {
+        const urlRegex = /(https?:\/\/[^\s]+)/g;
+        const urls = text.match(urlRegex);
+        if (urls && urls.length > 0) {
+          link = urls[0];
+        }
+      }
+
+      const newPost = {
+        id: uid(),
+        userId: user.uid,
+        text,
+        file: fileURL,
+        fileType,
+        fileName,
+        link,
+        type: currentPostType,
+        likes: 0,
+        comments: [],
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
+
+      try {
+        await postsCollection.add(newPost);
+        $('postText').value = '';
+        fileInput.value = '';
+        $('filePreview').innerHTML = '';
+        showNotification('Post published!');
+      } catch (error) {
+        console.error('Error creating post:', error);
+        showNotification('Error publishing post', 3000, true);
+      }
+    });
+
     // Edit Profile Modal
     $('btnEditProfile').addEventListener('click', () => {
       const user = auth.currentUser;
       if (!user) return;
 
-      $('editName').value = window.currentUser.name || '';
-      $('editBio').value = window.currentUser.bio || '';
-      $('editWebsite').value = window.currentUser.website || '';
-      $('editModal').style.display = 'flex';
+      usersCollection.doc(user.uid).get().then((doc) => {
+        if (doc.exists) {
+          const userData = doc.data();
+          $('editName').value = userData.name || '';
+          $('editBio').value = userData.bio || '';
+          $('editWebsite').value = userData.website || '';
+          $('editModal').style.display = 'flex';
+        }
+      });
     });
 
     // Profile picture preview in edit modal
-    $('editPic').addEventListener('change', async (e) => {
+    $('editPic').addEventListener('change', (e) => {
       const file = e.target.files[0];
       if (!file) return;
       
@@ -2368,15 +2396,14 @@
       preview.innerHTML = '';
       
       if (file.type.startsWith('image/')) {
-        try {
-          const dataUrl = await readFile(file);
+        const reader = new FileReader();
+        reader.onload = (e) => {
           const img = document.createElement('img');
-          img.src = dataUrl;
+          img.src = e.target.result;
           img.className = 'preview-image';
           preview.appendChild(img);
-        } catch (error) {
-          console.error('Error reading file:', error);
-        }
+        };
+        reader.readAsDataURL(file);
       }
     });
 
@@ -2397,39 +2424,32 @@
       const website = $('editWebsite').value.trim();
       const picFile = $('editPic').files[0];
 
-      let pic = window.currentUser.pic;
+      let picURL = null;
       if (picFile) {
         try {
-          pic = await readFile(picFile);
+          picURL = await uploadFile(picFile, `profile_pictures/${user.uid}`);
         } catch (error) {
-          console.error('Error reading file:', error);
+          console.error('Error uploading image:', error);
           showNotification('Error uploading image', 3000, true);
           return;
         }
       }
 
+      const updates = {
+        name: name || '',
+        bio,
+        website,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
+
+      if (picURL) {
+        updates.pic = picURL;
+      }
+
       try {
-        await db.collection('users').doc(user.uid).update({
-          name: name || window.currentUser.username,
-          bio,
-          website,
-          pic,
-          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-
-        // Update local user data
-        window.currentUser = {
-          ...window.currentUser,
-          name: name || window.currentUser.username,
-          bio,
-          website,
-          pic
-        };
-
+        await usersCollection.doc(user.uid).update(updates);
         $('editModal').style.display = 'none';
         loadProfile();
-        updateUIWithUserData(window.currentUser);
-
         showNotification('Profile updated!');
       } catch (error) {
         console.error('Error updating profile:', error);
@@ -2437,103 +2457,329 @@
       }
     });
 
+    // Share Profile
+    $('btnShareProfile').addEventListener('click', () => {
+      const user = auth.currentUser;
+      if (user) {
+        const profileLink = `${window.location.origin}?profile=${user.uid}`;
+        $('profileLink').value = profileLink;
+        $('shareProfileModal').style.display = 'flex';
+      }
+    });
+
+    $('closeShareProfileModal').addEventListener('click', () => {
+      $('shareProfileModal').style.display = 'none';
+    });
+
+    $('closeShareProfile').addEventListener('click', () => {
+      $('shareProfileModal').style.display = 'none';
+    });
+
+    $('copyProfileLink').addEventListener('click', () => {
+      const profileLink = $('profileLink');
+      profileLink.select();
+      document.execCommand('copy');
+      showNotification('Profile link copied to clipboard!');
+    });
+
+    // Change Password
+    $('savePassword').addEventListener('click', () => {
+      const user = auth.currentUser;
+      if (!user) return;
+
+      const newPassword = $('newPassword').value;
+      const confirmPassword = $('confirmPassword').value;
+
+      if (!newPassword || !confirmPassword) {
+        showNotification('Please fill all fields', 3000, true);
+        return;
+      }
+
+      if (newPassword !== confirmPassword) {
+        showNotification('New passwords do not match', 3000, true);
+        return;
+      }
+
+      user.updatePassword(newPassword)
+        .then(() => {
+          $('currentPassword').value = '';
+          $('newPassword').value = '';
+          $('confirmPassword').value = '';
+          $('changePasswordModal').style.display = 'none';
+          showNotification('Password changed successfully!');
+        })
+        .catch((error) => {
+          console.error('Error changing password:', error);
+          showNotification(error.message, 3000, true);
+        });
+    });
+
+    $('closeChangePasswordModal').addEventListener('click', () => {
+      $('changePasswordModal').style.display = 'none';
+    });
+
+    $('cancelChangePassword').addEventListener('click', () => {
+      $('changePasswordModal').style.display = 'none';
+    });
+
     // Follow/Unfollow functionality
     $('btnFollow').addEventListener('click', async () => {
-      const currentUser = auth.currentUser;
-      if (!currentUser) return;
+      const user = auth.currentUser;
+      if (!user) return;
 
       const profileUsername = $('profileUsername').textContent;
-
+      
       try {
         // Find the profile user
-        const usersSnapshot = await db.collection('users')
-          .where('username', '==', profileUsername)
-          .get();
-
-        if (usersSnapshot.empty) {
-          showNotification('User not found', 3000, true);
-          return;
-        }
-
-        const profileUserDoc = usersSnapshot.docs[0];
+        const profileUserQuery = await usersCollection.where('username', '==', profileUsername).get();
+        if (profileUserQuery.empty) return;
+        
+        const profileUserDoc = profileUserQuery.docs[0];
         const profileUser = profileUserDoc.data();
-        const profileUserId = profileUserDoc.id;
+        const currentUserDoc = await usersCollection.doc(user.uid).get();
+        const currentUser = currentUserDoc.data();
 
-        const isFollowing = window.currentUser.following && window.currentUser.following.includes(profileUserId);
+        // Initialize arrays if they don't exist
+        const currentUserFollowing = currentUser.following || [];
+        const profileUserFollowers = profileUser.followers || [];
+
+        const isFollowing = currentUserFollowing.includes(profileUser.uid);
 
         if (isFollowing) {
           // Unfollow
-          await db.collection('users').doc(currentUser.uid).update({
-            following: firebase.firestore.FieldValue.arrayRemove(profileUserId),
-            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          await usersCollection.doc(user.uid).update({
+            following: firebase.firestore.FieldValue.arrayRemove(profileUser.uid)
           });
-
-          await db.collection('users').doc(profileUserId).update({
-            followers: firebase.firestore.FieldValue.arrayRemove(currentUser.uid),
-            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          await usersCollection.doc(profileUser.uid).update({
+            followers: firebase.firestore.FieldValue.arrayRemove(user.uid)
           });
-
           $('btnFollow').textContent = 'Follow';
           $('btnFollow').className = 'btn-follow';
           showNotification(`Unfollowed ${profileUser.username}`);
         } else {
           // Follow
-          await db.collection('users').doc(currentUser.uid).update({
-            following: firebase.firestore.FieldValue.arrayUnion(profileUserId),
-            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          await usersCollection.doc(user.uid).update({
+            following: firebase.firestore.FieldValue.arrayUnion(profileUser.uid)
           });
-
-          await db.collection('users').doc(profileUserId).update({
-            followers: firebase.firestore.FieldValue.arrayUnion(currentUser.uid),
-            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          await usersCollection.doc(profileUser.uid).update({
+            followers: firebase.firestore.FieldValue.arrayUnion(user.uid)
           });
-
           $('btnFollow').textContent = 'Following';
           $('btnFollow').className = 'btn-edit';
           showNotification(`Following ${profileUser.username}`);
         }
 
-        // Reload current user data
-        await loadCurrentUserData(currentUser.uid);
-        loadProfile(profileUserId);
-
+        loadProfile(profileUser.uid);
       } catch (error) {
         console.error('Error following user:', error);
         showNotification('Error following user', 3000, true);
       }
     });
 
-    // Initialize app
+    // Organizations functionality
+    function loadOrganizations() {
+      const organizationsList = $('organizationsList');
+      organizationsList.innerHTML = '';
+
+      // Real-time listener for organizations
+      organizationsCollection.onSnapshot((snapshot) => {
+        organizationsList.innerHTML = '';
+
+        if (snapshot.empty) {
+          organizationsList.innerHTML = `
+            <div class="empty-state" style="grid-column: 1 / -1;">
+              <i class="fa-solid fa-building"></i>
+              <p>No organizations yet. Create the first one!</p>
+            </div>
+          `;
+          return;
+        }
+
+        snapshot.forEach(doc => {
+          const organization = doc.data();
+          const organizationElement = document.createElement('div');
+          organizationElement.className = 'organization-card';
+          organizationElement.innerHTML = `
+            <div class="organization-header">
+              <div class="organization-avatar">${organization.name.charAt(0).toUpperCase()}</div>
+              <div class="organization-info">
+                <div class="organization-name">${escape(organization.name)}</div>
+                <div class="organization-members">${organization.members.length} members</div>
+              </div>
+            </div>
+            <div class="organization-description">${escape(organization.description)}</div>
+            <div class="organization-actions">
+              <button class="btn-primary" style="width: 100%;" data-organizationid="${doc.id}">Join Organization</button>
+            </div>
+          `;
+          organizationsList.appendChild(organizationElement);
+        });
+
+        // Add event listeners to join buttons
+        document.querySelectorAll('[data-organizationid]').forEach(button => {
+          button.addEventListener('click', (e) => {
+            const organizationId = e.target.getAttribute('data-organizationid');
+            joinOrganization(organizationId);
+          });
+        });
+      });
+    }
+
+    $('btnCreateOrganization').addEventListener('click', async () => {
+      const user = auth.currentUser;
+      if (!user) return;
+
+      const name = $('organizationName').value.trim();
+      const description = $('organizationDescription').value.trim();
+
+      if (!name) {
+        showNotification('Please enter an organization name', 3000, true);
+        return;
+      }
+
+      const newOrganization = {
+        id: uid(),
+        name,
+        description,
+        creatorId: user.uid,
+        members: [user.uid],
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
+
+      try {
+        await organizationsCollection.add(newOrganization);
+        $('organizationName').value = '';
+        $('organizationDescription').value = '';
+        showNotification('Organization created!');
+      } catch (error) {
+        console.error('Error creating organization:', error);
+        showNotification('Error creating organization', 3000, true);
+      }
+    });
+
+    async function joinOrganization(organizationId) {
+      const user = auth.currentUser;
+      if (!user) return;
+
+      try {
+        await organizationsCollection.doc(organizationId).update({
+          members: firebase.firestore.FieldValue.arrayUnion(user.uid)
+        });
+        showNotification('Joined organization!');
+      } catch (error) {
+        console.error('Error joining organization:', error);
+        showNotification('Error joining organization', 3000, true);
+      }
+    }
+
+    // Gigs functionality
+    function loadGigs() {
+      const gigsList = $('gigsList');
+      gigsList.innerHTML = '';
+
+      // Real-time listener for gigs
+      gigsCollection.onSnapshot((snapshot) => {
+        gigsList.innerHTML = '';
+
+        if (snapshot.empty) {
+          gigsList.innerHTML = `
+            <div class="empty-state" style="grid-column: 1 / -1;">
+              <i class="fa-solid fa-briefcase"></i>
+              <p>No gigs available yet. Check back later!</p>
+            </div>
+          `;
+          return;
+        }
+
+        snapshot.forEach(doc => {
+          const gig = doc.data();
+          const gigElement = document.createElement('div');
+          gigElement.className = 'gig-card';
+          gigElement.innerHTML = `
+            <div class="gig-header">
+              <div class="gig-title">${escape(gig.title)}</div>
+            </div>
+            <div class="gig-description">${escape(gig.description)}</div>
+            <div class="gig-actions">
+              <button class="btn-primary" style="width: 100%;" data-gigid="${doc.id}">Apply Now</button>
+            </div>
+          `;
+          gigsList.appendChild(gigElement);
+        });
+
+        // Add event listeners to apply buttons
+        document.querySelectorAll('[data-gigid]').forEach(button => {
+          button.addEventListener('click', (e) => {
+            const gigId = e.target.getAttribute('data-gigid');
+            applyToGig(gigId);
+          });
+        });
+      });
+    }
+
+    function applyToGig(gigId) {
+      showNotification('Application submitted! We\'ll contact you soon.');
+    }
+
+    // Initialize with some sample gigs
+    function initializeGigs() {
+      gigsCollection.get().then(snapshot => {
+        if (snapshot.empty) {
+          const sampleGigs = [
+            {
+              title: "Web Developer Intern",
+              description: "Looking for a web developer intern with knowledge of HTML, CSS, and JavaScript. Remote position available.",
+              createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            },
+            {
+              title: "Graphic Designer",
+              description: "Need a creative graphic designer for social media content. Experience with Adobe Creative Suite preferred.",
+              createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            },
+            {
+              title: "Content Writer",
+              description: "Seeking a skilled content writer for blog posts and articles. Must have excellent writing skills.",
+              createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            }
+          ];
+          
+          sampleGigs.forEach(gig => {
+            gigsCollection.add(gig);
+          });
+        }
+      });
+    }
+
+    // Chat functionality
+    $('headerChat').addEventListener('click', () => {
+      const user = auth.currentUser;
+      if (!user) return;
+      
+      // For demo purposes, show a message about chat functionality
+      showNotification('Chat feature is now live! Find users to chat with.');
+    });
+
+    // Initialize app and Firebase auth state listener
     document.addEventListener('DOMContentLoaded', () => {
-      // Firebase auth state listener will handle the rest
+      // Firebase auth state observer
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          loadApp();
+          initializeGigs();
+        } else {
+          authScreen.style.display = 'flex';
+          appScreen.style.display = 'none';
+        }
+      });
+
+      // Check for profile parameter in URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const profileId = urlParams.get('profile');
+      if (profileId) {
+        // This would be used when someone shares their profile link
+        console.log('Viewing profile:', profileId);
+      }
     });
-
-    // Note: Groups and Chats functionality would need similar Firebase integration
-    // For now, they remain as localStorage for simplicity
-
-    // Placeholder functions for groups and chats (to be implemented)
-    function loadGroups() {
-      $('groupsList').innerHTML = `
-        <div class="empty-state" style="grid-column: 1 / -1;">
-          <i class="fa-solid fa-users"></i>
-          <p>Groups feature coming soon!</p>
-        </div>
-      `;
-    }
-
-    function loadConversations() {
-      $('conversationsList').innerHTML = `
-        <div class="empty-state">
-          <i class="fa-solid fa-comments"></i>
-          <p>Chats feature coming soon!</p>
-        </div>
-      `;
-    }
-
-    $('btnCreateGroup').addEventListener('click', () => {
-      showNotification('Groups feature coming soon!');
-    });
-
   </script>
 </body>
 </html>
