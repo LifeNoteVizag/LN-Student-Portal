@@ -20,13 +20,13 @@
       --border: #dbdbdb;
       --text: #262626;
       --text-secondary: #737373;
-      --accent: #5c6bc0;
-      --accent-hover: #3f51b5;
+      --accent: #8a2be2;
+      --accent-hover: #7b1fa2;
       --hover-bg: #fafafa;
       --danger: #ed4956;
       --success: #42b883;
       --warning: #ffc107;
-      --gradient: linear-gradient(135deg, #5c6bc0 0%, #3949ab 100%);
+      --gradient: linear-gradient(135deg, #8a2be2 0%, #6a1b9a 100%);
     }
 
     [data-theme="dark"] {
@@ -35,8 +35,8 @@
       --border: #333333;
       --text: #ffffff;
       --text-secondary: #a8a8a8;
-      --accent: #7986cb;
-      --accent-hover: #5c6bc0;
+      --accent: #9c4dff;
+      --accent-hover: #8a2be2;
       --hover-bg: #2a2a2a;
       --danger: #e74c3c;
       --success: #2ecc71;
@@ -108,7 +108,7 @@
 
     .input-field:focus {
       border-color: var(--accent);
-      box-shadow: 0 0 0 2px rgba(92, 107, 192, 0.2);
+      box-shadow: 0 0 0 2px rgba(138, 43, 226, 0.2);
     }
 
     .file-input-wrapper {
@@ -272,6 +272,70 @@
       color: var(--accent);
     }
 
+    .search-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-input {
+      padding: 8px 12px;
+      padding-left: 36px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 14px;
+      color: var(--text);
+      outline: none;
+      width: 200px;
+      transition: width 0.3s, border 0.2s;
+    }
+
+    .search-input:focus {
+      width: 250px;
+      border-color: var(--accent);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      color: var(--text-secondary);
+    }
+
+    .search-results {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-top: 8px;
+      max-height: 300px;
+      overflow-y: auto;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      z-index: 101;
+      display: none;
+    }
+
+    .search-result-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      cursor: pointer;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+
+    .search-result-item:hover {
+      background: var(--hover-bg);
+    }
+
+    .search-result-item:last-child {
+      border-bottom: none;
+    }
+
     .main-content {
       max-width: 935px;
       margin: 30px auto;
@@ -350,8 +414,8 @@
     }
 
     .profile-username {
-      font-size: 20px;
-      font-weight: 400;
+      font-size: 28px;
+      font-weight: 300;
       color: var(--text);
     }
 
@@ -438,6 +502,7 @@
     .profile-name {
       font-weight: 600;
       margin-bottom: 4px;
+      font-size: 16px;
     }
 
     .profile-website {
@@ -848,6 +913,57 @@
       text-transform: uppercase;
     }
 
+    .post-comments {
+      margin-top: 12px;
+    }
+
+    .comment {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .comment-username {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .comment-text {
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    .comment-input {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .comment-input input {
+      flex: 1;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: var(--bg);
+      color: var(--text);
+      outline: none;
+    }
+
+    .comment-input input:focus {
+      border-color: var(--accent);
+    }
+
+    .comment-btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 20px;
+      padding: 8px 16px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
     /* ORGANIZATIONS VIEW */
     .organizations-container {
       max-width: 800px;
@@ -1180,6 +1296,9 @@
       padding: 16px;
       border-bottom: 1px solid var(--border);
       font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
     .chat-messages {
@@ -1197,6 +1316,7 @@
       border-radius: 18px;
       font-size: 14px;
       line-height: 1.4;
+      position: relative;
     }
 
     .message.sent {
@@ -1209,6 +1329,26 @@
       align-self: flex-start;
       background: var(--hover-bg);
       color: var(--text);
+    }
+
+    .message-file {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 4px;
+      padding: 6px 10px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+    }
+
+    .message-file a {
+      color: inherit;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .message-file a:hover {
+      text-decoration: underline;
     }
 
     .chat-input {
@@ -1247,6 +1387,62 @@
       background: var(--accent-hover);
     }
 
+    .chat-file-btn {
+      padding: 12px;
+      background: transparent;
+      color: var(--text);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .chat-file-btn:hover {
+      background: var(--hover-bg);
+    }
+
+    /* CHAT LIST MODAL */
+    .chat-list {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .chat-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .chat-item:hover {
+      background: var(--hover-bg);
+    }
+
+    .chat-item:last-child {
+      border-bottom: none;
+    }
+
+    .chat-info {
+      flex: 1;
+    }
+
+    .chat-username {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .chat-last-message {
+      font-size: 12px;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 200px;
+    }
+
     /* SETTINGS MODAL */
     .settings-list {
       display: flex;
@@ -1267,6 +1463,13 @@
 
     .settings-item:last-child {
       border-bottom: none;
+    }
+
+    /* GIG APPLICATION MODAL */
+    .gig-application-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
     }
 
     /* RESPONSIVE */
@@ -1306,6 +1509,14 @@
 
       .organizations-list, .gigs-list {
         grid-template-columns: 1fr;
+      }
+
+      .search-input {
+        width: 150px;
+      }
+
+      .search-input:focus {
+        width: 180px;
       }
     }
 
@@ -1393,6 +1604,11 @@
     <header class="app-header">
       <div class="header-logo">LN Portal</div>
       <div class="header-icons">
+        <div class="search-container">
+          <i class="fa-solid fa-search search-icon"></i>
+          <input id="searchInput" type="text" class="search-input" placeholder="Search users..." />
+          <div id="searchResults" class="search-results"></div>
+        </div>
         <i id="headerChat" class="fa-regular fa-comment header-icon"></i>
         <i id="headerSettings" class="fa-solid fa-gear header-icon"></i>
       </div>
@@ -1617,16 +1833,34 @@
       </div>
     </div>
 
+    <!-- CHAT LIST MODAL -->
+    <div id="chatListModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          Messages
+          <span id="closeChatListModal" class="modal-close">&times;</span>
+        </div>
+        <div class="modal-body">
+          <div id="chatList" class="chat-list"></div>
+        </div>
+      </div>
+    </div>
+
     <!-- CHAT MODAL -->
     <div id="chatModal" class="modal">
       <div class="modal-content">
         <div class="modal-header">
+          <div id="chatUserAvatar" class="avatar-small" style="width: 32px; height: 32px;"></div>
           <span id="chatUserName">Username</span>
           <span id="closeChatModal" class="modal-close">&times;</span>
         </div>
         <div class="chat-container">
           <div id="chatMessages" class="chat-messages"></div>
           <div class="chat-input">
+            <input id="chatFile" type="file" style="display: none;" accept="image/*,.pdf,.doc,.docx" />
+            <button id="chatFileBtn" class="chat-file-btn">
+              <i class="fa-solid fa-paperclip"></i>
+            </button>
             <input id="chatInput" type="text" placeholder="Type a message..." />
             <button id="sendMessage" class="chat-send">Send</button>
           </div>
@@ -1653,6 +1887,36 @@
         </div>
       </div>
     </div>
+
+    <!-- GIG APPLICATION MODAL -->
+    <div id="gigApplicationModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          Apply for Gig
+          <span id="closeGigApplicationModal" class="modal-close">&times;</span>
+        </div>
+        <div class="modal-body">
+          <div class="gig-application-form">
+            <div class="modal-field">
+              <label>Email</label>
+              <input id="applicationEmail" type="email" class="input-field" placeholder="Your email" required />
+            </div>
+            <div class="modal-field">
+              <label>Phone Number</label>
+              <input id="applicationPhone" type="tel" class="input-field" placeholder="Your phone number" required />
+            </div>
+            <div class="modal-field">
+              <label>Additional Message (Optional)</label>
+              <textarea id="applicationMessage" class="input-field" rows="3" placeholder="Tell us why you're a good fit..."></textarea>
+            </div>
+            <div class="modal-actions">
+              <button id="cancelGigApplication" class="btn-secondary">Cancel</button>
+              <button id="submitGigApplication" class="btn-primary">Submit Application</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- NOTIFICATION -->
@@ -1666,7 +1930,7 @@
       projectId: "ln-project-ikshvakh",
       storageBucket: "ln-project-ikshvakh.firebasestorage.app",
       messagingSenderId: "231879409444",
-      appId: "1:231879409444:web:ed7d43f9dd4d316e70bdb1"
+     appId: "1:231879409444:web:ed7d43f9dd4d316e70bdb1"
     };
 
     // Initialize Firebase
@@ -1697,6 +1961,9 @@
     const organizationsCollection = db.collection('organizations');
     const gigsCollection = db.collection('gigs');
     const chatsCollection = db.collection('chats');
+    const commentsCollection = db.collection('comments');
+    const likesCollection = db.collection('likes');
+    const gigApplicationsCollection = db.collection('gigApplications');
 
     // Helper Functions
     function uid(n = 8) { return Math.random().toString(36).slice(2, 2 + n) }
@@ -2006,7 +2273,7 @@
           }
 
           for (const doc of snapshot.docs) {
-            const post = doc.data();
+            const post = { id: doc.id, ...doc.data() };
             const userDoc = await usersCollection.doc(post.userId).get();
             
             if (!userDoc.exists) continue;
@@ -2025,6 +2292,21 @@
     function renderPost(post, user, container) {
       const postElement = document.createElement('div');
       postElement.className = 'post-card';
+      postElement.id = `post-${post.id}`;
+      
+      // Check if current user has liked this post
+      const currentUser = auth.currentUser;
+      let isLiked = false;
+      if (currentUser) {
+        likesCollection
+          .where('postId', '==', post.id)
+          .where('userId', '==', currentUser.uid)
+          .get()
+          .then(snapshot => {
+            isLiked = !snapshot.empty;
+            updateLikeButton(postElement, post.likes || 0, isLiked);
+          });
+      }
       
       if (post.type === 'certificate' && post.file && post.fileType && post.fileType.startsWith('image/')) {
         postElement.innerHTML = `
@@ -2038,11 +2320,16 @@
           <div class="post-content">
             ${post.text ? `<div class="post-text">${escape(post.text)}</div>` : ''}
             <div class="post-actions">
-              <i class="fa-regular fa-heart post-action" data-postid="${post.id}"></i>
-              <i class="fa-regular fa-comment post-action"></i>
-              <i class="fa-regular fa-paper-plane post-action"></i>
+              <i class="fa-regular fa-heart post-action like-btn" data-postid="${post.id}"></i>
+              <i class="fa-regular fa-comment post-action comment-btn" data-postid="${post.id}"></i>
+              <i class="fa-regular fa-paper-plane post-action share-btn" data-postid="${post.id}"></i>
             </div>
             <div class="post-likes">${post.likes || 0} likes</div>
+            <div class="post-comments" id="comments-${post.id}"></div>
+            <div class="comment-input">
+              <input type="text" placeholder="Add a comment..." class="comment-text-input" data-postid="${post.id}" />
+              <button class="comment-btn" data-postid="${post.id}">Post</button>
+            </div>
             <div class="post-timestamp">${formatDate(post.createdAt?.toDate())}</div>
           </div>
         `;
@@ -2059,11 +2346,16 @@
               ${post.fileName ? `<p style="font-size: 12px; color: var(--text-secondary);">${escape(post.fileName)}</p>` : ''}
             </div>
             <div class="post-actions">
-              <i class="fa-regular fa-heart post-action" data-postid="${post.id}"></i>
-              <i class="fa-regular fa-comment post-action"></i>
-              <i class="fa-regular fa-paper-plane post-action"></i>
+              <i class="fa-regular fa-heart post-action like-btn" data-postid="${post.id}"></i>
+              <i class="fa-regular fa-comment post-action comment-btn" data-postid="${post.id}"></i>
+              <i class="fa-regular fa-paper-plane post-action share-btn" data-postid="${post.id}"></i>
             </div>
             <div class="post-likes">${post.likes || 0} likes</div>
+            <div class="post-comments" id="comments-${post.id}"></div>
+            <div class="comment-input">
+              <input type="text" placeholder="Add a comment..." class="comment-text-input" data-postid="${post.id}" />
+              <button class="comment-btn" data-postid="${post.id}">Post</button>
+            </div>
             <div class="post-timestamp">${formatDate(post.createdAt?.toDate())}</div>
           </div>
         `;
@@ -2079,11 +2371,16 @@
           <div class="post-content">
             ${post.text ? `<div class="post-text">${escape(post.text)}</div>` : ''}
             <div class="post-actions">
-              <i class="fa-regular fa-heart post-action" data-postid="${post.id}"></i>
-              <i class="fa-regular fa-comment post-action"></i>
-              <i class="fa-regular fa-paper-plane post-action"></i>
+              <i class="fa-regular fa-heart post-action like-btn" data-postid="${post.id}"></i>
+              <i class="fa-regular fa-comment post-action comment-btn" data-postid="${post.id}"></i>
+              <i class="fa-regular fa-paper-plane post-action share-btn" data-postid="${post.id}"></i>
             </div>
             <div class="post-likes">${post.likes || 0} likes</div>
+            <div class="post-comments" id="comments-${post.id}"></div>
+            <div class="comment-input">
+              <input type="text" placeholder="Add a comment..." class="comment-text-input" data-postid="${post.id}" />
+              <button class="comment-btn" data-postid="${post.id}">Post</button>
+            </div>
             <div class="post-timestamp">${formatDate(post.createdAt?.toDate())}</div>
           </div>
         `;
@@ -2097,17 +2394,204 @@
             <div class="post-text">${escape(post.text)}</div>
             ${post.link ? `<a href="${post.link}" target="_blank" class="work-link">${post.link}</a>` : ''}
             <div class="post-actions">
-              <i class="fa-regular fa-heart post-action" data-postid="${post.id}"></i>
-              <i class="fa-regular fa-comment post-action"></i>
-              <i class="fa-regular fa-paper-plane post-action"></i>
+              <i class="fa-regular fa-heart post-action like-btn" data-postid="${post.id}"></i>
+              <i class="fa-regular fa-comment post-action comment-btn" data-postid="${post.id}"></i>
+              <i class="fa-regular fa-paper-plane post-action share-btn" data-postid="${post.id}"></i>
             </div>
             <div class="post-likes">${post.likes || 0} likes</div>
+            <div class="post-comments" id="comments-${post.id}"></div>
+            <div class="comment-input">
+              <input type="text" placeholder="Add a comment..." class="comment-text-input" data-postid="${post.id}" />
+              <button class="comment-btn" data-postid="${post.id}">Post</button>
+            </div>
             <div class="post-timestamp">${formatDate(post.createdAt?.toDate())}</div>
           </div>
         `;
       }
       
       container.appendChild(postElement);
+      
+      // Load comments for this post
+      loadComments(post.id);
+      
+      // Add event listeners
+      setTimeout(() => {
+        const likeBtn = postElement.querySelector('.like-btn');
+        const commentBtn = postElement.querySelector('.comment-btn');
+        const shareBtn = postElement.querySelector('.share-btn');
+        const commentInput = postElement.querySelector('.comment-text-input');
+        const commentPostBtn = postElement.querySelector('.comment-btn[data-postid]');
+        
+        if (likeBtn) {
+          likeBtn.addEventListener('click', () => toggleLike(post.id));
+        }
+        
+        if (commentBtn) {
+          commentBtn.addEventListener('click', () => {
+            commentInput.focus();
+          });
+        }
+        
+        if (shareBtn) {
+          shareBtn.addEventListener('click', () => sharePost(post.id));
+        }
+        
+        if (commentPostBtn) {
+          commentPostBtn.addEventListener('click', () => {
+            const commentText = commentInput.value.trim();
+            if (commentText) {
+              addComment(post.id, commentText);
+              commentInput.value = '';
+            }
+          });
+        }
+        
+        if (commentInput) {
+          commentInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+              const commentText = commentInput.value.trim();
+              if (commentText) {
+                addComment(post.id, commentText);
+                commentInput.value = '';
+              }
+            }
+          });
+        }
+      }, 100);
+    }
+
+    function updateLikeButton(postElement, likes, isLiked) {
+      const likeBtn = postElement.querySelector('.like-btn');
+      const likesCount = postElement.querySelector('.post-likes');
+      
+      if (likeBtn) {
+        if (isLiked) {
+          likeBtn.className = 'fa-solid fa-heart post-action like-btn';
+          likeBtn.style.color = 'var(--danger)';
+        } else {
+          likeBtn.className = 'fa-regular fa-heart post-action like-btn';
+          likeBtn.style.color = '';
+        }
+      }
+      
+      if (likesCount) {
+        likesCount.textContent = `${likes} likes`;
+      }
+    }
+
+    async function toggleLike(postId) {
+      const user = auth.currentUser;
+      if (!user) return;
+      
+      const likeRef = likesCollection
+        .where('postId', '==', postId)
+        .where('userId', '==', user.uid);
+        
+      const snapshot = await likeRef.get();
+      
+      if (snapshot.empty) {
+        // Like the post
+        await likesCollection.add({
+          postId,
+          userId: user.uid,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        
+        // Update post likes count
+        const postRef = postsCollection.doc(postId);
+        const postDoc = await postRef.get();
+        const currentLikes = postDoc.data().likes || 0;
+        
+        await postRef.update({
+          likes: currentLikes + 1
+        });
+        
+        showNotification('Liked!');
+      } else {
+        // Unlike the post
+        await snapshot.docs[0].ref.delete();
+        
+        // Update post likes count
+        const postRef = postsCollection.doc(postId);
+        const postDoc = await postRef.get();
+        const currentLikes = postDoc.data().likes || 0;
+        
+        await postRef.update({
+          likes: Math.max(0, currentLikes - 1)
+        });
+        
+        showNotification('Unliked');
+      }
+    }
+
+    async function addComment(postId, text) {
+      const user = auth.currentUser;
+      if (!user) return;
+      
+      try {
+        await commentsCollection.add({
+          postId,
+          userId: user.uid,
+          text,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        
+        showNotification('Comment added!');
+      } catch (error) {
+        console.error('Error adding comment:', error);
+        showNotification('Error adding comment', 3000, true);
+      }
+    }
+
+    function loadComments(postId) {
+      const commentsContainer = $(`comments-${postId}`);
+      if (!commentsContainer) return;
+      
+      commentsContainer.innerHTML = '';
+      
+      commentsCollection
+        .where('postId', '==', postId)
+        .orderBy('createdAt', 'asc')
+        .onSnapshot(async (snapshot) => {
+          commentsContainer.innerHTML = '';
+          
+          if (snapshot.empty) return;
+          
+          for (const doc of snapshot.docs) {
+            const comment = doc.data();
+            const userDoc = await usersCollection.doc(comment.userId).get();
+            
+            if (!userDoc.exists) continue;
+            
+            const user = userDoc.data();
+            const commentElement = document.createElement('div');
+            commentElement.className = 'comment';
+            commentElement.innerHTML = `
+              <div class="comment-username">${escape(user.username)}</div>
+              <div class="comment-text">${escape(comment.text)}</div>
+            `;
+            
+            commentsContainer.appendChild(commentElement);
+          }
+        });
+    }
+
+    function sharePost(postId) {
+      const postLink = `${window.location.origin}?post=${postId}`;
+      navigator.clipboard.writeText(postLink)
+        .then(() => {
+          showNotification('Post link copied to clipboard!');
+        })
+        .catch(() => {
+          // Fallback for older browsers
+          const tempInput = document.createElement('input');
+          tempInput.value = postLink;
+          document.body.appendChild(tempInput);
+          tempInput.select();
+          document.execCommand('copy');
+          document.body.removeChild(tempInput);
+          showNotification('Post link copied to clipboard!');
+        });
     }
 
     // Load Profile
@@ -2116,6 +2600,7 @@
       if (!user) return;
 
       const profileUserId = userId || user.uid;
+      window.currentProfileUserId = profileUserId;
       
       usersCollection.doc(profileUserId).get().then(async (doc) => {
         if (!doc.exists) return;
@@ -2576,6 +3061,336 @@
       }
     });
 
+    // Search functionality
+    let searchTimeout;
+    $('searchInput').addEventListener('input', (e) => {
+      clearTimeout(searchTimeout);
+      const query = e.target.value.trim();
+      
+      if (query.length < 2) {
+        $('searchResults').style.display = 'none';
+        return;
+      }
+      
+      searchTimeout = setTimeout(() => {
+        searchUsers(query);
+      }, 300);
+    });
+
+    function searchUsers(query) {
+      const resultsContainer = $('searchResults');
+      resultsContainer.innerHTML = '';
+      
+      usersCollection
+        .where('username', '>=', query)
+        .where('username', '<=', query + '\uf8ff')
+        .limit(10)
+        .get()
+        .then(snapshot => {
+          if (snapshot.empty) {
+            resultsContainer.innerHTML = '<div class="search-result-item">No users found</div>';
+            resultsContainer.style.display = 'block';
+            return;
+          }
+          
+          snapshot.forEach(doc => {
+            const user = doc.data();
+            const resultItem = document.createElement('div');
+            resultItem.className = 'search-result-item';
+            resultItem.innerHTML = `
+              <div class="user-avatar" style="${user.pic ? `background-image: url(${user.pic})` : ''}">${user.pic ? '' : user.username.charAt(0).toUpperCase()}</div>
+              <div class="user-info">
+                <div class="user-name">${escape(user.username)}</div>
+                <div class="user-username">${escape(user.name || '')}</div>
+              </div>
+            `;
+            
+            resultItem.addEventListener('click', () => {
+              $('searchInput').value = '';
+              resultsContainer.style.display = 'none';
+              loadProfile(user.uid);
+              setActiveNav('navProfile');
+            });
+            
+            resultsContainer.appendChild(resultItem);
+          });
+          
+          resultsContainer.style.display = 'block';
+        });
+    }
+
+    // Close search results when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.search-container')) {
+        $('searchResults').style.display = 'none';
+      }
+    });
+
+    // Chat functionality
+    let currentChatId = null;
+    let currentChatUser = null;
+
+    $('headerChat').addEventListener('click', () => {
+      loadChatList();
+      $('chatListModal').style.display = 'flex';
+    });
+
+    $('closeChatListModal').addEventListener('click', () => {
+      $('chatListModal').style.display = 'none';
+    });
+
+    function loadChatList() {
+      const user = auth.currentUser;
+      if (!user) return;
+
+      const chatList = $('chatList');
+      chatList.innerHTML = '';
+
+      // Get all chats where current user is a participant
+      chatsCollection
+        .where('participants', 'array-contains', user.uid)
+        .orderBy('lastMessageAt', 'desc')
+        .get()
+        .then(async (snapshot) => {
+          if (snapshot.empty) {
+            chatList.innerHTML = `
+              <div class="empty-state" style="padding: 20px;">
+                <i class="fa-regular fa-comment"></i>
+                <p>No messages yet</p>
+              </div>
+            `;
+            return;
+          }
+
+          for (const doc of snapshot.docs) {
+            const chat = doc.data();
+            const otherUserId = chat.participants.find(id => id !== user.uid);
+            const otherUserDoc = await usersCollection.doc(otherUserId).get();
+            
+            if (!otherUserDoc.exists) continue;
+            
+            const otherUser = otherUserDoc.data();
+            const chatItem = document.createElement('div');
+            chatItem.className = 'chat-item';
+            chatItem.innerHTML = `
+              <div class="user-avatar" style="${otherUser.pic ? `background-image: url(${otherUser.pic})` : ''}">${otherUser.pic ? '' : otherUser.username.charAt(0).toUpperCase()}</div>
+              <div class="chat-info">
+                <div class="chat-username">${escape(otherUser.username)}</div>
+                <div class="chat-last-message">${escape(chat.lastMessage || 'No messages yet')}</div>
+              </div>
+            `;
+            
+            chatItem.addEventListener('click', () => {
+              openChat(doc.id, otherUser);
+            });
+            
+            chatList.appendChild(chatItem);
+          }
+        });
+    }
+
+    function openChat(chatId, user) {
+      currentChatId = chatId;
+      currentChatUser = user;
+      
+      $('chatUserName').textContent = user.username;
+      
+      if (user.pic) {
+        $('chatUserAvatar').style.backgroundImage = `url(${user.pic})`;
+        $('chatUserAvatar').textContent = '';
+      } else {
+        $('chatUserAvatar').style.backgroundImage = '';
+        $('chatUserAvatar').textContent = user.username.charAt(0).toUpperCase();
+      }
+      
+      loadChatMessages(chatId);
+      $('chatListModal').style.display = 'none';
+      $('chatModal').style.display = 'flex';
+    }
+
+    $('closeChatModal').addEventListener('click', () => {
+      $('chatModal').style.display = 'none';
+      currentChatId = null;
+      currentChatUser = null;
+    });
+
+    function loadChatMessages(chatId) {
+      const messagesContainer = $('chatMessages');
+      messagesContainer.innerHTML = '';
+
+      chatsCollection.doc(chatId).collection('messages')
+        .orderBy('createdAt', 'asc')
+        .onSnapshot(snapshot => {
+          messagesContainer.innerHTML = '';
+          
+          snapshot.forEach(doc => {
+            const message = doc.data();
+            renderMessage(message, messagesContainer);
+          });
+          
+          // Scroll to bottom
+          messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        });
+    }
+
+    function renderMessage(message, container) {
+      const user = auth.currentUser;
+      if (!user) return;
+      
+      const messageElement = document.createElement('div');
+      messageElement.className = `message ${message.senderId === user.uid ? 'sent' : 'received'}`;
+      
+      let messageContent = escape(message.text);
+      
+      if (message.file) {
+        messageContent += `
+          <div class="message-file">
+            <i class="fa-solid fa-paperclip"></i>
+            <a href="${message.file}" target="_blank">${message.fileName || 'File'}</a>
+          </div>
+        `;
+      }
+      
+      messageElement.innerHTML = messageContent;
+      container.appendChild(messageElement);
+    }
+
+    $('sendMessage').addEventListener('click', sendMessage);
+    $('chatInput').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        sendMessage();
+      }
+    });
+
+    $('chatFileBtn').addEventListener('click', () => {
+      $('chatFile').click();
+    });
+
+    $('chatFile').addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      
+      try {
+        const fileURL = await uploadFile(file, `chat_files/${currentChatId}`);
+        
+        const user = auth.currentUser;
+        if (!user || !currentChatId) return;
+        
+        await chatsCollection.doc(currentChatId).collection('messages').add({
+          senderId: user.uid,
+          text: '',
+          file: fileURL,
+          fileName: file.name,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        
+        // Update chat last message
+        await chatsCollection.doc(currentChatId).update({
+          lastMessage: `Sent a file: ${file.name}`,
+          lastMessageAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        
+        $('chatFile').value = '';
+        showNotification('File sent!');
+      } catch (error) {
+        console.error('Error sending file:', error);
+        showNotification('Error sending file', 3000, true);
+      }
+    });
+
+    async function sendMessage() {
+      const user = auth.currentUser;
+      if (!user || !currentChatId) return;
+      
+      const messageText = $('chatInput').value.trim();
+      if (!messageText) return;
+      
+      try {
+        await chatsCollection.doc(currentChatId).collection('messages').add({
+          senderId: user.uid,
+          text: messageText,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        
+        // Update chat last message
+        await chatsCollection.doc(currentChatId).update({
+          lastMessage: messageText,
+          lastMessageAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        
+        $('chatInput').value = '';
+      } catch (error) {
+        console.error('Error sending message:', error);
+        showNotification('Error sending message', 3000, true);
+      }
+    }
+
+    // Start a new chat with a user
+    function startNewChat(userId) {
+      const currentUser = auth.currentUser;
+      if (!currentUser) return;
+      
+      // Check if chat already exists
+      chatsCollection
+        .where('participants', 'array-contains', currentUser.uid)
+        .get()
+        .then(snapshot => {
+          let existingChat = null;
+          
+          snapshot.forEach(doc => {
+            const chat = doc.data();
+            if (chat.participants.includes(userId)) {
+              existingChat = doc;
+            }
+          });
+          
+          if (existingChat) {
+            // Open existing chat
+            usersCollection.doc(userId).get().then(userDoc => {
+              if (userDoc.exists) {
+                openChat(existingChat.id, userDoc.data());
+              }
+            });
+          } else {
+            // Create new chat
+            const chatId = uid();
+            chatsCollection.doc(chatId).set({
+              id: chatId,
+              participants: [currentUser.uid, userId],
+              createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+              lastMessage: '',
+              lastMessageAt: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+              usersCollection.doc(userId).get().then(userDoc => {
+                if (userDoc.exists) {
+                  openChat(chatId, userDoc.data());
+                }
+              });
+            });
+          }
+        });
+    }
+
+    // Add message button to user items in followers/following modals
+    function addMessageButtonToUserItems() {
+      document.querySelectorAll('.user-item').forEach(item => {
+        const userId = item.getAttribute('data-userid');
+        if (userId) {
+          const messageBtn = document.createElement('button');
+          messageBtn.className = 'user-action';
+          messageBtn.innerHTML = '<i class="fa-regular fa-comment"></i>';
+          messageBtn.style.marginLeft = '8px';
+          messageBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            startNewChat(userId);
+            $('followersModal').style.display = 'none';
+            $('followingModal').style.display = 'none';
+          });
+          item.appendChild(messageBtn);
+        }
+      });
+    }
+
     // Organizations functionality
     function loadOrganizations() {
       const organizationsList = $('organizationsList');
@@ -2711,15 +3526,58 @@
         document.querySelectorAll('[data-gigid]').forEach(button => {
           button.addEventListener('click', (e) => {
             const gigId = e.target.getAttribute('data-gigid');
-            applyToGig(gigId);
+            openGigApplication(gigId);
           });
         });
       });
     }
 
-    function applyToGig(gigId) {
-      showNotification('Application submitted! We\'ll contact you soon.');
+    function openGigApplication(gigId) {
+      window.currentGigId = gigId;
+      $('gigApplicationModal').style.display = 'flex';
     }
+
+    $('closeGigApplicationModal').addEventListener('click', () => {
+      $('gigApplicationModal').style.display = 'none';
+    });
+
+    $('cancelGigApplication').addEventListener('click', () => {
+      $('gigApplicationModal').style.display = 'none';
+    });
+
+    $('submitGigApplication').addEventListener('click', async () => {
+      const user = auth.currentUser;
+      if (!user) return;
+
+      const email = $('applicationEmail').value.trim();
+      const phone = $('applicationPhone').value.trim();
+      const message = $('applicationMessage').value.trim();
+
+      if (!email || !phone) {
+        showNotification('Please fill all required fields', 3000, true);
+        return;
+      }
+
+      try {
+        await gigApplicationsCollection.add({
+          gigId: window.currentGigId,
+          userId: user.uid,
+          email,
+          phone,
+          message,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        $('applicationEmail').value = '';
+        $('applicationPhone').value = '';
+        $('applicationMessage').value = '';
+        $('gigApplicationModal').style.display = 'none';
+        showNotification('Application submitted successfully!');
+      } catch (error) {
+        console.error('Error submitting application:', error);
+        showNotification('Error submitting application', 3000, true);
+      }
+    });
 
     // Initialize with some sample gigs
     function initializeGigs() {
@@ -2750,15 +3608,6 @@
       });
     }
 
-    // Chat functionality
-    $('headerChat').addEventListener('click', () => {
-      const user = auth.currentUser;
-      if (!user) return;
-      
-      // For demo purposes, show a message about chat functionality
-      showNotification('Chat feature is now live! Find users to chat with.');
-    });
-
     // Initialize app and Firebase auth state listener
     document.addEventListener('DOMContentLoaded', () => {
       // Firebase auth state observer
@@ -2777,10 +3626,14 @@
       const profileId = urlParams.get('profile');
       if (profileId) {
         // This would be used when someone shares their profile link
-        console.log('Viewing profile:', profileId);
+        auth.onAuthStateChanged((user) => {
+          if (user) {
+            loadProfile(profileId);
+            setActiveNav('navProfile');
+          }
+        });
       }
     });
   </script>
 </body>
 </html>
-
